@@ -1,0 +1,57 @@
+\contentsline {chapter}{\numberline {1}Congestion Control for Best Effort: Theory}{5}% 
+\contentsline {section}{\numberline {1.1}The objective of congestion control}{5}% 
+\contentsline {subsection}{\numberline {1.1.1}Congestion Collapse}{5}% 
+\contentsline {subsection}{\numberline {1.1.2}Efficiency versus Fairness}{8}% 
+\contentsline {section}{\numberline {1.2}Fairness}{9}% 
+\contentsline {subsection}{\numberline {1.2.1}Max-Min Fairness}{9}% 
+\contentsline {paragraph}{Proof: }{9}% 
+\contentsline {paragraph}{Proof: }{9}% 
+\contentsline {paragraph}{Network Model}{10}% 
+\contentsline {paragraph}{Proof: }{10}% 
+\contentsline {paragraph}{The Water-Filling Algorithm}{12}% 
+\contentsline {paragraph}{Example}{12}% 
+\contentsline {paragraph}{Proof: }{13}% 
+\contentsline {subsection}{\numberline {1.2.2}Proportional Fairness}{13}% 
+\contentsline {paragraph}{Proof: }{14}% 
+\contentsline {paragraph}{Proof: }{14}% 
+\contentsline {paragraph}{Example}{15}% 
+\contentsline {subsection}{\numberline {1.2.3}Utility Approach to Fairness}{16}% 
+\contentsline {subsection}{\numberline {1.2.4}Max Min Fairness as a limiting case of Utility Fairness}{16}% 
+\contentsline {paragraph}{Proof of Lemma: }{17}% 
+\contentsline {paragraph}{Proof of Theorem: }{18}% 
+\contentsline {section}{\numberline {1.3}Different forms of congestion control}{19}% 
+\contentsline {section}{\numberline {1.4}Max-min fairness with fair queuing}{19}% 
+\contentsline {section}{\numberline {1.5}Additive increase, Multiplicative decrease and Slow-Start}{20}% 
+\contentsline {subsection}{\numberline {1.5.1}Additive Increase, Multiplicative Decrease}{21}% 
+\contentsline {subsection}{\numberline {1.5.2}Slow Start}{23}% 
+\contentsline {section}{\numberline {1.6}The fairness of additive increase, multiplicative decrease with FIFO queues}{25}% 
+\contentsline {subsection}{\numberline {1.6.1}A simplified model}{25}% 
+\contentsline {subsection}{\numberline {1.6.2}Additive Increase, Multiplicative Decrease with one Update per RTT}{26}% 
+\contentsline {paragraph}{Interpretation}{28}% 
+\contentsline {subsection}{\numberline {1.6.3}Additive Increase, Multiplicative Decrease with one Update per Packet}{28}% 
+\contentsline {section}{\numberline {1.7}Summary}{29}% 
+\contentsline {chapter}{\numberline {2}Congestion Control for Best Effort: Internet}{31}% 
+\contentsline {section}{\numberline {2.1}Congestion control algorithms of TCP}{31}% 
+\contentsline {subsection}{\numberline {2.1.1}Congestion Window}{32}% 
+\contentsline {subsection}{\numberline {2.1.2}Slow Start and Congestion avoidance}{33}% 
+\contentsline {subsection}{\numberline {2.1.3}Fast Recovery}{36}% 
+\contentsline {subsection}{\numberline {2.1.4}Summary and Comments}{37}% 
+\contentsline {section}{\numberline {2.2}Analysis of TCP Reno}{38}% 
+\contentsline {subsection}{\numberline {2.2.1}The fairness of TCP RENO}{38}% 
+\contentsline {paragraph}{The bias of TCP Reno against long round trip times}{39}% 
+\contentsline {subsection}{\numberline {2.2.2}The Loss-Throughput Formula}{40}% 
+\contentsline {paragraph}{Proof: }{40}% 
+\contentsline {section}{\numberline {2.3}Other Mechanisms for TCP Congestion Control}{41}% 
+\contentsline {subsection}{\numberline {2.3.1}CUBIC}{41}% 
+\contentsline {paragraph}{Why CUBIC.}{41}% 
+\contentsline {paragraph}{Mechanisms of CUBIC.}{42}% 
+\contentsline {paragraph}{Analysis of CUBIC.}{43}% 
+\contentsline {paragraph}{Proof: }{44}% 
+\contentsline {subsection}{\numberline {2.3.2}Active Queue Management}{46}% 
+\contentsline {paragraph}{The Bufferbloat Syndrom.}{46}% 
+\contentsline {paragraph}{Random Early Detection (RED).}{46}% 
+\contentsline {subsection}{\numberline {2.3.3}Explicit Congestion Notification}{48}% 
+\contentsline {subsection}{\numberline {2.3.4}Data Center TCP}{49}% 
+\contentsline {section}{\numberline {2.4}TCP Friendly Applications}{50}% 
+\contentsline {section}{\numberline {2.5}Class Based Queuing}{50}% 
+\contentsline {section}{\numberline {2.6}Summary}{51}% 
