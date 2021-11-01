@@ -1,0 +1,34 @@
+
+Assume that we want to maximize the network throughput, based
+on the considerations of the previous section.  Consider the
+network example in Figure~\ref{D31-f3}; one source sends at rate $x_0$Mb/s, one at rate $x_1$Mb/s and nine sources at rate $x_2$Mb/s each.  We assume that we implement some form
+of congestion control and that there are negligible losses.
+Thus, the flow, in Mb/s, on the first link $i$ is $x_{0}+x_{1}$, and on the second link it is $x_{0}+9x_{2}$.   For a
+given value of $x_{0}$, maximizing the throughput
+requires that $x_{1}= 10 - x_{0}$  and $9x_{2}= 10 - x_{0}$.
+The total throughput, measured at the network output, is then
+$x_0+x_1+9x_2=20-x_0$; it is maximum for $x_{0} = 0$~!
+
+\begin{figure}[htbp]
+        \insfig{D31F3a}{0.7}
+        \mycaption{A simple network used to illustrate fairness and efficiency. }
+        \protect\label{D31-f3}
+\end{figure}
+
+The example shows that maximizing network throughput as a
+primary objective may lead to gross unfairness; in the worst
+case, some sources may get a zero throughput, which is
+probably considered unfair by these sources.
+
+In general, the concept of efficiency is captured by the notion of \emph{Pareto Efficiency}. Consider an allocation problem; define the vector $\vec{x}$
+whose $i$th coordinate is the allocation for user $i$. %Let $\calX$ be the set of all feasible allocations.
+\begin{definition}[Pareto Efficiency]
+       A feasible allocation of rates
+$\vec{x}$ is ``Pareto-Efficient'' (also called ``Pareto-Optimal'') if and only if an increase of
+any rate within the domain of feasible allocations must be at
+the cost of a decrease of some other rate. Formally,
+for any other feasible allocation $\vec{y}$, if $y_{s} >
+x_{s}$ then there must exist some $s'$ such that $y_{s'} < x_{s'}$. \label{def-paretoeff}
+\end{definition}
+
+In general, there exist many Pareto-efficient allocations. For the example in \fref{D31-f3}, any allocation that saturates every link (i.e., such that $x_0+x_{1}=$  and $x_0+9x_{2}= 10$) is Pareto-efficient. The allocation that maximizes total throughput (and has $x_0=0$) is one of them; another Pareto efficient allocation is $x_0=0.1, x_1=9.9, x_2=1.1$; yet another one is $x_0=1, x_1=9, x_2=1$. Among all of these allocations, which one should a fair and efficient congestion control scheme choose~? This requires a formal definition of fairness, given in the next section.

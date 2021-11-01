@@ -1,0 +1,315 @@
+
+
+In an egalitarian vision, fairness would simply mean allocating the same
+share to all, while maximizing this share. In the simple case of Figure~\ref{D31-f3}, this would
+mean allocating $x_0=x_1=x_2=1$. However, such an egalitarian allocation is not Pareto-efficient (because it is possible to unilaterally increase $x_1$).
+
+A better allocation could be based on the following observation. Starting from the egalitarian allocation, we can increase the rate $x_1$ without impacting other rates, up to the value $x_1=9$. The resulting allocation $x_0=1, x_1=9, x_2=1$ \emph{is} Pareto-efficient, and still appears to be as fair as possible. It turns out that this allocation is exactly the Max-Min fair allocation, which is defined next.
+
+%Consider again the example of Figure~\ref{D31-f3}, now with
+%general values for $n_{i}$. If we follow the previous line of
+%reasoning, we would allocate the fraction
+%$\frac{c}{n_{0}+n_{i}}$ to each of the $n_{0}+n_{i}$ sources
+%using link $i$.  This yields $x_{i}=\frac{c}{n_{0}+n_{i}}$ for
+%$i \geq 1$; for $i=0$, the reasoning of the previous section
+%indicates that we should allocate $x_{0}= \min_{1 \leq i \leq
+%I} \frac{c}{n_{0}+n_{i}}$. For example, with $I=2$,
+%$n_{0}=n_{1}=1$ and $n_{2}=9$, we would allocate $x_{0}=0.1
+%c$, $x_{1}=0.5 c$ and $x_{2}=0.1 c$. This allocation however
+%would not fully utilize link $1$; we could decide to increase
+%the share of sources of type 1 since this can be done without
+%decreasing the shares of other sources. Thus, a final
+%allocation could be $x_{0}=0.1 c$, $x_{1}=0.9 c$ and
+%$x_{2}=0.1 c$. We have illustrated that allocating resources
+%in an equal proportion is not a good solution since some
+%sources can get more that others without decreasing others'
+%shares. Formally, this leads to our first definition of
+%fairness called max-min fairness.
+
+%Consider an allocation problem; define the vector $\vec{x}$
+%whose $i$th coordinate is the allocation for user $i$. Let
+%$\calX$ be the set of all feasible allocations.
+%Recall that the $i$th coordinate of vector $\vec{x}$
+%is the rate allocated to user $i$ and $\calX$ is the set of all feasible allocations.
+
+\begin{definition}[Max-min Fairness \cite{BG}] A feasible allocation of rates
+$\vec{x}$ is ``max-min fair'' if and only if an increase of
+any rate within the domain of feasible allocations must be at
+the cost of a decrease of some already smaller rate. Formally,
+for any other feasible allocation $\vec{y}$, if $y_{s} >
+x_{s}$ then there must exist some $s'$ such that $x_{s'} \leq
+x_{s}$ and $y_{s'} < x_{s'}$. \label{def-mmf}
+\end{definition}
+The name
+``max-min'' comes from the idea that it is forbidden to
+decrease the share of sources that have small values, thus, in
+some sense, we give priority to flows with small values.
+
+\begin{theorem}A max-min fair allocation is Pareto-efficient.
+\end{theorem}
+\pr If we increase one rate in a max-min fair allocation, we must decrease some other rate, which expresses that the allocation is Pareto-efficient.
+\qed
+
+The converse is not true -- a Pareto-efficient allocation is not, in general, max-min fair. In fact, as we will see next, the max-min fair allocation is unique, whereas there are usually many Pareto-efficient allocations -- see the in \fref{D31-f3}.
+
+\begin{theorem}A max-min fair allocation, if it exists, is unique.
+\end{theorem}
+\pr Assume now that
+$\vec{x}$ and $\vec{y}$ are two max-min fair allocations for
+the same problem, with $\vec{x} \neq \vec{y}$. Without loss of
+generality, we can assume that there exists some $i$ such that
+$x_{i} < y_{i}$. Consider the smallest value of $x_{i}$ that
+satisfies  $x_{i} < y_{i}$, and call $i_{0}$ the corresponding
+index. Thus, $x_{i_{0}} < y_{i_{0}}$ and
+\begin{equation}
+        \mif  x_{i} < y_{i} \mthen x_{i_{0}} \leq x_{i}
+        \label{eq-preuve-uni-mmf}
+\end{equation}
+Now since $\vec{x}$ is max-min fair, from
+Definition~\ref{def-mmf}, there exists some $j$ with
+\begin{equation}
+        y_{j}<x_{j} \leq x_{i_{0}}
+        \label{eq-preuve-uni-mmf-2}
+\end{equation}
+Now $\vec{y}$ is also max-min fair, thus by the same token
+there exists some $k$ such that
+\begin{equation}
+        x_{k}<y_{k} \leq y_{j}
+        \label{eq-preuve-uni-mmf-3}
+\end{equation}
+Combining (\ref{eq-preuve-uni-mmf-2}) and
+(\ref{eq-preuve-uni-mmf-3}), we obtain
+$$
+x_{k}<y_{k} \leq y_{j}<x_{j} \leq x_{i_{0}}
+$$
+which contradicts (\ref{eq-preuve-uni-mmf}). \qed
+\qed
+
+For some allocation problems, a max-min fair allocation might
+not exist. However, for the practical examples of interest in the context of congestion control, there is always one (and only one) max-min fair allocation, as we show next. For more general cases,
+see \cite{radunovic2007ufm}, where it is shown in particular that a max-min fair allocation always exists when the feasible set is convex and compact.
+
+\paragraph{Network Model}
+
+We use the following simplified network model in the rest of
+this section. We consider a set of sources $s=1, \ldots, S$
+and links $1,\ldots,L$. Let $A_{l,s}$ be the fraction of
+traffic of source $s$ which flows on link $l$, and let $c_{l}$
+be the capacity of link $l$. We define a network as the couple
+$(\vec{x}, A)$.
+
+A \emph{feasible allocation} of rates $x_{s}\geq 0$ is defined
+by: $\sum_{s=1}^{S}A_{l,s}x_{s} \leq c_{l}$ for all $l$.
+
+Our network model supports both multicast and load sharing.
+For a given source $s$, the set of links $l$ such that
+$A_{l,s} > 0$ is the path followed by the data flow with
+source $s$. In the simplest case (no load sharing), $A_{l,s}
+\in \{0, 1\}$; if a flow from source $s$ is equally split
+between two links $l_{1}$ and $l_{2}$, then $A_{l_{1},s} =
+A_{l_{2},s} =0.5$. In principle, $A_{l,s} \leq 1$, but this is
+not mandatory (in some encapsulation scenarios, a flow may be
+duplicated on the same link).
+
+
+
+%It can be seen (and this is left as an exercise) that the
+%allocation in the previous example is max-min fair.
+
+We now show that there exists a
+max-min fair allocation to our network model, and how to
+obtain it. This will result from the key concept of
+``bottleneck link''.
+
+\begin{definition}[Bottleneck Link]
+        With our network model above, we say that link $l$ is a bottleneck
+        for source $s$ if and only if
+        \begin{enumerate}
+                \item  link $l$ is saturated: $c_{l}= \sum_{i}A_{l,i}x_{i}$
+
+                \item  source $s$ on link $l$ has the maximum rate among all
+                sources using link $l$:
+                $x_{s}\geq x_{s'}$ for all $s'$ such that $A_{l,s'} > 0$.
+        \end{enumerate}
+\end{definition}
+
+Intuitively, a bottleneck link for source $s$ is a link which
+is limiting, for a given allocation.  In the previous
+example, the first link is a bottleneck for blue flow with rate $x_1$ and for the red flow with rate $x_0$; the second link is a bottleneck for each of the nine green flows with rates $x_2$ and for the red flow with rate $x_0$.
+
+\begin{theorem}
+        A feasible allocation of rates $\vec{x}$ is max-min fair if and
+        only if every source has a bottleneck link.
+        \label{theo-bn}
+\end{theorem}
+\pr \textbf{Part 1.}  Assume that every source has a bottleneck
+link. Consider a source $s$ for which we can increase the rate
+$x_{s}$ while keeping the allocation feasible. Let $l$ be a
+bottleneck link for $s$. Since $l$ is saturated, it is necessary
+to decrease $x_{s'}$ for some $s'$ such that $A_{l,s'} >0$. We
+assumed that we can increase the rate of $s$: thus there must
+exist some $s' \neq s$ that shares the bottleneck link $l$. But
+for all such $s'$, we have $x_{s}\geq x_{s'}$, thus we are forced
+to decrease $x_{s'}$ for some $s'$ such that $x_{s}\geq x_{s'}$:
+this shows that the allocation is max-min fair.
+
+\textbf{Part 2.} Conversely, assume that the allocation is max-min
+fair.  For any source $s$, we need to find a bottleneck link.  We
+proceed by contradiction.  Assume there exists a source $s$ with
+no bottleneck link.  Call $L_{1}$ the set of saturated links used
+by source $s$, namely, $L_{1} = \{l \mst c_{l}=
+\sum_{i}A_{l,i}x_{i} \mand A_{l,s} > 0 \}$.  Similarly, call
+$L_{2}$ the set of non-saturated links used by source $s$. Thus a
+link is either in $L_{1}$ or $L_{2}$, or is not used by $s$.
+Assume first that $L_1$ is non-empty.
+
+\begin{figure}[h]
+        \insfig{D31F6}{0.5}
+        \mycaption{A network example showing one multicast source}
+        \protect\label{fig-sigma}
+\end{figure}
+
+By our assumption, for all $l \in L_{1}$ , there exists some
+$s'$ such that $A_{l,s'} >0$ and $x_{s'} > x_{s}$. Thus we can
+build a mapping $\sigma$ from $L_{1}$ into the set of sources
+$\{1,\ldots,S \}$ such that $A_{l,\sigma(l)} >0$ and
+$x_{\sigma(l)} > x_{s}$ (see Figure~\ref{fig-sigma} for an
+illustration). Now we will show that we can increase the rate
+$x_{s}$ in a way that contradicts the max-min fairness
+assumption. We want to increase $x_{s}$ by some value
+$\delta$, at the expense of decreasing $x_{s'}$ by some other
+values $\delta_{s'}$, for all $s'$ that are equal to some
+$\sigma(l')$. We want the modified allocation to be feasible;
+to that end, it is sufficient to have:
+
+\begin{eqnarray}
+         A_{l,s} \delta \leq A_{l, \sigma(l)} \delta_{\sigma(l)} \; \mfa l \in
+        L_{1}
+        \label{eq-mmf-1}  \\
+        A_{l,s} \delta  \leq c_{l} - \sum_{i}A_{l,i}x_{i} \; \mfa l \in L_{2}
+        \label{eq-mmf-2}  \\
+        \delta_{\sigma(l)} \leq x_{\sigma(l)} \; \mfa l \in L_{1}
+        \label{eq-mmf-3}
+\end{eqnarray}
+Equation~(\ref{eq-mmf-1}) expresses that the increase of flow
+due to source $s$ on a saturated link $l$ is at least
+compensated by the decrease of flow due to source $\sigma(l)$.
+Equation~(\ref{eq-mmf-2}) expresses that the increase of flow
+due to source $s$ on a non-saturated link $l$ does not exceed
+the available capacity. Finally, equation~(\ref{eq-mmf-3})
+states that rates must be non-negative.
+
+This leads to the following choice.
+\begin{equation}
+        \delta = \min_{l \in L_{1}}
+        \{  \frac{x_{\sigma(l)} A_{l, \sigma(l)}}{A_{l,s}}\}
+        \wedge
+        \min_{l \in L_{2}}
+        \{  \frac{c_{l}-\sum_{i}A_{l,i}x_{i}}{A_{l,s}}\}
+        \label{eq-mmf-4}
+\end{equation}
+which ensures that Equation~(\ref{eq-mmf-2}) is satisfied and
+that $\delta >0$.
+
+In order to satisfy Equations~(\ref{eq-mmf-1}) and
+(\ref{eq-mmf-3}) we need to compute the values of
+$\delta_{\sigma(l)}$ for all $l$ in $L_{1}$. Here we need to
+be careful with the fact that the same source $s'$ may be
+equal to $\sigma(l)$ for more than one $l$. We define
+$\delta(s')$ by
+
+\begin{eqnarray}
+         \delta(s') & = 0  \textrm{ if there is no } l \mst s'=\sigma(l)
+        \label{eq-mmf-50}  \\
+        \delta(s') & =
+                \max_{\{l \mst \sigma(l) = s'\}}
+                \{ \frac{\delta A_{l,s}}{A_{l, \sigma(l)}} \}
+                \textrm{ otherwise }
+        \label{eq-mmf-5}
+\end{eqnarray}
+
+This definition ensures that Equation~(\ref{eq-mmf-1}) is
+satisfied. We now examine Equation~(\ref{eq-mmf-3}). Consider
+some $s'$ for which there exists an $l$ with $\sigma(l)=s$,
+and call $l_{0}$ the value which achieves the maximum in
+(\ref{eq-mmf-5}), namely:
+\begin{equation}
+        \delta(s') = \frac{\delta A_{l_{0},s}}{A_{l_{0}, s'}}
+        \label{eq-mmf-6}
+\end{equation}
+From the definition of $\delta$ in (\ref{eq-mmf-4}), we have
+$$
+\delta \leq \frac{x_{\sigma(l_{0})}A_{l_{0}, \sigma(l_{0})} }{
+A_{l_{0},s}}
+=
+\frac{x_{s'}A_{l_{0}, s'} }{ A_{l_{0},s}}
+$$
+Combined with (\ref{eq-mmf-6}), this shows that
+Equation~(\ref{eq-mmf-3}) holds. In summary, we have shown
+that we can increase $x_{s}$ at the expense of decreasing the
+rates for only those sources $s'$ such that $s'=\sigma(l)$ for
+some $l$. Such sources have a rate higher than $x_{s}$, which
+shows that the allocation $\vec{x}$ is not max-min fair and
+contradicts our hypothesis.
+
+It remains to examine the case where $L_1$ is empty. The
+reasoning is the same, we can increase $x_s$ without
+decreasing any other source, and we also have a contradiction.
+\qed
+
+\paragraph{The Water-Filling Algorithm}
+
+The previous theorem is particularly useful in deriving a
+practical method for obtaining a max-min fair allocation,
+called ``progressive filling'' or ``water filling''.  The idea is as follows.  You
+start with all rates equal to 0 and grow all rates together at
+the same pace, until one or several link capacity limits are
+hit.  The rates for the sources that use these links are not
+increased any more, and you continue increasing the rates for
+other sources.  All the sources that are stopped have a
+bottleneck link.  This is because they use a saturated link,
+and all other sources using the saturated link are stopped at
+the same time, or were stopped before, thus have a smaller or
+equal rate.  The algorithm continues until it is not possible
+to increase.  The algorithm terminates because $L$ and $S$ are
+finite.  Lastly, when the algorithm terminates, all sources
+have been stopped at some time and thus have a bottleneck
+link.  By application of Theorem~\ref{theo-bn}, the allocation
+is max-min fair.
+
+\paragraph{Example}
+Let us apply the water-filling algorithm to \fref{D31-f3}.
+
+We first let $x_{0}=x_1=x_2=t$ and increase $t$ until we hit a limit, i.e. we maximize $t$ subject to the constraints imposed by the link capacities. The constraints are
+$$
+x_0+x_1\leq 10\mand x_1 +9x_2\leq 10$$
+which gives
+$$
+2t\leq 10 \mand 10t\leq 10$$
+The maximum is for $t=1$Mb/s and at this value the second constraint is hit, i.e., the second link is a bottleneck link. The sources using this link are the sources of type 0 and 2, therefore we let
+$$
+x_0=1\mand x_2=1
+$$
+and these values are final.
+
+In a second round we increase the rates of the other sources, namely we increase $x_1$ until a capacity limit is hit. There is only one constraint left, that of the first link, which is now expressed as
+$$1 + x_1\leq 10
+$$
+The maximal value of $x_1$ is $9$. With this, all sources are stopped and the algorithm terminates. The max-min fair allocation is thus $x=1, x_1=9, x_2=1$.
+
+We see that all sources of type $0$ and $2$ obtain
+the same rate. In some sense, max-min fairness ignores the
+fact that sources of type $0$ use more network resources than
+those of type $2$.
+
+\begin{theorem}For the network defined above,
+ with fixed routing parameters $A_{l,s}$, there exists a unique
+        max-min fair allocation.  It can be obtained by the water-filling algorithm.
+\end{theorem}
+\pr We have already proven uniqueness.  Existence follows from the water-filling algorithm. \qed
+
+
+% Pb avec fairness (exemple de Jim Roberts) avec shortest packet first
+
+The notion of max-min fairness can be generalized by
+using weights in the definition \cite{BG, MR98}. 

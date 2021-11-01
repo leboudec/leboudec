@@ -1,0 +1,183 @@
+
+The previous definition of fairness puts emphasis on
+maintaining high values for the smallest rates. As shown in
+the previous example, this may be at the expense of some
+network inefficiency. An alternative definition of fairness
+has been proposed in the context of game theory \cite{MMD91}.
+
+\begin{definition}[Proportional Fairness]
+An allocation of rates $\vec{x}$ is ``proportionally fair'' if and only if all rates are positive and, for any other feasible allocation $\vec{y}$, we
+have:
+$$
+\sum_{s=1}^S \frac{y_{s}-x_{s}}{x_{s}} \; \leq 0
+$$
+        \label{def-pf}
+\end{definition}
+
+In other words, any change in the allocation must have a
+negative average change.
+
+
+
+Let us consider for example the
+parking lot scenario in \fref{D31-f3p}. Is the
+max-min fair allocation proportionally fair~?
+
+
+\begin{figure}[htbp]
+        \insfig{D31F3p}{0.7}
+        \mycaption{A simple network used to illustrate proportional fairness (the``parking
+        lot'' scenario)}
+        \protect\label{D31-f3p}
+\end{figure}
+
+
+
+To get the answer, observe that the max-min fair
+allocation is obtained easily with water-filling and is $x_{s}=c/2$ for $s=0,1..4$. Consider a new allocation
+resulting from a decrease of $x_{0}$ equal to $\delta$:
+\begin{eqnarray*}
+         y_{0}  &= \frac{c}{2} - \delta \\
+        y_{s} &= \frac{c}{2} + \delta \; s=1,\ldots,4
+\end{eqnarray*}
+For $\delta<\frac{c}{2}$, the new allocation $\vec{y}$ is
+feasible. The average rate of change is
+$$
+\left( \sum_{s=1}^4 \frac{2 \delta }{ c} \right)
+ -  \frac{2 \delta }{ c} =
+\frac{6\delta }{c}
+$$
+which is positive.  Thus the max-min fair
+allocation for this example is not proportionally fair.  In this example, we see that a decrease in rate for
+sources of type $0$ is less important than the corresponding
+increase which is made possible for the other sources, because
+the increase is multiplied by the number of sources.
+Informally, we say that proportional fairness takes into
+consideration the usage of network resources.
+
+\begin{theorem}A proportionally fair allocation is Pareto-efficient.
+\end{theorem}
+\pr Let $\vec{x}$ be a proportionally fair allocation and let $\vy$ be some feasible allocation such that $y_i>x_i$ for some $i$. The rate of change is
+$$
+\frac{y_i-x_i}{x_i}+\sum_{s=1...S, s\neq i}\frac{y_s-x_s}{x_s}\leq 0
+$$ because $\vec{x}$ is proportionally fair. The first term is positive, therefore at least one of the other terms, say $\frac{y_s-x_s}{x_s}$ must be negative, and thus $y_s<x_s$. This shows that $\vec{x}$ is Pareto-efficient.
+\qed
+
+
+Now we derive a practical result which can be used to compute
+a proportionally fair allocation.  To that end, we interpret
+the average rate of change as $\nabla J_{\vec{x}}\cdot
+(\vec{y}-\vec{x})$, with
+$$
+J(\vec{x})= \sum_{s} \ln(x_{s})
+$$
+Thus, intuitively, a proportionally fair allocation should
+maximize $J$.
+\begin{theorem}
+There exists one unique proportionally fair allocation. It is
+obtained by maximizing $J(\vec{x})= \sum_{s} \ln(x_{s})$ over
+the set of feasible allocations.
+        \label{theo-pf}
+\end{theorem}
+\pr 1. We first prove that the maximization problem has a unique
+solution.  Function $J$ is concave, as a sum of concave
+functions. The feasible set is convex, as intersection of
+convex sets, thus any local maximum of $J$ is an absolute
+maximum.  Now $J$ is strictly concave, which means that
+$$\mif 0< \alpha< 1 \mthen J(\alpha \vec{x}
++ (1-\alpha) \vec{y}) > \alpha J(\vec{x}) + (1-\alpha)
+J(\vec{y})
+$$
+This can be proven by studying the second derivative
+of the restriction of $J$ to any linear segment.  Now
+a strictly concave function has at most one maximum on
+a convex set. %(Chapter~\ref{D4-fluid11}).
+
+Now $J$ is continuous if we allow $\log(0)=-\infty$ and the
+set of feasible allocations is compact (because it is a
+closed, bounded subset of $\Reals^S$). Thus $J$ has at least
+one maximum over the set of feasible allocations.
+Combining all the arguments together proves that $J$ has
+exactly one maximum over the set of feasible allocations, and
+that any local maximum is also exactly the global maximum.
+
+2. For any $\vec{\delta}$ such that $\vec{x}+ \vec{\delta}$
+is feasible,
+
+$$
+J(\vec{x}+ \vec{\delta})-J(\vec{x})=\nabla J_{\vec{x}}\cdot
+\vec{\delta} + \frac{1}{2}   \vec{\delta}^T \nabla^2
+J_{\vec{x}} \vec{\delta} +  o(||\vec{\delta}||^2)
+$$
+Now by the strict concavity, $\nabla^2 J_{\vec{x}}$ is
+definite negative thus, for
+$||\vec{\delta}||$ small enough:
+$$\frac{1}{2}  \vec{\delta}^T \nabla^2
+J_{\vec{x}} \vec{\delta} +  o(||\vec{\delta}||^2) \; <0 $$
+and therefore
+$$
+J(\vec{x}+ \vec{\delta})-J(\vec{x})\leq \nabla J_{\vec{x}}\cdot
+\vec{\delta}
+$$
+
+
+Now assume that $\vec{x}$ is a proportionally fair allocation.
+This means that
+
+$$\nabla(J)_{\vec{x}}\cdot \vec{\delta} \leq 0$$
+and thus $J$ has a local maximum at $\vec{x}$, thus also a
+global maximum. This also shows the uniqueness of a
+proportionally fair allocation.
+
+
+3. Conversely, assume that $J$ has a global maximum at $\vec{x}$.
+Observe that our network model assumes that there exists some positive and feasible allocation, therefore, the maximum of $J$ is not $-\infty$, therefore the maximiser $\vec{x}$ satisfies $x_s>0$ for all $s$. Let $\vec{y}$ be some other feasible allocation and call $D$ the
+average rate of change. We also have:
+$$ D = \nabla(J)_{\vec{x}}\cdot (\vec{y}-\vec{x}) $$
+Since the feasible set is convex, the segment $[\vec{x},
+\vec{y}]$ is entirely feasible, and thus $J(\vec{x} + t (\vec{y}-\vec{x})) \leq  J(\vec{x} )$ for $t\in [0;1]$. Observe that
+$$D = \lim_{t \rightarrow 0^+}
+\frac{J(\vec{x} + t (\vec{y}-\vec{x})) - J(\vec{x} ) }{ t}
+$$
+thus $D \leq 0$. \qed
+\paragraph{Example}
+Let us apply Theorem~\ref{theo-pf} to the parking lot
+scenario in \fref{D31-f3p}. For any choice of $x_{0}$, we should set $x_{i}$
+such that
+$$
+x_{0} + x_{i} = c,  i=1,\ldots,4
+$$
+otherwise we could increase $x_{i}$ without affecting other
+values, and thus increase function $J$. The value of $x_{0}$
+is found by maximizing $f(x_{0})$, defined by
+$$
+f(x_{0}) =  \ln(x_{0}) + \sum_{i=1}^4  \ln(c
+-x_{0})
+$$
+over the set $0 \leq x_{0} \leq c$. The
+derivative of $f$ is
+$$
+f'(x_{0}) =\frac{1}{x_{0}} - \frac{4}{ c- x_{0}}
+$$
+After some algebra, we find that the maximum is for
+$$
+x_{0}= \frac{c}{5}
+$$
+and
+$$
+x_{i}= \frac{4c}{5}\mfor i=1...4
+$$
+%For example, if $n_{i}=1$ for all $i=0,\ldots,4$, we obtain:
+%\begin{eqnarray*}
+%         x_{0}&= \frac{c }{4 +1} \\
+%        x_{i} &= \frac{cI}{4+1}
+%\end{eqnarray*}
+Compare with max-min fairness, where, in that case, the
+allocation is $\frac{c}{2}$ for all rates.  We see that
+sources of type $0$ get a smaller rate, since they use more
+network resources.
+
+The concept of proportional fairness can easily extended to
+\emph{weighted} proportional fairness, where the allocation
+maximizes a weighted sum of logarithms \cite{KMT97}.
+

@@ -1,0 +1,163 @@
+\documentclass[12pt,oneside,onecolumn,a4paper]{book}
+%\usepackage{epsfig,latexsym}
+\input{lebstuff}
+\usepackage{amsmath, ifthen, epsfig}
+\input epsf
+%\usepackage{times,mathptm}
+%\documentstyle{article}
+
+%put ``oui'' in the last part of text in the line
+%below if you want hidden text, including solutions, to be printed
+\newcommand{\imprimeTexteCache}{non}
+\newcommand{\transparents}{non}
+\newcommand{\gradCourse}{oui}
+
+
+% SLides Only
+\newcommand{\slio}[1]{\ifthenelse{\equal{\transparents}{oui}}{#1}
+}
+% TextBooK Only
+\newcommand{\tbko}[1]{\ifthenelse{\equal{\transparents}{non}}{#1}
+}
+
+
+\ifthenelse{\equal{\transparents}{oui}}{
+% processing for slides
+   \newcommand{\sli}{\begin{slide}}
+   \newcommand{\esli}{\end{slide}}
+   \newcommand{\nosli}[1]{
+      \begin{note}
+       #1
+      \end{note}
+    }
+}
+{
+% processing for textbook
+\newcommand{\sli}{}
+   \newcommand{\esli}{}
+   \newcommand{\nosli}[1]{
+    }
+}
+
+\ifthenelse{\equal{\imprimeTexteCache}{oui}}{
+   \newcommand{\sol}[1]{\emph{#1}}
+  }
+  {
+    \newcommand{\sol}[1]{}
+  }
+
+
+\oddsidemargin   0.0cm
+\evensidemargin  0.0cm
+%\textwidth      16.5cm
+\textwidth       16.5cm
+\topmargin       0.00 cm
+\headheight      1.00cm
+\headsep         1.0cm
+\textheight      22.0cm
+\parskip         0.06in
+\parindent       0.00cm
+
+
+\newtheorem{st}{Student Tutorial}[chapter]
+\newtheorem{exo}{Exercise}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{claim}{Claim}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{fact}{Fact}[section]
+
+\newcommand{\ee}{\end{equation}}
+\newcommand{\beqa}{\begin{eqnarray*}}
+\newcommand{\eeqa}{\end{eqnarray*}}
+\newcommand{\maketline}{\noindent \rule{16.5cm}{0.02in} \newline }
+\newcommand{\makeline}{\noindent \rule{16.5cm}{0.04in}}
+
+%\renewcommand{\thesection}{\Alph{section}}
+%\renewcommand{\thepage}{\thesection-\arabic{page}}
+\pagenumbering{\thesection-\arabic{page}}
+
+\newcommand{\dis}{\displaystyle}
+\newcommand{\ie}{{\em i.e., }}
+\newcommand{\eg}{{\em e.g., }}
+\newcommand{\cqfd}{\hfill $\Box$}
+\newcommand{\qed}{\hfill{$\Box$}}
+\newcommand{\la}{\lambda}
+\newcommand{\calr}{\mathcal R}
+\newcommand{\calS}{\mathcal S}
+\newcommand{\calC}{\mathcal C}
+
+\newcommand{\mif}{\textrm{ if }}
+\newcommand{\mthen} {\textrm{ then }}
+\newcommand{\melse} {\textrm{ else }}
+\newcommand{\mand} {\textrm{ and }}
+\newcommand{\mor} {\textrm{ or }}
+\newcommand{\mst} {\textrm{ such that }}
+\newcommand{\mfa} {\textrm{ for all }}
+
+\def\Reals{\Bbb{R}}
+\def\Ints{\Bbb{Z}}
+\def\Nats{\Bbb{N}}
+\def\E{\Bbb{E}}
+\def\P{\Bbb{P}}
+
+
+\newcommand{\pr}{\paragraph{Proof: }}
+
+% write pointer to exercise \ref{coco} as
+% \pointex{coco}
+\newcommand{\pointex}[1]{\fbox{$\rightarrow$ Exercise \ref{#1}}}
+
+% insert figure  ::D4:Figures:coco.eps by \insfig{coco}{0.8}
+\newcommand{\insfig}[2]
+{
+\begin{center}
+\mbox{\epsfig{file=#1.eps, width=#2\textwidth}}
+\end{center}
+}
+
+\begin{document}
+
+\pagenumbering{arabic}
+
+% \title{
+% %\maketline
+% \noindent{\Large {\sc Traffic Control: }} \\
+% {\Large {\sc Reserved Services}}
+% %\makeline
+% }
+% \author{ {\sc Jean-Yves Le Boudec}  \\
+% {\em ICA} \\
+% {\em Ecole Polytechnique Federale de Lausanne} \\ ~\\
+% %\makeline
+% \date{\mbox{ }}
+% }\maketitle
+%
+% \newpage
+%
+% \tableofcontents
+%
+% \frontmatter
+%
+%
+%  \input{intro}
+
+
+% put this line if you create a QCM
+\input{QuizDB}
+
+\mainmatter
+\setcounter{chapter}{30}
+\input{D31}
+\setcounter{chapter}{31}
+\input{D32}
+
+
+\appendix
+\bibliography{leb}
+\bibliographystyle{plain}
+
+\end{document}

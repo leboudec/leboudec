@@ -1,0 +1,153 @@
+\begin{thebibliography}{10}
+
+\bibitem{BMP90}
+A.~Benveniste, M.~Metivier, and P.~Priouret.
+\newblock {\em Adaptive Algorithms and Stochastic Approximations}.
+\newblock Springer Verlag, Berlin, 1990.
+
+\bibitem{BG}
+D.~Bertsekas and R.~Gallager.
+\newblock {\em Data Networks}.
+\newblock Prentice-Hall, Englewood Cliffs, New Jersey, 1992.
+
+\bibitem{braden-98-a}
+B.~Braden, D.~Clark, J.~Crowcroft, B.~Davie, S.~Deering, D.~Estrin, S.~Floyd,
+  V.~Jacobson, G.~Minshall, C.~Patridge, L.~Peterson, K.~Ramakrishnan,
+  S.~Shenker, J.~Wroclawski, and L.~Zhang.
+\newblock Recommendations on queue management and congestion avoidance in the
+  internet.
+\newblock {\em IETF RFC 2309}, April 1998.
+
+\bibitem{BP95}
+L.~Brakmo and L.~Petersen.
+\newblock Tcp vegas.
+\newblock {\em IEEE Trans. on Networking}, October 1995.
+
+\bibitem{cardwell2016bbr}
+Neal Cardwell, Yuchung Cheng, C~Stephen Gunn, Soheil~Hassas Yeganeh, and Van
+  Jacobson.
+\newblock Bbr: Congestion-based congestion control.
+\newblock {\em Queue}, 14(5):50, 2016.
+
+\bibitem{CJ89}
+Chiu D.M. and Jain R.
+\newblock Analysis of the increase and decrease algorithms for congestion
+  avoidance in computer networks.
+\newblock {\em Computer Networks and ISDN Systems}, 17:1--14, 1989.
+
+\bibitem{Flo91}
+S.~Floyd.
+\newblock Connections with multiple congested gateways in packet switched
+  networks, part 1: one way traffic.
+\newblock {\em ACM Computer Communication Review}, 22(5):30--47, October 1991.
+
+\bibitem{tfrc2008rfc}
+S.~Floyd, M~Handley, J.~Padhye, and J.~Widmer.
+\newblock {TCP Friendly Rate Control (TFRC): Protocol Specification}.
+\newblock {\em Internet Request for Comments RFC5348}, 2008.
+
+\bibitem{floyd-91-b}
+Sally Floyd.
+\newblock Connections with multiple congested gateways in packet-switched
+  networks part 1: One-way traffic.
+\newblock {\em Computer Communication Review (also available from:
+  ftp://ftp.ee.lbl.gov/papers/gates1.ps.Z)}, 21(5):30--47, October 1991.
+
+\bibitem{GB98}
+S.~Golestani and S.~Bhattacharyya.
+\newblock End-to-end congestion control for the internet: A global optimization
+  framework.
+\newblock {\em Proc of ICNP, Oct 98}, 1998.
+
+\bibitem{ha2008cubic}
+Sangtae Ha, Injong Rhee, and Lisong Xu.
+\newblock Cubic: a new tcp-friendly high-speed tcp variant.
+\newblock {\em ACM SIGOPS operating systems review}, 42(5):64--74, 2008.
+
+\bibitem{Hahne91}
+E.~L. Hahne.
+\newblock Round robin scheduling for max-min fairness in data networks.
+\newblock {\em IEEE JSAC}, pages 1024--1039, September 1991.
+
+\bibitem{henderson-98-a}
+Thomas~R. Henderson, Emile Sahouria, Steven McCanne, and Randy~H. Katz.
+\newblock On improving the fairness of tcp congestion avoidance.
+\newblock In {\em Proc. of the IEEE GLOBECOM '98}, Sydney, Australia, November
+  1998. IEEE.
+
+\bibitem{KMT97}
+F.P. Kelly, A.~K. Maulloo, and D.K.H. Tan.
+\newblock Rate control for commmunication networks: Shadow prices, proportional
+  fairness and stability.
+\newblock {\em Journal of the Operational Research Society}, 49, 1998.
+
+\bibitem{KC78}
+H.~J. Kushner and D.S. Clark.
+\newblock Stochastic approximations for constrained and unconstrained systems.
+\newblock {\em Applied Mathematical Sciences}, 26, 1978.
+
+\bibitem{lju77}
+Liung L.
+\newblock Analysis of recursive stochastic algorithms.
+\newblock {\em IEEE transactions on automatic control}, 22:551--575, 1977.
+
+\bibitem{Lak97}
+T.~V. Lakshman and U.~Madhow.
+\newblock The performance of tcp for networks with high bandwidth delay
+  products and random loss.
+\newblock {\em IEEE/ACM Trans on Networking}, 5(3):336--350, June 1997.
+
+\bibitem{MR98}
+L.~Massoulie and J.~Roberts.
+\newblock Fairness and quality of service for elastic traffic.
+\newblock In {\em Proceedings of Infocom}, 1999.
+
+\bibitem{Ott97}
+M.~Mathis, J.~Semke, J.~Mahdavi, and T.~Ott.
+\newblock The macroscopic behaviour of the tcp congestion avoidance algorithm.
+\newblock {\em Computer Communication Review}, 3, July 1997.
+
+\bibitem{refSurLyapunov}
+R.K. Miller and A.~N. Michell.
+\newblock {\em Ordinary Differential Equations}.
+\newblock Academic Press, New-York, 1982.
+
+\bibitem{mo-98-a}
+Jeonghoon Mo and Jean Walrand.
+\newblock Fair end-to-end window-based congestion control.
+\newblock In {\em SPIE'98 International Symposium on Voice, Video and Data
+  Communications}, October 1998.
+
+\bibitem{MMD91}
+Mazumdar R., Mason L.G., and Douligeris C.
+\newblock Fairness in network optimal flow control: Optimality of product form.
+\newblock {\em IEEE Transactions on Communication}, 39:775--782, 1991.
+
+\bibitem{radunovic2007ufm}
+B.~Radunovi{\'c} and J.-Y. Le~Boudec.
+\newblock {A unified framework for max-min and min-max fairness with
+  applications}.
+\newblock {\em IEEE/ACM Transactions on Networking (TON)}, 15(5):1073--1083,
+  2007.
+
+\bibitem{cubic2018rfc}
+I.~Rhee, L.~Xu, S.~Ha, A.~Zimmermann, L.~Eggert, and R.~Scheffenegger.
+\newblock {CUBIC for Fast Long-Distance Networks}.
+\newblock {\em Internet Request for Comments RFC8312}, 2018.
+
+\bibitem{shreedhar1996efficient}
+Madhavapeddi Shreedhar and George Varghese.
+\newblock Efficient fair queuing using deficit round-robin.
+\newblock {\em IEEE/ACM Transactions on networking}, 4(3):375--385, 1996.
+
+\bibitem{Vojnovic2002mAugust}
+M.~Vojnovic and J.-Y. Le~Boudec.
+\newblock On the long-run behavior of equation-based rate control.
+\newblock In {\em Proceedings of ACM SIGCOMM 2002}, Pittsburgh, August 2002.
+
+\bibitem{WHI}
+Peter Whittle.
+\newblock {\em Optimization under Constraints}.
+\newblock Wiley and Sons, Books on Demand, \texttt{www.umi.com}, 1971.
+
+\end{thebibliography}

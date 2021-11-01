@@ -1,0 +1,22 @@
+Proportional fairness is an example of a more general fairness
+concept, called the ``utility'' approach, which is defined as
+follows. Every source $s$ has a utility function $u_{s}$ where
+$u_{s}(x_{s})$ indicates the value to source $s$ of having
+rate $x_{s}$. Every link $l$ (or network resource in general)
+has a cost function $g_{l}$,  where $g_{l}(f)$ indicates the
+cost to the network of supporting an amount of flow $f$ on
+link $l$. Then, a ``utility fair'' allocation of rates is an
+allocation which maximizes $H(\vec{x})$, defined by
+$$H(\vec{x}) = \sum_{s=1}^S u_{s}(x_{s}) - \sum_{l=1}^L g_{l}(f_{l})
+$$
+with $f_{l}=\sum_{s=1}^S A_{l,s}x_{s}$, over the set of
+feasible allocations.
+
+Proportional fairness corresponds to $u_{s}= \ln$ for all $s$,
+and $g_{l}(f)=0$ for $f< c_{l}$, $g_{l}(f)=+ \infty$ for
+$f\geq c_{l}$. Rate proportional fairness corresponds to
+$u_{s}(x_{s})= w_{s}\ln(x_{s})$ and the same choice of
+$g_{l}$.
+
+Computing utility fairness requires solving constrained
+optimization problems; a reference is \cite{WHI}.

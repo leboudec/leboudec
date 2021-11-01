@@ -1,0 +1,1358 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2021.7.2)  1 NOV 2021 17:34
+entering extended mode
+**./cc.tex
+(cc.tex
+LaTeX2e <2018-12-01>
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\book.cls"
+Document Class: book 2018/09/03 v1.4i Standard LaTeX document class
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\bk12.clo"
+File: bk12.clo 2018/09/03 v1.4i Standard LaTeX file (size option)
+)
+\c@part=\count80
+\c@chapter=\count81
+\c@section=\count82
+\c@subsection=\count83
+\c@subsubsection=\count84
+\c@paragraph=\count85
+\c@subparagraph=\count86
+\c@figure=\count87
+\c@table=\count88
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\times.sty"
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\mathptm.sty"
+Package: mathptm 2005/04/12 PSNFSS-v9.2a Times w/ Math (SPQR, WaS) 
+
+
+Package mathptm Warning: This package is to be regarded as obsolete.
+(mathptm)                See the PSNFSS documentation.
+
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 31.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/ptmcm/m/n on input line 31.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/ptmcm/m/n on input line 31.
+LaTeX Font Info:    Redeclaring symbol font `letters' on input line 32.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/ptmcm/m/it on input line 32.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/ptmcm/m/it on input line 32.
+LaTeX Font Info:    Redeclaring symbol font `symbols' on input line 33.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/pzccm/m/n on input line 33.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/pzccm/m/n on input line 33.
+LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 34.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/psycm/m/n on input line 34.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/psycm/m/n on input line 34.
+\symbold=\mathgroup4
+\symitalic=\mathgroup5
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 37.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 38.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/ptm/m/it on input line 38.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 38.
+) (lebBook.sty ("C:\Program Files\MiKTeX 2.9\tex/latex/base\ifthen.sty"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\epsfig.sty"
+Package: epsfig 2017/06/25 v1.7b (e)psfig emulation (SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphics.sty"
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics-cfg\graphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics-def\pdftex.def"
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+\epsfxsize=\dimen105
+\epsfysize=\dimen106
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/subfigure\subfigure.sty"
+Package: subfigure 2002/07/30 v2.1.4 subfigure package
+\subfigtopskip=\skip43
+\subfigcapskip=\skip44
+\subfigcaptopadj=\dimen107
+\subfigbottomskip=\skip45
+\subfigcapmargin=\dimen108
+\subfiglabelskip=\skip46
+\c@subfigure=\count89
+\c@lofdepth=\count90
+\c@subtable=\count91
+\c@lotdepth=\count92
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+("C:\Program Files\MiKTeX 2.9\tex/latex/subfigure\subfigure.cfg")
+\subfig@top=\skip47
+\subfig@bottom=\skip48
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/amscls\amsthm.sty"
+Package: amsthm 2017/10/31 v2.20.4
+\thm@style=\toks15
+\thm@bodyfont=\toks16
+\thm@headfont=\toks17
+\thm@notefont=\toks18
+\thm@headpunct=\toks19
+\thm@preskip=\skip49
+\thm@postskip=\skip50
+\thm@headsep=\skip51
+\dth@everypar=\toks20
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\amsfonts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks21
+\symAMSa=\mathgroup6
+\symAMSb=\mathgroup7
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\amssymb.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\makeidx.sty"
+Package: makeidx 2014/09/29 v1.0m Standard LaTeX package
+) (verbatimfiles.sty
+\c@lineno=\count93
+)
+\c@st=\count94
+\c@exo=\count95
+\c@theorem=\count96
+\c@lemma=\count97
+\c@proposition=\count98
+\c@corollary=\count99
+\c@definition=\count100
+\c@conj=\count101
+\c@claim=\count102
+\c@remark=\count103
+\c@fact=\count104
+\c@conjecture=\count105
+\c@problem=\count106
+\c@hypo=\count107
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\color.sty"
+Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics-cfg\color.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 147.
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/pstricks\pstricks.sty"
+Package: pstricks 2018/12/21 v0.69 LaTeX wrapper for `PSTricks' (RN,HV)
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/iftex\iftex.sty"
+Package: iftex 2013/04/04 v0.2 Provides if(tex) conditional for PDFTeX, XeTeX, 
+and LuaTeX
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/tools\shellesc.sty"
+Package: shellesc 2016/06/07 v0.02a unified shell escape interface for LaTeX
+Package shellesc Info: Restricted shell escape enabled on input line 69.
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/xcolor\xcolor.sty"
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics-cfg\color.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+LaTeX Info: Redefining \color on input line 709.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+("C:\Program Files\MiKTeX 2.9\tex/generic/xkeyval\pst-xkey.tex"
+File: pst-xkey.tex 2005/11/25 v1.6 PSTricks specialization of xkeyval (HA)
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/xkeyval\xkeyval.sty"
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/xkeyval\xkeyval.tex"
+("C:\Program Files\MiKTeX 2.9\tex/generic/xkeyval\xkvutils.tex"
+\XKV@toks=\toks22
+\XKV@tempa@toks=\toks23
+)
+\XKV@depth=\count108
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+)))
+("C:\Program Files\MiKTeX 2.9\tex/generic/pstricks\pstricks.tex"
+("C:\Program Files\MiKTeX 2.9\tex/generic/pstricks\pst-fp.tex"
+`pst-fp' v0.05, 2010/01/17 (hv)
+\pstFP@xs=\count109
+\pstFP@xia=\count110
+\pstFP@xib=\count111
+\pstFP@xfa=\count112
+\pstFP@xfb=\count113
+\pstFP@rega=\count114
+\pstFP@regb=\count115
+\pstFP@regs=\count116
+\pstFP@times=\count117
+)
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/utilities\pgfutil-common.tex"
+\pgfutil@everybye=\toks24
+\pgfutil@tempdima=\dimen109
+\pgfutil@tempdimb=\dimen110
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/utilities\pgfutil-common-lists.te
+x")) ("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/utilities\pgfkeys.code.tex"
+\pgfkeys@pathtoks=\toks25
+\pgfkeys@temptoks=\toks26
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/utilities\pgfkeysfiltered.code.te
+x"
+\pgfkeys@tmptoks=\toks27
+)) ("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/utilities\pgffor.code.tex"
+Loading pgffor.code.tex
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmath.code.tex"
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathcalc.code.tex"
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathutil.code.tex"
+\pgf@x=\dimen111
+\pgf@xa=\dimen112
+\pgf@xb=\dimen113
+\pgf@xc=\dimen114
+\pgf@y=\dimen115
+\pgf@ya=\dimen116
+\pgf@yb=\dimen117
+\pgf@yc=\dimen118
+\c@pgf@counta=\count118
+\c@pgf@countb=\count119
+\c@pgf@countc=\count120
+\c@pgf@countd=\count121
+\pgfutil@tempcnta=\count122
+\pgfutil@tempcntb=\count123
+)
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathparser.code.tex"
+\pgfmath@dimen=\dimen119
+\pgfmath@count=\count124
+\pgfmath@box=\box27
+\pgfmath@toks=\toks28
+\pgfmath@stack@operand=\toks29
+\pgfmath@stack@operation=\toks30
+)
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.code.tex"
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.basic.code.
+tex")
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.trigonometr
+ic.code.tex")
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.random.code
+.tex")
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.comparison.
+code.tex")
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.base.code.t
+ex")
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.round.code.
+tex")
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.misc.code.t
+ex")
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfunctions.integerarit
+hmetics.code.tex")))
+("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/math\pgfmathfloat.code.tex"
+\c@pgfmathroundto@lastzeros=\count125
+))
+\pgffor@iter=\dimen120
+\pgffor@skip=\dimen121
+\pgffor@stack=\toks31
+\pgffor@toks=\toks32
+)
+\psLoopIndex=\count126
+
+`PSTricks' v2.96  <2019/02/23> (tvz,hv)
+\pst@dima=\dimen122
+\pst@dimb=\dimen123
+\pst@dimc=\dimen124
+\pst@dimd=\dimen125
+\pst@dimg=\dimen126
+\pst@dimh=\dimen127
+\pst@dimm=\dimen128
+\pst@dimn=\dimen129
+\pst@dimo=\dimen130
+\pst@dimp=\dimen131
+\pst@hbox=\box28
+\pst@ibox=\box29
+\pst@boxg=\box30
+\pst@cnta=\count127
+\pst@cntb=\count128
+\pst@cntc=\count129
+\pst@cntd=\count130
+\pst@cntg=\count131
+\pst@cnth=\count132
+\pst@cntm=\count133
+\pst@cntn=\count134
+\pst@cnto=\count135
+\pst@cntp=\count136
+\@zero=\count137
+\pst@toks=\toks33
+("C:\Program Files\MiKTeX 2.9\tex/generic/pstricks\pstricks.con")
+\psunit=\dimen132
+\psxunit=\dimen133
+\psyunit=\dimen134
+\pst@C@@rType=\count138
+\pslinewidth=\dimen135
+\psk@startLW=\dimen136
+\psk@endLW=\dimen137
+\pst@customdefs=\toks34
+\pslinearc=\dimen138
+\pst@symbolStep=\dimen139
+\pst@symbolWidth=\dimen140
+\pst@symbolLinewidth=\dimen141
+\everypsbox=\toks35
+\psframesep=\dimen142
+\pslabelsep=\dimen143
+\sh@wgridXunit=\dimen144
+\sh@wgridYunit=\dimen145
+\pst@shift=\dimen146
+)
+File: pstricks.tex 2019/02/23 v2.96 `PSTricks' (tvz,hv)
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/pstricks\pst-fp.tex")
+File: pst-fp.tex 2019/02/23 v2.96 `PST-fp' (hv)
+File: pst-algparser.pro 2011/10/31 v. 0.04, PostScript prologue file (hv)
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/tools\xspace.sty"
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+\c@ex=\count139
+\labelexample=\skip52
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\epstopdf.sty"
+Package: epstopdf 2016/05/15 v2.6 Conversion with epstopdf on the fly (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\epstopdf-base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\infwarerr.sty"
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\grfext.sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\kvdefinekeys.sty"
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\ltxcmds.sty"
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+)))
+("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\kvoptions.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\kvsetkeys.sty"
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\etexcmds.sty"
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\ifluatex.sty"
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+))))
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\pdftexcmds.sty"
+Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\ifpdf.sty"
+Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/00miktex\epstopdf-sys.cfg"
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+)))
+(lebstuff.tex (lebListes.sty)
+("C:\Program Files\MiKTeX 2.9\tex/latex/algorithms\algorithm.sty"
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/float\float.sty"
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count140
+\float@exts=\toks36
+\float@box=\box31
+\@float@everytoks=\toks37
+\@floatcapt=\box32
+)
+\@float@every@algorithm=\toks38
+\c@algorithm=\count141
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/algorithmicx\algpseudocode.sty"
+Package: algpseudocode 
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/algorithmicx\algorithmicx.sty"
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count142
+\c@ALG@rem=\count143
+\c@ALG@nested=\count144
+\ALG@tlm=\skip53
+\ALG@thistlm=\skip54
+\c@ALG@Lnr=\count145
+\c@ALG@blocknr=\count146
+\c@ALG@storecount=\count147
+\c@ALG@tmpcounter=\count148
+\ALG@tmplength=\skip55
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/pstricks\pstcol.sty"
+Package: pstcol 2007/04/11 v1.3 LaTeX wrapper for `PSTricks' (RN,HV)
+
+
+Package pstcol Warning: ************************************ 
+(pstcol)                The package `pstcol' is obsolet! 
+(pstcol)                You should use `pstricks' directly: 
+(pstcol)                    \usepackage{pstricks}
+(pstcol)                ************************************.
+
+)
+\c@maquestion=\count149
+\coloredbox=\box33
+\traitbox=\box34
+) (cc.aux)
+\openout1 = `cc.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 16.
+ ("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\ot1ptm.fd"
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+\big@size=\dimen147
+
+("C:\Program Files\MiKTeX 2.9\tex/context/base/mkii\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count150
+\scratchdimen=\dimen148
+\scratchbox=\box35
+\nofMPsegments=\count151
+\nofMParguments=\count152
+\everyMPshowfont=\toks39
+\MPscratchCnt=\count153
+\MPscratchDim=\dimen149
+\MPnumerator=\count154
+\makeMPintoPDFobject=\count155
+\everyMPtoPDFconversion=\toks40
+)
+LaTeX Font Info:    Try loading font information for OT1+ptmcm on input line 23
+.
+ ("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\ot1ptmcm.fd"
+File: ot1ptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ptmcm.
+)
+LaTeX Font Info:    Try loading font information for OML+ptmcm on input line 23
+.
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\omlptmcm.fd"
+File: omlptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ptmcm.
+)
+LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 23
+.
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\omspzccm.fd"
+File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
+)
+LaTeX Font Info:    Try loading font information for OMX+psycm on input line 23
+.
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\omxpsycm.fd"
+File: omxpsycm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/psycm.
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 23.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 23.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 23.
+LaTeX Font Info:    Try loading font information for U+msa on input line 23.
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 23.
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [1
+Non-PDF special ignored!
+<special> header=pstricks.pro
+Non-PDF special ignored!
+<special> header=pst-algparser.pro
+Non-PDF special ignored!
+<special> header=pst-tools.pro
+Non-PDF special ignored!
+<special> header=pst-dots.pro
+
+Non-PDF special ignored!
+<special> ps: /pssetRGBcolor /setrgbcolor load def /pssetCMYKcolor /setcmyk...
+Non-PDF special ignored!
+<special> ps:tx@Dict begin  gsave STV CP T /ps@rot 0 def grestore  end
+Non-PDF special ignored!
+<special> ps:tx@Dict begin  gsave STV CP T /ps@refangle 0.  def grestore  e...
+
+{C:/Users/leboudec/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Overfull \hbox (9.23pt too wide) in paragraph at lines 26--27
+[]\OT1/ptm/m/n/12 Thanks to all who con-tributed to re-views and de-bug-ging of
+ this doc-u-ment, in par-tic-u-lar B. Radunovic,
+ []
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[2]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24.88> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 30.
+ (cc.toc
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
+
+Underfull \vbox (badness 1163) has occurred while \output is active []
+
+ [3
+
+])
+\tf@toc=\write3
+\openout3 = `cc.toc'.
+
+
+(D31.tex
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[4]
+Chapter 1.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <24.88> not available
+(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 2.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 6.
+("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\omsptm.fd"
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 6.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <17.28> not available
+(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 18.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <14.4> not available
+(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 20.
+ (d31CongCol.tex
+[5
+
+]
+Package epstopdf Info: Source file: <D31F1.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 51643 bytes
+(epstopdf)             Output file: <D31F1-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:37
+(epstopdf)                    size: 3565 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D31F1-eps-converted-
+to.pdf D31F1.eps>
+(epstopdf)             \includegraphics on input line 35.
+Package epstopdf Info: Output file is already uptodate.
+<D31F1-eps-converted-to.pdf, id=24, 685.56125pt x 188.705pt>
+File: D31F1-eps-converted-to.pdf Graphic file (type pdf)
+<use D31F1-eps-converted-to.pdf>
+Package pdftex.def Info: D31F1-eps-converted-to.pdf  used on input line 35.
+(pdftex.def)             Requested size: 328.62788pt x 90.4593pt.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 37.
+ ("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\ot1phv.fd"
+File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
+)
+Package epstopdf Info: Source file: <D31F1n.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 111098 bytes
+(epstopdf)             Output file: <D31F1n-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:38
+(epstopdf)                    size: 6566 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D31F1n-eps-converted
+-to.pdf D31F1n.eps>
+(epstopdf)             \includegraphics on input line 74.
+Package epstopdf Info: Output file is already uptodate.
+<D31F1n-eps-converted-to.pdf, id=25, 379.4175pt x 344.28625pt>
+File: D31F1n-eps-converted-to.pdf Graphic file (type pdf)
+<use D31F1n-eps-converted-to.pdf>
+Package pdftex.def Info: D31F1n-eps-converted-to.pdf  used on input line 74.
+(pdftex.def)             Requested size: 164.31752pt x 149.10663pt.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[6 <./D31F1-eps-converted-to.pdf> <./D31F1n-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <D31F2n.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 101429 bytes
+(epstopdf)             Output file: <D31F2n-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:38
+(epstopdf)                    size: 6624 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D31F2n-eps-converted
+-to.pdf D31F2n.eps>
+(epstopdf)             \includegraphics on input line 121.
+Package epstopdf Info: Output file is already uptodate.
+<D31F2n-eps-converted-to.pdf, id=41, 370.38374pt x 208.78pt>
+File: D31F2n-eps-converted-to.pdf Graphic file (type pdf)
+<use D31F2n-eps-converted-to.pdf>
+Package pdftex.def Info: D31F2n-eps-converted-to.pdf  used on input line 121.
+(pdftex.def)             Requested size: 281.68513pt x 158.78275pt.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 124.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 124.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 124.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[7 <./D31F2n-eps-converted-to.pdf>]) (d31FairVsEff.tex
+Package epstopdf Info: Source file: <D31F3a.eps>
+(epstopdf)                    date: 2018-09-13 12:02:32
+(epstopdf)                    size: 589919 bytes
+(epstopdf)             Output file: <D31F3a-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-09-25 14:42:12
+(epstopdf)                    size: 84096 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D31F3a-eps-converted
+-to.pdf D31F3a.eps>
+(epstopdf)             \includegraphics on input line 13.
+Package epstopdf Info: Output file is already uptodate.
+<D31F3a-eps-converted-to.pdf, id=52, 574.145pt x 231.86626pt>
+File: D31F3a-eps-converted-to.pdf Graphic file (type pdf)
+<use D31F3a-eps-converted-to.pdf>
+Package pdftex.def Info: D31F3a-eps-converted-to.pdf  used on input line 13.
+(pdftex.def)             Requested size: 328.62788pt x 132.71706pt.
+)
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[8 <./D31F3a-eps-converted-to.pdf>] (d31MaxMin.tex
+LaTeX Font Info:    Font shape `OT1/ptm/bx/sc' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/sc' tried instead on input line 50.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[9]
+Package epstopdf Info: Source file: <D31F6.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 52793 bytes
+(epstopdf)             Output file: <D31F6-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:40
+(epstopdf)                    size: 4120 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D31F6-eps-converted-
+to.pdf D31F6.eps>
+(epstopdf)             \includegraphics on input line 167.
+Package epstopdf Info: Output file is already uptodate.
+<D31F6-eps-converted-to.pdf, id=89, 464.73625pt x 311.1625pt>
+File: D31F6-eps-converted-to.pdf Graphic file (type pdf)
+<use D31F6-eps-converted-to.pdf>
+Package pdftex.def Info: D31F6-eps-converted-to.pdf  used on input line 167.
+(pdftex.def)             Requested size: 234.73523pt x 157.16193pt.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[10]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[11 <./D31F6-eps-converted-to.pdf>]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[12]) (d31PropFair.tex
+Package epstopdf Info: Source file: <D31F3p.eps>
+(epstopdf)                    date: 2018-09-13 16:41:58
+(epstopdf)                    size: 630939 bytes
+(epstopdf)             Output file: <D31F3p-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-09-25 14:42:15
+(epstopdf)                    size: 73356 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D31F3p-eps-converted
+-to.pdf D31F3p.eps>
+(epstopdf)             \includegraphics on input line 28.
+Package epstopdf Info: Output file is already uptodate.
+<D31F3p-eps-converted-to.pdf, id=104, 769.87625pt x 168.63pt>
+File: D31F3p-eps-converted-to.pdf Graphic file (type pdf)
+<use D31F3p-eps-converted-to.pdf>
+Package pdftex.def Info: D31F3p-eps-converted-to.pdf  used on input line 28.
+(pdftex.def)             Requested size: 328.62788pt x 71.982pt.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[13 <./D31F3p-eps-converted-to.pdf>]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[14]) (d31UtilFair.tex
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[15])
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[16]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[17]
+Overfull \hbox (8.32976pt too wide) in paragraph at lines 224--227
+\OT1/ptm/m/n/12 Now $\OML/ptmcm/m/it/12 f[]$ \OT1/ptm/m/n/12 is wide-sense de-c
+reas-ing ($\OML/ptmcm/m/it/12 f[]$ \OT1/ptm/m/n/12 is con-cave) thus, com-bin-i
+ng with Equa-tions (1.15[]) and (1.16[]): 
+ []
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[18]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[19]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[20]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[21]
+Package epstopdf Info: Source file: <D31F4.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 62155 bytes
+(epstopdf)             Output file: <D31F4-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:41
+(epstopdf)                    size: 6150 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D31F4-eps-converted-
+to.pdf D31F4.eps>
+(epstopdf)             \includegraphics on input line 478.
+Package epstopdf Info: Output file is already uptodate.
+<D31F4-eps-converted-to.pdf, id=171, 537.00626pt x 296.10625pt>
+File: D31F4-eps-converted-to.pdf Graphic file (type pdf)
+<use D31F4-eps-converted-to.pdf>
+Package pdftex.def Info: D31F4-eps-converted-to.pdf  used on input line 478.
+(pdftex.def)             Requested size: 281.68513pt x 155.32256pt.
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <12> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 521.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[22 <./D31F4-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <D31F7.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 1575660 bytes
+(epstopdf)             Output file: <D31F7-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:42
+(epstopdf)                    size: 11966 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D31F7-eps-converted-
+to.pdf D31F7.eps>
+(epstopdf)             \includegraphics on input line 550.
+Package epstopdf Info: Output file is already uptodate.
+<D31F7-eps-converted-to.pdf, id=186, 874.26625pt x 399.4925pt>
+File: D31F7-eps-converted-to.pdf Graphic file (type pdf)
+<use D31F7-eps-converted-to.pdf>
+Package pdftex.def Info: D31F7-eps-converted-to.pdf  used on input line 550.
+(pdftex.def)             Requested size: 469.47046pt x 214.52187pt.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[23 <./D31F7-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <3sourcesnoSS.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 31531 bytes
+(epstopdf)             Output file: <3sourcesnoSS-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:43
+(epstopdf)                    size: 22422 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=3sourcesnoSS-eps-con
+verted-to.pdf 3sourcesnoSS.eps>
+(epstopdf)             \includegraphics on input line 582.
+Package epstopdf Info: Output file is already uptodate.
+<3sourcesnoSS-eps-converted-to.pdf, id=199, 471.7625pt x 374.39874pt>
+File: 3sourcesnoSS-eps-converted-to.pdf Graphic file (type pdf)
+<use 3sourcesnoSS-eps-converted-to.pdf>
+Package pdftex.def Info: 3sourcesnoSS-eps-converted-to.pdf  used on input line 
+582.
+(pdftex.def)             Requested size: 422.52354pt x 140.84479pt.
+Package epstopdf Info: Source file: <3sourcesSS.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 31570 bytes
+(epstopdf)             Output file: <3sourcesSS-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:43
+(epstopdf)                    size: 21441 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=3sourcesSS-eps-conve
+rted-to.pdf 3sourcesSS.eps>
+(epstopdf)             \includegraphics on input line 584.
+Package epstopdf Info: Output file is already uptodate.
+<3sourcesSS-eps-converted-to.pdf, id=200, 471.7625pt x 374.39874pt>
+File: 3sourcesSS-eps-converted-to.pdf Graphic file (type pdf)
+<use 3sourcesSS-eps-converted-to.pdf>
+Package pdftex.def Info: 3sourcesSS-eps-converted-to.pdf  used on input line 58
+4.
+(pdftex.def)             Requested size: 422.52354pt x 140.84479pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 582--592
+[][]
+ []
+
+
+Underfull \vbox (badness 4832) has occurred while \output is active []
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[24 <./3sourcesnoSS-eps-converted-to.pdf> <./3sourcesSS-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <ss.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 9686 bytes
+(epstopdf)             Output file: <ss-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:44
+(epstopdf)                    size: 3573 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=ss-eps-converted-to.
+pdf ss.eps>
+(epstopdf)             \includegraphics on input line 651.
+Package epstopdf Info: Output file is already uptodate.
+<ss-eps-converted-to.pdf, id=210, 472.76625pt x 374.39874pt>
+File: ss-eps-converted-to.pdf Graphic file (type pdf)
+<use ss-eps-converted-to.pdf>
+Package pdftex.def Info: ss-eps-converted-to.pdf  used on input line 651.
+(pdftex.def)             Requested size: 234.7378pt x 187.78732pt.
+
+Overfull \hbox (64.3171pt too wide) has occurred while \output is active
+\OT1/ptm/m/sl/12 1.6.  THE FAIRNESS OF ADDITIVE INCREASE, MULTIPLICATIVE DECREA
+SE WITH FIFO QUEUES \OT1/ptm/m/n/12 25
+ []
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[25]
+Overfull \hbox (1.0599pt too wide) in paragraph at lines 719--719
+[]\OT1/ptm/b/sc/14.4 Additive In-crease, Mul-ti-plica-tive De-crease with one U
+p-
+ []
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[26 <./ss-eps-converted-to.pdf>]
+Overfull \hbox (64.3171pt too wide) has occurred while \output is active
+\OT1/ptm/m/sl/12 1.6.  THE FAIRNESS OF ADDITIVE INCREASE, MULTIPLICATIVE DECREA
+SE WITH FIFO QUEUES \OT1/ptm/m/n/12 27
+ []
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[27]
+Overfull \hbox (1.0599pt too wide) in paragraph at lines 874--874
+[]\OT1/ptm/b/sc/14.4 Additive In-crease, Mul-ti-plica-tive De-crease with one U
+p-
+ []
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[28]) (D32.tex
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[29]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[30
+
+]
+Chapter 2.
+(D32common.tex [31]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[32]
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 127.
+
+ ("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\ot1pcr.fd"
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+Package epstopdf Info: Source file: <D32F1.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 64401 bytes
+(epstopdf)             Output file: <D32F1-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:44
+(epstopdf)                    size: 3999 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D32F1-eps-converted-
+to.pdf D32F1.eps>
+(epstopdf)             \includegraphics on input line 156.
+Package epstopdf Info: Output file is already uptodate.
+<D32F1-eps-converted-to.pdf, id=241, 724.7075pt x 445.665pt>
+File: D32F1-eps-converted-to.pdf Graphic file (type pdf)
+<use D32F1-eps-converted-to.pdf>
+Package pdftex.def Info: D32F1-eps-converted-to.pdf  used on input line 156.
+(pdftex.def)             Requested size: 281.68513pt x 173.22382pt.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[33 <./D32F1-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <D32F2.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 141741 bytes
+(epstopdf)             Output file: <D32F2-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:45
+(epstopdf)                    size: 10547 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D32F2-eps-converted-
+to.pdf D32F2.eps>
+(epstopdf)             \includegraphics on input line 220.
+Package epstopdf Info: Output file is already uptodate.
+<D32F2-eps-converted-to.pdf, id=249, 790.955pt x 488.82625pt>
+File: D32F2-eps-converted-to.pdf Graphic file (type pdf)
+<use D32F2-eps-converted-to.pdf>
+Package pdftex.def Info: D32F2-eps-converted-to.pdf  used on input line 220.
+(pdftex.def)             Requested size: 328.62788pt x 203.0978pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (49.50403pt too wide) in paragraph at lines 242--242
+ []                \OT1/pcr/m/n/12 twnd = twnd + (segment size) * (segment size
+) / twnd[] 
+ []
+
+
+Overfull \hbox (42.30403pt too wide) in paragraph at lines 248--248
+ []                \OT1/pcr/m/n/12 if (cwnd == twnd) then move to congestion av
+oidance[] 
+ []
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[34]
+Package epstopdf Info: Source file: <D32F3.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 81451 bytes
+(epstopdf)             Output file: <D32F3-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:46
+(epstopdf)                    size: 5388 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D32F3-eps-converted-
+to.pdf D32F3.eps>
+(epstopdf)             \includegraphics on input line 287.
+Package epstopdf Info: Output file is already uptodate.
+<D32F3-eps-converted-to.pdf, id=253, 453.695pt x 195.73125pt>
+File: D32F3-eps-converted-to.pdf Graphic file (type pdf)
+<use D32F3-eps-converted-to.pdf>
+Package pdftex.def Info: D32F3-eps-converted-to.pdf  used on input line 287.
+(pdftex.def)             Requested size: 187.78531pt x 81.0119pt.
+Package epstopdf Info: Source file: <D32F4.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 89043 bytes
+(epstopdf)             Output file: <D32F4-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:46
+(epstopdf)                    size: 5766 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D32F4-eps-converted-
+to.pdf D32F4.eps>
+(epstopdf)             \includegraphics on input line 299.
+Package epstopdf Info: Output file is already uptodate.
+<D32F4-eps-converted-to.pdf, id=254, 461.725pt x 201.75375pt>
+File: D32F4-eps-converted-to.pdf Graphic file (type pdf)
+<use D32F4-eps-converted-to.pdf>
+Package pdftex.def Info: D32F4-eps-converted-to.pdf  used on input line 299.
+(pdftex.def)             Requested size: 187.78531pt x 82.05461pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+Package epstopdf Info: Source file: <D32F7.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 73649 bytes
+(epstopdf)             Output file: <D32F7-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:47
+(epstopdf)                    size: 6481 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D32F7-eps-converted-
+to.pdf D32F7.eps>
+(epstopdf)             \includegraphics on input line 312.
+Package epstopdf Info: Output file is already uptodate.
+<D32F7-eps-converted-to.pdf, id=255, 588.1975pt x 150.5625pt>
+File: D32F7-eps-converted-to.pdf Graphic file (type pdf)
+<use D32F7-eps-converted-to.pdf>
+Package pdftex.def Info: D32F7-eps-converted-to.pdf  used on input line 312.
+(pdftex.def)             Requested size: 281.68513pt x 72.10376pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[35 <./D32F2-eps-converted-to.pdf> <./D32F3-eps-converted-to.pdf>]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[36 <./D32F4-eps-converted-to.pdf> <./D32F7-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <D32F5.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 79435 bytes
+(epstopdf)             Output file: <D32F5-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:48
+(epstopdf)                    size: 6140 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D32F5-eps-converted-
+to.pdf D32F5.eps>
+(epstopdf)             \includegraphics on input line 376.
+Package epstopdf Info: Output file is already uptodate.
+<D32F5-eps-converted-to.pdf, id=274, 606.265pt x 264.99pt>
+File: D32F5-eps-converted-to.pdf Graphic file (type pdf)
+<use D32F5-eps-converted-to.pdf>
+Package pdftex.def Info: D32F5-eps-converted-to.pdf  used on input line 376.
+(pdftex.def)             Requested size: 328.62788pt x 143.63832pt.
+Package epstopdf Info: Source file: <D32F6.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 71966 bytes
+(epstopdf)             Output file: <D32F6-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:48
+(epstopdf)                    size: 4276 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D32F6-eps-converted-
+to.pdf D32F6.eps>
+(epstopdf)             \includegraphics on input line 387.
+Package epstopdf Info: Output file is already uptodate.
+<D32F6-eps-converted-to.pdf, id=275, 667.49374pt x 411.5375pt>
+File: D32F6-eps-converted-to.pdf Graphic file (type pdf)
+<use D32F6-eps-converted-to.pdf>
+Package pdftex.def Info: D32F6-eps-converted-to.pdf  used on input line 387.
+(pdftex.def)             Requested size: 281.68513pt x 173.67346pt.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[37 <./D32F5-eps-converted-to.pdf> <./D32F6-eps-converted-to.pdf>]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[38]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[39]
+LaTeX Font Info:    Font shape `OMS/ptm/m/it' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 567.
+Package epstopdf Info: Source file: <D32F8.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 46674 bytes
+(epstopdf)             Output file: <D32F8-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:49
+(epstopdf)                    size: 4178 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=D32F8-eps-converted-
+to.pdf D32F8.eps>
+(epstopdf)             \includegraphics on input line 627.
+Package epstopdf Info: Output file is already uptodate.
+<D32F8-eps-converted-to.pdf, id=292, 870.25125pt x 279.0425pt>
+File: D32F8-eps-converted-to.pdf Graphic file (type pdf)
+<use D32F8-eps-converted-to.pdf>
+Package pdftex.def Info: D32F8-eps-converted-to.pdf  used on input line 627.
+(pdftex.def)             Requested size: 328.62788pt x 105.37302pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[40]
+Overfull \hbox (4.91254pt too wide) in paragraph at lines 711--711
+[]\OT1/ptm/b/sc/17.28 Other Mech-a-nisms for TCP Con-ges-tion Con-trol 
+ []
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[41 <./D32F8-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <cubic1.eps>
+(epstopdf)                    date: 2018-09-18 12:03:44
+(epstopdf)                    size: 1203789 bytes
+(epstopdf)             Output file: <cubic1-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-09-25 14:42:21
+(epstopdf)                    size: 101928 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=cubic1-eps-converted
+-to.pdf cubic1.eps>
+(epstopdf)             \includegraphics on input line 723.
+Package epstopdf Info: Output file is already uptodate.
+<cubic1-eps-converted-to.pdf, id=302, 407.5225pt x 320.19624pt>
+File: cubic1-eps-converted-to.pdf Graphic file (type pdf)
+<use cubic1-eps-converted-to.pdf>
+Package pdftex.def Info: cubic1-eps-converted-to.pdf  used on input line 723.
+(pdftex.def)             Requested size: 267.6016pt x 210.26506pt.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[42 <./cubic1-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <cubic2.eps>
+(epstopdf)                    date: 2018-09-18 17:43:41
+(epstopdf)                    size: 313635 bytes
+(epstopdf)             Output file: <cubic2-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-09-25 14:42:24
+(epstopdf)                    size: 36687 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=cubic2-eps-converted
+-to.pdf cubic2.eps>
+(epstopdf)             \includegraphics on input line 755.
+Package epstopdf Info: Output file is already uptodate.
+<cubic2-eps-converted-to.pdf, id=341, 706.64pt x 279.0425pt>
+File: cubic2-eps-converted-to.pdf Graphic file (type pdf)
+<use cubic2-eps-converted-to.pdf>
+Package pdftex.def Info: cubic2-eps-converted-to.pdf  used on input line 755.
+(pdftex.def)             Requested size: 464.77832pt x 183.5342pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[43]
+
+LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 78
+1.
+
+
+LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 78
+4.
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[44 <./cubic2-eps-converted-to.pdf>]
+
+LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 81
+2.
+
+
+LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 81
+4.
+
+Package epstopdf Info: Source file: <cubict.eps>
+(epstopdf)                    date: 2018-09-19 16:27:01
+(epstopdf)                    size: 1020572 bytes
+(epstopdf)             Output file: <cubict-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-09-25 14:42:27
+(epstopdf)                    size: 129961 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=cubict-eps-converted
+-to.pdf cubict.eps>
+(epstopdf)             \includegraphics on input line 820.
+Package epstopdf Info: Output file is already uptodate.
+<cubict-eps-converted-to.pdf, id=373, 416.55624pt x 324.21124pt>
+File: cubict-eps-converted-to.pdf Graphic file (type pdf)
+<use cubict-eps-converted-to.pdf>
+Package pdftex.def Info: cubict-eps-converted-to.pdf  used on input line 820.
+(pdftex.def)             Requested size: 234.73523pt x 182.69983pt.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[45 <./cubict-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <bloat.eps>
+(epstopdf)                    date: 2018-09-20 14:46:15
+(epstopdf)                    size: 331094 bytes
+(epstopdf)             Output file: <bloat-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-09-25 14:42:29
+(epstopdf)                    size: 31408 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=bloat-eps-converted-
+to.pdf bloat.eps>
+(epstopdf)             \includegraphics on input line 833.
+Package epstopdf Info: Output file is already uptodate.
+<bloat-eps-converted-to.pdf, id=412, 784.9325pt x 411.5375pt>
+File: bloat-eps-converted-to.pdf Graphic file (type pdf)
+<use bloat-eps-converted-to.pdf>
+Package pdftex.def Info: bloat-eps-converted-to.pdf  used on input line 833.
+(pdftex.def)             Requested size: 328.62788pt x 172.29825pt.
+Package epstopdf Info: Source file: <d32-red-1.eps>
+(epstopdf)                    date: 2010-07-16 15:59:42
+(epstopdf)                    size: 117845 bytes
+(epstopdf)             Output file: <d32-red-1-eps-converted-to.pdf>
+(epstopdf)                    date: 2012-08-23 18:35:50
+(epstopdf)                    size: 30562 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=d32-red-1-eps-conver
+ted-to.pdf d32-red-1.eps>
+(epstopdf)             \includegraphics on input line 903.
+Package epstopdf Info: Output file is already uptodate.
+<d32-red-1-eps-converted-to.pdf, id=413, 528.97626pt x 261.97874pt>
+File: d32-red-1-eps-converted-to.pdf Graphic file (type pdf)
+<use d32-red-1-eps-converted-to.pdf>
+Package pdftex.def Info: d32-red-1-eps-converted-to.pdf  used on input line 903
+.
+(pdftex.def)             Requested size: 234.73523pt x 116.25438pt.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[46 <./bloat-eps-converted-to.pdf>]
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[47 <./d32-red-1-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <ecn.eps>
+(epstopdf)                    date: 2018-09-20 18:25:56
+(epstopdf)                    size: 915979 bytes
+(epstopdf)             Output file: <ecn-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-09-25 14:42:32
+(epstopdf)                    size: 121175 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=ecn-eps-converted-to
+.pdf ecn.eps>
+(epstopdf)             \includegraphics on input line 1007.
+Package epstopdf Info: Output file is already uptodate.
+<ecn-eps-converted-to.pdf, id=452, 743.77875pt x 386.44376pt>
+File: ecn-eps-converted-to.pdf Graphic file (type pdf)
+<use ecn-eps-converted-to.pdf>
+Package pdftex.def Info: ecn-eps-converted-to.pdf  used on input line 1007.
+(pdftex.def)             Requested size: 281.68513pt x 146.35483pt.
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[48 <./ecn-eps-converted-to.pdf>]
+
+LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 10
+29.
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[49]
+Package epstopdf Info: Source file: <cbq.eps>
+(epstopdf)                    date: 2018-09-25 15:24:39
+(epstopdf)                    size: 669311 bytes
+(epstopdf)             Output file: <cbq-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-09-25 15:24:57
+(epstopdf)                    size: 71910 bytes
+(epstopdf)             Command: <miktex-epstopdf --outfile=cbq-eps-converted-to
+.pdf cbq.eps>
+(epstopdf)             \includegraphics on input line 1107.
+Package epstopdf Info: Output file is already uptodate.
+<cbq-eps-converted-to.pdf, id=485, 747.79375pt x 326.21875pt>
+File: cbq-eps-converted-to.pdf Graphic file (type pdf)
+<use cbq-eps-converted-to.pdf>
+Package pdftex.def Info: cbq-eps-converted-to.pdf  used on input line 1107.
+(pdftex.def)             Requested size: 375.57779pt x 163.84068pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[50]
+Overfull \hbox (1.51227pt too wide) in paragraph at lines 1121--1122
+[]\OT1/ptm/m/n/12 The his-tor-i-cal ver-sion of con-ges-tion con-trol was in-tr
+o-duced in TCP-Reno. Its loss-throughput
+ []
+
+
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[51 <./cbq-eps-converted-to.pdf>])) (cc.bbl
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[52] [53
+
+])
+Overfull \vbox (8.18385pt too high) has occurred while \output is active []
+
+
+[54] (cc.aux) ) 
+Here is how much of TeX's memory you used:
+ 10696 strings out of 492902
+ 183047 string characters out of 3133542
+ 241147 words of memory out of 3000000
+ 14290 multiletter control sequences out of 15000+200000
+ 85106 words of font info for 164 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 43i,9n,43p,1393b,356s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Fil
+es/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Program Files/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pub
+lic/amsfonts/symbols/msbm10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/co
+urier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.p
+fb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb><C:/Progra
+m Files/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Program Files/MiKTeX 2.9
+/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/
+times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+Output written on cc.pdf (54 pages, 1084137 bytes).
+PDF statistics:
+ 581 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 131 words of extra memory for PDF output out of 10000 (max. 10000000)
+

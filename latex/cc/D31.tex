@@ -1,0 +1,981 @@
+% modified LEB Nov 2002, based on input by BOZ
+\chapter{Congestion Control for Best Effort: Theory}
+\label{d31}
+In this chapter you learn
+\begin{itemize}
+        \item  why it is necessary to perform congestion control
+
+        \item  the additive increase, multiplicative decrease rule
+
+        \item  the three forms of congestion control schemes
+
+        \item  max-min fairness, proportional fairness
+
+\end{itemize}
+
+This chapter gives the theoretical basis required for Congestion Control in the Internet.
+
+\section{The objective of congestion control}
+
+\subsection{Congestion Collapse}
+\label{sec-d31-why}
+\input{d31CongCol}
+\subsection{Efficiency versus Fairness}
+\input{d31FairVsEff}
+
+%In summary, the objective of congestion control is to provide both
+%efficiency and some form of fairness. We will study fairness in
+%more detail now.
+
+\section{Fairness}
+
+\subsection{Max-Min Fairness}
+\input{d31MaxMin}
+\subsection{Proportional Fairness}
+\input{d31PropFair}
+\subsection{Utility Approach to Fairness}
+\input{d31UtilFair}
+\subsection{Max Min Fairness as a limiting case of Utility Fairness}
+We show in this section that max-min fairness is the limiting case
+of a utility fairness. Indeed, we can define a set of concave,
+increasing utility functions $f_m$, indexed by $m \in \Reals^+$
+such that the allocation $\vec{x^m}$ which maximizes
+$\sum_{i=1}^{I} f_m(x_i)$ over the set of feasible allocations
+converges towards the max-min fair allocation.
+
+The proof is a correct version of the ideas expressed in
+\cite{mo-98-a} and later versions of it.
+
+Let $f_m$ be a family of increasing, differentiable and concave
+functions defined on $\Reals^+$. Assume that, for any fixed
+numbers $x$ and $\delta
+>0$,
+\begin{equation}\mylabel{eq-deffm}
+  \lim_{m \rightarrow + \infty} \frac{f'_m(x+\delta)}{f'_m(x)}=0
+\end{equation}
+% modified Nov 2002, based on input by BOZ
+%\begin{equation}\mylabel{eq-deffm}
+%  \lim_{m \rightarrow + \infty} \frac{f_m(x)}{f_m(x+\delta)}=0
+%\end{equation}
+
+The assumption on $f_m$ is satisfied if $f_m$ is defined by
+ $$f_m(x) = c - g(x)^m
+ $$
+where $c$ is a constant and $g$ is a differentiable, decreasing,
+convex and positive function. For example, consider
+ $f_m(x) = 1 - \frac{1}{x^m}$.
+
+Define $\vec{x}^m$ the unique allocation which maximizes
+$\sum_{i=1}^{I} f_m(x_i)$ over the set of feasible allocations.
+Thus  $\vec{x}^m$ is the fair allocation of rates, in the sense of
+utility fairness defined by $f_m$. The existence of this unique
+allocation follows from the same reasoning as for
+Theorem~\ref{theo-pf}. Our result if the following theorem.
+
+\begin{theorem}
+\mylabel{theo-approx} The set of utility-fair allocation
+$\vec{x}^m$ converges towards the max-min fair allocation as $m$
+tends to $+\infty$.
+\end{theorem}
+The rest of this section is devoted to the proof of the theorem.
+We start with a definition and a lemma.
+
+\begin{definition}
+We say that a vector $\vec{z}$ is an accumulation point for a set
+of vectors $\vec{x}_m$ indexed by $m\in \Reals^+$ if there exists
+a sequence $m_n, n\in \Nats$, with $\lim_{n \rightarrow + \infty}
+m_n = + \infty$ and $\lim_{n \rightarrow + \infty} \vec{x}^{m_n} =
+\vec{z}$.
+\end{definition}
+
+\begin{lemma}
+If $\vec{x}^*$ is an accumulation point for the set of vectors
+$\vec{x}^{m}$, then $\vec{x}^*$ is the max-min fair allocation.
+\end{lemma}
+\paragraph{Proof of Lemma: }
+We give the proof for the case where $A_{l,i} \in \{0, 1\}$; in
+the general case the proof is similar We proceed by contradiction.
+Assume that $\vec{x^*}$ is not max-min fair. Then, from
+Theorem~\ref{theo-bn}, there is some source $i$ which has no
+bottleneck. Call $L_1$ the set (possibly empty) of saturated links
+used by $i$, and $L_2$ the set of other links used by $i$. For
+every link $l \in L_1$, we can find some source $\sigma(l)$ which
+uses $l$ and such that $x^*_{\sigma(l)} > x^*_i$. Define $\delta$
+by
+ $$ \delta = \frac{1}{5} \min \left\{
+ \min_{l \in L1} ( x^*_{\sigma(l)} - x^*_i), \;
+ \min_{l \in L2} ( c_l -(A\vec{x}^*)_{l})
+ \right\}
+ $$
+The term $c_l - (A\vec{x}^*)_{l}$ in the last part of the
+expression is the unused capacity on link $l$. We also use the
+convention that the minimum of an empty set is $+ \infty$.
+
+%Now note that, for $n$ large enough, (say $n \geq n_0$), the
+%allocation $\vec{x}^{m_n}$ is such that the set of saturated links
+%used by source $i$ is included in $L_1$. Indeed, if this would not
+%be true, there would be some link $l$ not in $L_1$ and an infinite
+%number of values of $n$ for which link $l$ is saturated for
+%allocation $\vec{x}^{m_n}$. Thus, by continuity of the mapping
+%$\vec{x}^m \rightarrow (A\vec{x}^*)_l$, link $l$ is also saturated
+%for allocation $\vec{x}^*$, which is a contradiction.
+
+From the convergence of $\vec{x}^{m_n}$ to $\vec{x}^*$, we can
+find some $n_0$ such that, for all $n \geq n_0$ and for all $j$ we
+have
+\begin{equation}\mylabel{eq-defdesx}
+   x^*_j - \frac{\delta}{I} \leq x^{m_n}_j \leq  x^*_j + \frac{\delta}{I}
+\end{equation}
+where $I$ is the number of sources. Now we construct, for all $n
+\geq n_0$, an allocation $\vec{y}^n$ which will lead to a
+contradiction. Define
+ $$
+  \left\{
+  \begin{array}{rcl}
+   y^n_i &=& x^{m_n}_i + \delta \\
+   y^n_{\sigma(l)} &=&x^{m_n}_{\sigma(l)} - \delta \mbox{ for } l \in L_1\\
+   y^n_j&=&x^{m_n}_j  \; \; \mbox{ otherwise}
+  \end{array}
+  \right.
+ $$
+
+We prove first that the allocation $\vec{y}^n$ is feasible.
+Firstly, we show that the rates are non-negative. From
+Equation~(\ref{eq-defdesx}), we have, for all $l \in L_1$
+ $$
+ x^{m_n}_{\sigma(l)} \geq x^*_{\sigma(l)} - \frac{\delta}{I}
+ \geq x^*_{\sigma(l)} - \delta
+ $$
+ thus, from the definition of $\delta$:
+\begin{equation}\mylabel{eq-3del}
+ y^n_{\sigma(l)} \geq x^*_{\sigma(l)} - 2 \delta \geq  x^*_i + 3 \delta
+\end{equation}
+This shows that $y^n_j \geq 0$ for all $j$.
+
+Secondly, we show that the total flow on every link is bounded by
+the capacity of the link. We need to consider only the case of
+links $l \in (L_1 \cup L_2)$. If $l \in L_1$ then
+$$(A\vec{y}^n)_{l} \leq (A\vec{x}^{m_n})_{l}+ \delta - \delta = (A\vec{x}^{m_n})_{l}$$
+thus the condition is satisfied. Assume now that $l \in L_2$. We
+have then
+ $$
+(A\vec{y}^n)_{l} = (A\vec{x}^{m_n})_{l} + \delta $$
+ Now, from Equation~(\ref{eq-defdesx})
+ $$
+ (A\vec{x}^{m_n})_{l} \leq (A\vec{x}^{*})_{l} + I \frac{\delta}{I}
+ =(A\vec{x}^{*})_{l} + \delta
+ $$
+ Thus, from the definition of $\delta$:
+ $$
+ (A\vec{y}^n)_{l} \leq (A\vec{x}^{*})_{l} + 2 \delta \leq c
+ $$
+which ends the proof that $\vec{y}^n$ is a feasible allocation.
+
+Now we show that, for $n$ large enough, we have a contradiction
+with the optimality of $\vec{x}^{m_n}$. Consider the expression
+$A$ defined by
+$$A =
+ \sum_j \left(f_{m_n}(y^{n}_j) - f_{m_n}(x^{m_n}_j)\right)
+ $$
+ From the optimality of $\vec{x}^{m_n}$,  we have: $A \leq 0$.
+
+Now
+$$A = f_{m_n}(x^{m_n}_i + \delta) - f_{m_n}(x^{m_n}_i ) +
+\sum_{l \in L_1} \left(f_{m_n}(x^{m_n}_{\sigma(l)}-\delta) -
+f_{m_n}(x^{m_n}_{\sigma(l)})\right)
+$$
+
+From the theorem of intermediate values, there exist numbers
+$c^{n}_i$ such that
+$$
+\bracket{
+ x^{m_n}_i \leq c^{n}_i \leq x^{m_n}_i + \delta \\
+ f_{m_n}(x^{m_n}_i + \delta) - f_{m_n}(x^{m_n}_i ) =
+ f'_{m_n}(c^{n}_i)\delta
+ }
+$$
+where $f'_{m_n}$ is the right-derivative of $f_{m_n}$. Combining
+with Equation~(\ref{eq-defdesx}) we find
+\begin{equation}\mylabel{eq-ci}
+c^{n}_i \leq x^*_i +  \frac{\delta}{I} + \delta \leq x^*_i + 2
+\delta
+\end{equation}
+
+Similarly, there exist some numbers $c^{n}_{\sigma(l)}$ such that
+$$
+\bracket{
+ x^{m_n}_{\sigma(l)}  -  \delta \leq c^{n}_{\sigma(l)}+ \delta \leq x^{m_n}_{\sigma(l)}+
+ \delta \\
+ f_{m_n}(x^{m_n}_{\sigma(l)} - \delta) - f_{m_n}(x^{m_n}_{\sigma(l)} ) =
+ - f'_{m_n}(c^{n}_{\sigma(l)})\delta
+ }
+$$
+and combining with Equation~(\ref{eq-defdesx}) we find also
+\begin{equation}\mylabel{eq-cj}
+c^{n}_{\sigma(l)} \geq x^*_i +  3 \delta
+\end{equation}
+Thus
+$$
+A = \delta \left(
+ f'_{m_n}(c^{n}_i)
+ -
+ \sum_{l \in L_1} f'_{m_n}(c^{n}_{\sigma(l)})
+  \right)
+$$
+Now $f'_{m_n}$ is wide-sense decreasing ($f_{m_n}$ is concave)
+thus, combining with Equations~(\ref{eq-ci}) and~(\ref{eq-cj}):
+$$A
+\geq \delta \left(f'_{m_n}(x^*_i + 2 \delta) - M  f'_{m_n}(x^*_i + 3 \delta)\right) = \delta
+f'_{m_n}(x^*_i + 2 \delta) \left( 1- M \frac{f'_{m_n}(x^*_i + 3 \delta)}{f'_{m_n}(x^*_i + 2
+\delta)} \right)
+$$
+where $M$ is the cardinal of set $L_1$. Now from
+Equation~(\ref{eq-deffm}), the last term in the above equation
+tends to $1$ as $n$ tends to infinity. Now $f'_{m_n} >0$ from our
+assumptions thus, for $n$ large enough, we have $A >0$, which is
+the required contradiction.
+
+\paragraph{Proof of Theorem: }
+
+The set of vectors $\vec{x}^m$ is in a compact (= closed +
+bounded) subset of $\Reals^I$; thus, it has at least one
+accumulation point. From the uniqueness of the max-min fair
+vector, it follows that the set of vectors $\vec{x}^m$ has a
+unique accumulation point, which is equivalent to saying that
+$$
+\lim_{m \rightarrow + \infty} \vec{x}^m = \vec{x}^*
+$$
+\qed
+
+\section{Different forms of congestion control}
+
+We can consider that there are three families of solutions for
+congestion control.
+\begin{description}
+        \item[Rate Based: ]  Sources know an explicit rate at which they can
+        send. The rate may be given to the source during a negotiation
+        phase;
+        this is the case with ATM or RSVP. In such cases, we have a network
+        with reservation. Alternatively, the rate may be imposed
+        dynamically to the source by the network; this is the case
+        for the ABR class of ATM. In such cases we have a best effort
+        service (since the source cannot be sure of how long a given rate
+        will remain valid), with explicit rate. In the example of the
+        previous section, source 1 would obtain a rate not exceeding 10 kb/s.
+
+        \item[Hop by Hop: ] A source needs some feedback from the next hop in
+        order to send any amount of data. The next hop also must obtain some
+        feedback from the following hop and so on. The feedback may be positive
+        (credits) or negative (backpressure). In the simplest form, the
+        protocol is stop and go. In the example of the
+        previous section, node X would be prevented by node Y from sending
+        source 2 traffic at a rate higher than 10kb/s; source 2 would then
+        be throttled by node X. Hop by hop control is used
+        with full duplex Ethernets using 802.3x frames called ``Pause''
+        frames.
+
+        \item[End-to-end:] A source continuously obtains feedback from all
+        downstream nodes it uses.  The feedback is piggybacked in packets
+        returning towards the source, or it may simply be the detection of
+        a missing packet.  Sources react to negative feedback by reducing
+        their rate, and to positive feedback by increasing it.  The
+        difference with hop-by-hop control is that the intermediate nodes
+        take no action on the feedback; all reactions to feedback are left
+        to the sources.  In the example of the previous section, node Y
+        would mark some negative information in the flow of source 2 which would be
+        echoed to the source by destination D2; the source would then react
+        by reducing the rate, until it reaches 10 kb/s, after which there
+        would be no negative feedback. Alternatively, source 2 could detect
+        that a large fraction of packets is lost, reduce its rate, until
+        there is little loss. In broad terms, this is the method invented for
+        Decnet, which is now used after some modification in the Internet.
+
+\end{description}
+
+        In the following section we focus on end-to-end control.
+
+\section{Max-min fairness with fair queuing}
+Consider a network implementing fair queuing per flow. This is
+equivalent to generalized processor sharing (GPS) with equal
+weights for all flows. With fair queuing, all flows that have data
+in the node receive an equal amount of service per time slot.
+
+Assume all sources adjust their sending rates such that there is
+no loss in the network. This can be implemented by using a sliding
+window, with a window size which is large enough, namely, the
+window size should be as large as the smallest rate that can be
+allocated by the source, multiplied by the round trip time.
+Initially, a source starts sending with a large rate; but in order
+to sustain the rate, it has to receive acknowledgements. Thus,
+finally, the rate of the source is limited to the smallest rate
+allocated by the network nodes. At the node that allocates this
+minimum rate, the source has a rate which is as high as the rate
+of any other sources using this node. Following this line of
+thoughts, the alert reader can convince herself that this node is
+a bottleneck link for the source, thus the allocation is max-min
+fair. The detailed proof is complex and is given in
+\cite{Hahne91}.
+
+\begin{proposition}
+A large sliding window at the sources plus fair queuing in the
+nodes implements max-min fairness.
+\end{proposition}
+
+
+Fixed window plus fair queuing is a possible solution to
+congestion control. It is implemented in some (old) proprietary
+networks such as IBM SNA.
+
+Assume now that we relax the assumption that sources are using a
+window. Assume thus that sources send at their maximum rate,
+without feedback from the network, but that the network implements
+fair queuing per flow. Can congestion collapse occur as in
+Section~\ref{sec-d31-why}?
+
+Let us start first with a simple scenario with only one network
+link of capacity $C$. Assume there are $N$ sources, and the only
+constraint on source $i$ is a rate limit $r_i$. Thus, sources for
+which $r_i \leq \frac{C}{N}$ have a throughput equal to $r_i$ and
+thus experience no loss. If some sources have a rate $r_i <
+\frac{C}{N}$, then there is some extra capacity which can will be
+used to serve the backlog of other sources. This distribution will
+follow the algorithm of progressive filling, thus the capacity
+will be distributed according to max-min fairness, \emph{in the
+case of a single node}.
+
+In the multiple node case, things are not as nice, as we show now on
+the following example. The network is as on Figure~\ref{D31-f1}.
+There is 1 source at S1, which sends traffic to D1. There are 10
+sources at S2, which all send traffic to D2. Nodes X and Y implement
+fair queuing per flow. Capacities are :
+\begin{itemize}
+  \item 11 Mb/s for link X-Y
+  \item 10 Mb/s for link Y-D1
+  \item 1 Mb/s for link Y-D1
+\end{itemize}
+
+Every source receives 1 Mb/s at node X. The S1- source keeps its
+share at Y. Every S2 source experiences 90\% loss rate at Y and
+has a final rate of 0.1 Mb/s.
+
+Thus finally, the useful rate for every source is
+  \begin{itemize}
+  \item 1 Mb/s for a source at S1
+ \item 0.1 Mb/s for a source at S2
+  \end{itemize}
+
+The max-min fair share is
+ \begin{itemize}
+  \item 10 Mb/s for a source at  S1
+ \item 0.1 Mb/s for a source at S2
+\end{itemize}
+
+Thus fair queuing alone is not sufficient to obtain max-min
+fairness. However, we can say that if all nodes in a network
+implement fair queuing per flow, the throughput for any source $s$
+is at least $\min_{l \mst l \in s }\frac{C_l}{N_l}$, where $C_l$ is
+the capacity of link $l$, and $N_l$ is the number of active sources
+at node $l$. This implies that congestion collapse as described
+earlier is avoided.
+
+
+\section{Additive increase,
+Multiplicative decrease and Slow-Start}
+
+End-to-end congestion control in packet networks is based on binary
+feedback and the adaptation mechanisms of additive increase,
+multiplicative decrease and slow start. We describe here a
+motivation for this approach. It comes from the following modeling,
+from \cite{CJ89}. Unlike the fixed window mentioned earlier, binary
+feedback does not require fair queuing, but can be implemented with
+FIFO queues. This is why it is the preferred solution today.
+
+\subsection{Additive Increase, Multiplicative Decrease}
+Assume $I$ sources, labeled $i=1,\ldots, I$ send data at
+a time dependent rate $x_{i}(t)$, into a network constituted of one
+buffered link, of rate $c$.  We assume that time is discrete ($t \in
+\Nats$), and that the feedback cycle lasts exactly one time unit.
+During one time cycle of duration 1 unit of time, the source rates
+are constant, and the network generates a binary feedback signal
+$y(t) \in \{0, 1 \}$, sent to all sources. Sources react to the
+feedback by increasing the rate if $y(t)=0$, and decreasing if
+$y(t)=1$. The exact method by which this is done is called the
+adaptation algorithm. We further assume that the feedback is defined
+by
+$$
+y(t) = [ \mif (\sum_{i=1}^I x_{i}(t) \leq c ) \mthen  0 \melse 1 ]
+$$
+The value $c$ is the target rate which we wish the system not to
+exceed. At the same time we wish that the total traffic be as
+close to $c$ as possible.
+
+We are looking for a linear adaptation algorithm, namely, there
+must exist constants $u_{0}, u_{1}$ and $v_{0}, v_{1}$ such that
+
+\begin{equation}
+        x_{i}(t+1) = u_{y(t)} x_{i}(t) + v_{y(t)}
+        \label{eq-theo-addmul1}
+\end{equation}
+
+We want the adaptation algorithm to converge towards a fair
+allocation. In this simple case, there is one single bottleneck
+and all fairness criteria are equivalent. At equilibrium, we
+should have $x_{i}= \frac{c}{I}$. However, a simple adaptation
+algorithm as described above cannot converge, but in contrast,
+oscillates around the ideal equilibrium.
+
+We now derive a number of necessary conditions. First, we would
+like the rates to increase when the feedback is $0$, and to
+decrease otherwise. Call $f(t)=\sum_{i=1}^I x_{i}(t)$. We have
+
+\begin{equation}
+        f(t+1) = u_{y(t)} f(t) + v_{y(t)}
+        \label{eq-jain-48}
+\end{equation}
+Now our condition implies that, for all $f \geq 0$:
+$$
+u_{0}f + v_{0} > f
+$$
+and
+$$
+u_{1}f + v_{1} < f
+$$
+This gives the following necessary conditions
+ \begin{equation}
+ \left \{
+        \begin{array}{cc}
+        u_{1} < 1 & \mand v_{1} \leq 0  \\
+        \mor \\
+        u_{1} = 1 & \mand v_{1} < 0
+        \end{array}
+ \right.
+        \label{eq-jain-1}
+ \end{equation}
+and
+\begin{equation}
+ \left \{
+        \begin{array}{cc}
+        u_{0} > 1 & \mand v_{0} \geq 0  \\
+        \mor \\
+        u_{0} = 1 & \mand v_{0} > 0
+        \end{array}
+ \right.
+        \label{eq-jain-2}
+ \end{equation}
+
+The conditions above imply that the total rate $f(t)$ remains
+below $c$ until it exceeds it once, then returns below $c$. Thus
+the total rate $f(t)$ oscillates around the desired equilibrium.
+
+Now we also wish to ensure fairness.  A first step is to measure
+how much a given rate allocation deviates from fairness.  We
+follow the spirit of \cite{CJ89} and use as a measure of
+unfairness the distance between the rate allocation $\vec{x}$ and
+its nearest fair allocation $\Pi(\vec{x})$, where $\Pi$ is the
+orthogonal projection on the set of fair allocations, normalized
+by the length of the fair allocation (Figure~\ref{fig-jain-1}).
+\begin{figure}[h]
+        \insfig{D31F4}{0.6}
+        \mycaption{The measure of unfairness is $\tan(\alpha)$. The figure
+        shows the effect on fairness of an increase or a decrease. The
+        vector $\vec{1}$ is defined by $\vec{1}_{i}=1$ for all $i$.}
+        \protect\label{fig-jain-1}
+\end{figure}
+In other words, the measure of unfairness is
+$$d(\vec{x}) = \frac{||\vec{x} - \Pi(\vec{x})||}{||\Pi(\vec{x})||}$$
+with $\Pi(\vec{x})_{i}= \frac{\sum_{j=1}^I x_{j}  }{ I}$ and the
+norm is the standard euclidian norm defined by $||\vec{y}|| =
+\sqrt{\sum_{j=1}^I y_{j}^2}$ for all $\vec{y}$.
+
+Now we can study the effect of the linear control on fairness.
+Figure~\ref{fig-jain-1}) illustrates that: (1) when we apply a
+multiplicative increase or decrease, the unfairness is unchanged;
+(2) in contrast, an additive increase decreases the unfairness,
+whereas an additive decrease increases the unfairness.
+
+We wish to design an algorithm such that at every step, unfairness
+decreases or remains the same, and such that in the long term it
+decreases. Thus,  we must have $v_{1}=0$, in other words, the
+decrease must be multiplicative, and the increase must have a
+non-zero additive component. Moreover, if we want to converge as
+quickly as possible towards, fairness, then we must have
+$u_{0}=0$. In other words, the increase should be purely additive.
+In summary we have shown that:
+\begin{fact}
+Consider a linear adaptation algorithm of the form in
+Equation~\ref{eq-theo-addmul1}. In order to satisfy efficiency and
+convergence to fairness, we must have a multiplicative decrease
+(namely, $u_{1}<1$ and $v_{1}=0$) and a non-zero additive
+component in the increase (namely, $u_{0}\geq 1$ and $v_{0}>0$).
+If we want to favour a rapid convergence towards fairness, then
+the increase should be additive only (namely, $u_{0}= 1$ and
+$v_{0}>0$). \label{fact-addmul}
+\end{fact}
+
+The resulting algorithm is called Additive Increase Multiplicative
+Decrease (\aref{alg:aimd}).
+
+\begin{algorithm}
+\caption{Additive Increase Multiplicative Decrease (\nt{AIMD}) with
+increase term $v_0>0$ and decrease factor
+$0<u_1<1$.}\label{alg:aimd}
+\begin{algorithmic}[0]% 0 means no line numbering; 1=number all lines
+ \If{received feedback is negative}
+ \State multiply rate by $u_1$
+ \Else
+ \State add $v_0$ to rate
+ \EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
+
+ Let us now consider the dynamics of the
+control system, in the case of additive increase, multiplicative
+decrease. From Formula~\ref{eq-jain-48} we see that the \emph{total}
+amount of traffic oscillates around the optimal value $c$.  In
+contrast, we see on the numerical examples below that the measure of
+unfairness converges to $0$ (This is always true if the conclusions
+of Fact~(\ref{fact-addmul}) are followed; the proof is left as an
+exercise to the reader). Figure~\ref{fig-addmulNum} shows some
+numerical simulations.
+
+The figure also shows a change in the number of active sources. It
+should be noted that the value of $u_{1}$ (the multiplicative
+decrease factor) plays an important role. A value close to $1$
+ensures smaller oscillations around the target value; in contrast,
+a small value of $u_{1}$ can react faster to decreases in the
+available capacity.
+\begin{figure}[h]
+        \insfig{D31F7}{1.0}
+        \mycaption{Numerical simulations of additive increase, multiplicative
+        decrease. There are three sources, with initial rates of 3 Mb/s, 15
+        Mb/s and 0. The total link rate is 10 Mb/s. The third source is
+        inactive until time unit 100. Decrease factor = $0.5$; increment for
+        additive increase: 1 Mb/s. The figure shows the rates for the three
+        sources, as well as the aggregate rate and the measure of
+        unfairness. The measure of unfairness is counted for two sources
+        until time 100, then for three sources.}
+        \protect\label{fig-addmulNum}
+\end{figure}
+
+Lastly, we must be aware that the analysis made here ignores the
+impact of variable and different round trip times.
+
+
+\subsection{Slow Start}
+Slow start is a mechanism that can be combined with Additive
+Increase Multiplicative Decrease; it applies primarily to the
+initial state of a flow. It is based on the observation that if we
+know that a flow receives much less than its fair share, then we can
+deviate from Additive Increase Multiplicative Decrease and give a
+larger increase to this flow.
+
+We assume that we use Additive Increase Multiplicative Decrease,
+with the same notation as in the previous subsection, i.e. with
+additive increase term $u_0$ and decrease factor $v_1$.
+
+
+
+\begin{figure}
+\subfigure[Without Slow
+Start]{\Ifignc{3sourcesnoSS}{0.9}{0.3}\label{fig-ss-noss}}
+\subfigure[With Slow
+Start]{\Ifignc{3sourcesSS}{0.9}{0.3}\label{fig-ss-ss}}
+\mycaption{(a) Three sources applying AIMD, the third starting at
+time 0 while the other two have reached a high rate. Left: rate of
+source 1 on $x$-axis versus rate of source 3. Right: rates of all
+sources versus time (number of iterations) on $x$-axis. AIMD
+parameters: $v_0=0.01$; $u_1=0.5$. It takes many iterations for the
+third source to reach the same rate. (b) Same but with the third
+source applying slow start. It quickly converges to a similar rate.
+Slow start parameters: $w_0 = 2$, $r_{\max}=10$}
+        \protect\label{fig-ss}
+\end{figure}
+
+In \fref{fig-addmulNum} we showed flows that started with
+arbitrary rates. In practice, it may not be safe to accept such
+a behaviour; in contrast, we would like a flow starts with a
+very small rate. We set this small rate to $v_0$. Now, a
+starting flow in the situation, mentioned earlier, of a flow
+competing with established flows, most probably receives less
+than all others (\fref{fig-ss-noss}). Therefore, we can, for
+this flow, try to increase its rate more quickly, for example
+multiplicatively, until it receives a negative feedback. This
+is what is implemented in the algorithm called ``slow start"
+(\aref{alg:ss}).
+
+\begin{algorithm}
+\caption{Slow Start with the following parameters: AIMD constants
+$v_0>0$ ,  $0<u_1<1$; multiplicative increase factor $w_0>1$;
+maximum rate $r_{\max}>0$. }\label{alg:ss}
+\begin{algorithmic}[1]
+ \State $\mbox{rate}\gets v_0$\label{alg:ss:ini}
+ \State $\mbox{targetRate}\gets r_{\max}$
+ \State \textbf{do forever}
+ \State receive feedback
+ \If{feedback is positive}
+ \State $\mbox{rate}\gets w_0 \cdot \mbox{rate}$\label{alg:ss:pos}
+ \If{$\mbox{rate}\geq \mbox{targetRate} $ }
+    \State $\mbox{rate}\gets \mbox{targetRate}$
+    \State \textbf{exit do loop} \label{alg:ss:exit}
+ \EndIf
+ \Else
+ \State $\mbox{targetRate} \gets \max(u_1 \cdot \mbox{rate}, v_0)$\label{alg:ss:rdw}
+ \State $\mbox{rate}\gets v_0 $\label{alg:ss:neg}
+ \EndIf
+ \State \textbf{end do}
+\end{algorithmic}
+\end{algorithm}
+
+The algorithm maintains both a rate (called $x_i$ in the
+previous section) and a target rate. Initially, the rate is set
+to the minimum additive increase $v_0$ and the target rate to
+some large, predefined value $r_{\max}$ (lines~\ref{alg:ss:ini} and next).
+The rate increases multiplicatively as long as positive
+feedback is received (line~\ref{alg:ss:pos}). In contrast, if a
+negative feedback is received, the target rate is decreased
+multiplicatively (this is applied to the rate achieved so far,
+line~\ref{alg:ss:rdw}) as with AIMD, and the rate is returned
+to the initial value (lines~\ref{alg:ss:neg} and next).
+
+The algorithm terminates when and if the rate reached the target
+rate (line~\ref{alg:ss:exit}). From there on, the source applies
+AIMD, starting from the current value of the rate. See \fref{fig-ss}
+for a simulation (\fref{fig-ss-1}).
+
+Note that what is slow in \emph{slow} start is the starting point $v_0$,
+not the increase.
+
+
+\begin{figure}\Ifig{ss}{0.5}{0.4}
+\caption{Zoom on source 3 of \fref{fig-ss-ss} from times 1 to 20,
+i.e. during slow start. Dashed line: target rate; plain line: rate.
+Slow start ends at time 16.}\label{fig-ss-1}\end{figure}
+
+\section{The fairness of additive increase, multiplicative
+decrease with FIFO queues}
+ \mylabel{fpaimd}
+
+A complete modeling is very complex because it contains both a
+random feedback (under the form of packet loss) and a random delay
+(the round trip time, including time for destinations to give
+feedback).  In this section we consider that all round trip times
+are constant (but may differ from one source to another). The
+fundamental tool is to produce an ordinary differential equation
+capturing the dynamics of the network,
+
+\subsection{A simplified model}
+Call$x_i(t)$ the sending rate for source $i$. Call $t_{n,i}$ the
+$n$th rate update instant for source $i$, and let $E_{n,i}$ be the
+binary feedback: $E_{n,i}=1$ is a congestion indication; otherwise
+$E_{n,i}=0$. Call $1-\eta_i$ the multiplicative decrease factor
+and $r_i$ the additive increase component. The source reacts as
+follows.
+$$
+x(t_{n+1,i}) = E_{n,i} (1-\eta_i) x(t_{n,i}) + (1 - E_{n,i})
+(x(t_{n,i}) + r_i)
+$$
+which we can rewrite as \be x(t_{n+1,i}) - x(t_{n,i})
+= r - E_{n,i} \left( \eta_i x(t_{n,i}) + r_i\right)
+ \label{eq-sys-ode}
+\ee If some cases, we can approximate this dynamic
+behaviour by an ordinary differential equation (ODE).
+The idea, which was developed by Ljung \cite{lju77}
+and Kushner and Clark \cite{KC78}, is that the above
+set of equations is a discrete time, stochastic
+approximation of a differential equation. The ODE is
+obtained by writing \bear
+    \frac{dx_i}{dt} & = & \mbox{expected rate of change given the state of all
+        sources at time $t$} \\\nonumber
+    & = &\mbox{expected change divided by the expected update
+    interval} \label{eq-ode}
+  \eear
+The result of the method is that the stochastic system
+in Equation~\ref{eq-sys-ode} converges, in some sense,
+towards the global attractor of the ODE in
+Equation~\ref{eq-ode}, under the condition that the
+ODE indeed has a global attractor \cite{BMP90}. A
+global attractor of the ODE is a vector
+$\vec{x*}=(x^*_i)$ towards which the solution
+converges, under any initial conditions. The
+convergence is for $\eta_i$ and $r_i$ tending to $0$.
+Thus the results in this section are only
+asymptotically true, and must be verified by
+simulation.
+
+Back to our model, call $\mu_i(t, \vec{x})$ the expectation of
+$E_{n,i}$, given a set of rates $\vec{x}$; also call $u_i(t)$ the
+expected update interval for source $i$. The ODE is:
+\begin{equation}\mylabel{eq-odedebase}
+   \frac{dx_i}{dt}
+        =
+   \frac{r_i - \mu_i(t, \vec{x}(t) )\left( \eta_i x_i(t) + r_i \right)}{u_i(t)}
+\end{equation}
+
+We first consider the original additive increase, multiplicative
+decrease algorithm, then we will study the special case of TCP.
+
+\subsection{Additive Increase, Multiplicative Decrease with one Update per RTT}
+We assume that the update interval is a constant $\tau_i$ equal to
+the round trip time for source $i$. Thus
+$$
+u_i(t) = \tau_i
+$$
+The expected feedback $\mu_i$ is given by
+\begin{equation}
+        \mu_i(t,\vec{x}(t)) = \tau x_{i}(t) \sum_{l=1}^{L} g_{l}(f_{l}(t))
+        A_{l,i}
+        \label{eq-feedback-2}
+\end{equation}
+
+with $f_{l}(t)= \sum_{j=1}^I A_{l,j}x_{j}(t)$.  In the formula,
+$f_{l}(t)$ represents the total amount of traffic flow on link
+$l$, while $A_{l,i}$ is the fraction of traffic from source $i$
+which uses link $l$.  We interprete Equation~(\ref{eq-feedback-2})
+by assuming that $g_{l}(f)$ is the probability that a packet is
+marked with a feedback equal to 1 (namely, a negative feedback) by
+link $l$, given that the traffic load on link $l$ is expressed by
+the real number $f$.
+%; in the regime of rare negative feedback, we
+%assume that we can neglect the occurence of one packet marked with
+%a negative feedback on several links within one time cycle.
+Then Equation~(\ref{eq-feedback-2}) simply gives the expectation
+of the number of marked packets received during one time cycle by
+source $i$. This models accurately the case where the feedback
+sent by a link is quasi-stationary, as can be achieved by using
+active queue management such as RED (see later). This also assumes
+that the propagation time is large compared to the transmission
+time.
+
+Putting all this together we obtain the ODE:
+
+ \begin{equation}
+        \frac{dx_{i}}{dt}
+        =
+        \frac{r_i}{\tau_i} -  x_{i} (r_{i}+\eta_i x_{i}) \sum_{l=1}^{L}
+        g_{l}(f_{l})A_{l,i}
+        \label{eq-ode-cas-A}
+  \end{equation}
+
+  with
+  \begin{equation}
+        f_{l} = \sum_{j=1}^{I} A_{l,j} x_{j}
+        \label{eq-flux-l}
+  \end{equation}
+
+  In order to study the attractors of this ODE, we identify a Lyapunov
+  for it \cite{refSurLyapunov}. To that end, we follow \cite{KMT97}
+  and \cite{GB98} and note that
+  $$
+  \sum_{l=1}^{L}
+        g_{l}(f_{l})A_{l,i} = \frac{\partial}{\partial x_{i}}\sum_{l=1}^{L}
+        G_{l}(f_{l}) = \frac{\partial G (\vec{x})}{\partial x_{i}}
+  $$
+  where $G_{l}$ is a primitive of $g_{l}$ defined for example by
+  $$
+  G_{l}(f) = \int_{0}^f g_{l}(u) du
+  $$
+  and
+  $$G(\vec{x}) = \sum_{l=1}^{L} G_{l}(f_{l})
+  $$
+  We can then rewrite Equation~(\ref{eq-ode-cas-A}) as
+  \begin{equation}
+                \frac{dx_{i}}{dt}
+        =
+        x_{i}(r_{i}+ \eta_i x_{i})
+        \left \{
+            \frac{r_{i}}{\tau_i x_{i}(r_{i}+ \eta_i x_{i})}  -
+            \frac{\partial G (\vec{x})}{\partial x_{i}}
+        \right \}
+        \label{eq-cas-A-modif}
+  \end{equation}
+
+  Consider now the function $J_{A}$ defined by
+  \begin{equation}
+        J_{A}(\vec{x}) = \sum_{i=1}^I \phi(x_{i}) -  G(\vec{x})
+        \label{eq-def-de-J}
+  \end{equation}
+
+  with
+  $$\phi(x_{i}) = \int_{0}^{x_{i}} \frac{r_{i}du}{\tau_i u(r_{i}+ \eta_i u)}=
+  \frac{1}{\tau_i}\log \frac{x_{i}}{ r_{i}+ \eta_i x_{i}}
+  $$
+
+  then we can rewrite Equation~(\ref{eq-cas-A-modif}) as
+
+  \begin{equation}
+                \frac{dx_{i}}{dt}
+        =
+        x_{i}(r_{i}+ \eta_i x_{i})
+        \frac{\partial J_{A} (\vec{x})}{\partial x_{i}}
+        \label{eq-cas-A-modif-2}
+  \end{equation}
+
+  Now it is easy to see that $J_{A}$ is strictly concave and therefore has a unique
+  maximum over any bounded region. It follows from this and from
+  Equation~(\ref{eq-cas-A-modif-2}) that $J_{A}$ is a Lyapunov for the ODE
+  in~(\ref{eq-ode-cas-A}), and thus, the ODE
+  in~(\ref{eq-ode-cas-A}) has a unique attractor, which is the point
+  where the maximum of $J_{A}$ is reached. An intuitive explanation of the Lyapunov is as
+  follows. Along any
+  solution $\vec{x}(t)$ of the ODE, we have
+  $$
+\frac{d}{dt}J_A(\vec{x}(t)) = \sum_{i=1}^{I} \frac{\partial
+J_A}{\partial x_{i}}\frac{dx_i}{dt}
+=
+\sum_{i=1}^{I} x_i(r_{i}+ \eta_i x_{i})
+ \left( \frac{\partial J_A}{\partial x_{i}} \right)^2
+  $$
+  Thus $J_A$ increases along any solution, thus solutions tend to
+  converge towards the unique maximum of $J_A$.
+
+  This shows that
+  the rates $x_{i}(t)$ converge at equilibrium towards a
+  set of value that maximizes $J_{A}(\vec{x})$, with $J_{A}$ defined by
+  $$
+  J_{A}(\vec{x}) =
+  \sum_{i=1}^I
+   \frac{1}{\tau_i}\log \frac{x_{i}}{ r_{i}+ \eta_i x_{i}}
+   \; -  \; G(\vec{x})
+  $$
+\paragraph{Interpretation}
+In order to interpret the previous results, we follow \cite{KMT97}
+and assume that, calling $c_{l}$ the capacity of link $l$, the
+function $g_{l}$ can be assumed to be arbitrarily close to
+$\delta_{c_{l}}$, in some sense, where
+$$
+\delta_{c}(f) = 0 \mif f < c \mand \delta_{c}(f) = + \infty \mif f
+\geq c
+$$
+
+Thus, at the limit, the method in \cite{KMT97} finds that the
+rates are distributed so as to maximize
+$$F_{A}(\vec{x})=\sum_{i=1}^I \frac{1}{\tau_i}\log \frac{x_{i}}{ r_{i}+ \eta_i x_{i}}$$
+subject to the constraints
+$$
+\sum_{j=1}^I A_{l,j}x_{j} \; \leq c_{l} \; \mfa l
+$$
+
+We can learn two things from this. Firstly, the weight given to
+$x_{i}$ tends to $-\log \eta_i$ as $x_{i}$ tends to $+\infty$.
+Thus, the distribution of rates will tend to favor small rates,
+and should thus be closer to max-min fairness than to proportional
+fairness. Secondly, the weight is inversely proportional to the
+round trip time, thus flows with large round trip times suffer
+from a negative bias, independent of the number of hops they use.
+%
+%We see that, under the simplifying assumptions above, the additive
+%increase, multiplicative decrease principle distributes rates
+%according to a utility fairness, which is between max-min fairness
+%and proportional fairness.
+
+\subsection{Additive Increase, Multiplicative Decrease with one
+Update per Packet}
+ Assume now that a source reacts to every feedback received.
+ Assume that losses are detected immediately, either because the
+ timeout is optimal (equal to the roundtrip time), or because of
+ some other clever heuristic. Then we can use the same analysis as
+ in the previous section, with the following adaptations.
+
+ The ODE is still given by Equation (\ref{eq-odedebase}). The
+ expected feedback is now simply equal to the probability of a
+ packet being marked, and is equal to
+ $$
+ \mu_i(t, \vec{x}) = \sum_{l=1}^{L}
+        g_{l}(f_{l})A_{l,i}
+ $$
+
+ The average update interval is now equal to $\frac{1}{x_i}$. Thus
+ the ODE is
+\begin{equation}\mylabel{eq-odeevpack}
+\frac{dx_{i}}{dt}
+        =
+        r_i x_i -  x_{i} (r_{i}+\eta_i x_{i}) \sum_{l=1}^{L}
+        g_{l}(f_{l})A_{l,i}
+\end{equation}
+
+which can also be written as
+\begin{equation}\mylabel{eq-odeevpack-2}
+\frac{dx_{i}}{dt}
+        =
+ x_{i}(r_{i}+ \eta_i x_{i})
+        \left \{
+            \frac{r_{i}}{r_{i}+ \eta_i x_{i}}  -
+            \frac{\partial G (\vec{x})}{\partial x_{i}}
+        \right \}
+\end{equation}
+
+Thus a Lyapunov for the ODE is
+$$
+J_B(\vec{x})= \sum_{i=1}^I
+   \frac{r_i}{\eta_i}\log ( r_{i}+ \eta_i x_{i})
+   \; -  \; G(\vec{x})
+$$
+
+Thus, in the limiting case where the feedback expectation is close
+to a Dirac function, the rates are distributed so as to maximize
+$$F_{B}(\vec{x})=\sum_{i=1}^I \frac{r_i}{\eta_i}\log ( r_{i}+ \eta_i x_{i})$$
+subject to the constraints
+$$
+\sum_{j=1}^I A_{l,j}x_{j} \; \leq c_{l} \; \mfa l
+$$
+The weight given to $x_{i}$ is close to $\log(\eta_i x_{i})$ ($=
+\log x_i + \mbox{a constant} $) for large $x_i$, and is larger
+than $\log(\eta_i x_{i})$ in all cases. Thus, the distribution of
+rates is derived from proportional fairness, with a positive bias
+given to small rates. Contrary to the previous case, there is no
+bias against long round trip times.
+%
+
+In Section~\ref{sec-tcpalgodecon} on
+page~\pageref{sec-tcpalgodecon} we study the case of TCP.
+\section{Summary}\begin{enumerate}
+    \item In a packet network, sources should limit their sending rate in order
+    to account for the state of the network. Failing
+    to do so might result in congestion collapse.
+    \item Congestion collapse is defined as a severe decrease in total
+    network throughput when the offered load increases.
+    \item Maximizing network throughput as a primary objective might lead to
+large unfairness and is not a viable objective.
+  \item The
+objective of congestion control is to provide Pareto efficiency and
+some form of fairness.
+
+
+\item Fairness can be defined in various ways: max-min,
+proportional and variants of proportional.
+
+\item End-to-end congestion control in packet networks is based on the adaptation mechanism of additive increase,
+multiplicative decrease.
+
+\item Slow start is a mechanism for a source to quickly increase its sending rate (instead of starting upfront at a high rate).
+\end{enumerate}
+%
+% calcul de fair share a la golestani sur un exemple (Kuhn Tucker)
+%
+% objectif perte 0.05
+%
+% 4.3.2 de Jin Roberts: forme explicite du throughput pour rate prop. fair
+% sharing
+%
+% reprendre mon exmple et calculer le temps moyen en utilisant JimM
+% Robert section 4.3.2
+%
+% exo: calculer le max min fair share pour l'exemple de JEC papier EFOC
+%      comparer au throughput total
+%      calculer rate proportional fairness pour cet exemple
+%
+% peut etre: forme produit et methode de Metropolis
+%
+% peut etre: fixed window de JR
+%
+% \section{Appendix: Optimization}
+%
+% Linear programming
+%
+% Lagrangian Methods
+%
+% Kuhn Tucker: theoreme de Leunberger page 401 et Gustavo de veciana
+%    Lagrangien
+%    conditions de KT: page 401 de Luenberger

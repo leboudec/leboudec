@@ -1,0 +1,1159 @@
+%% common to T2 and ED
+%% use \gradCourse to control what is included
+\section{Congestion control algorithms of TCP}
+\mylabel{sec-tcpalgodecon}
+
+We have seen that it is necessary to control the amount of traffic
+sent by sources, even in a best effort network.
+In the early days of Internet, a congestion collapse did occur. It was
+due to a combination of factors, some of them were the absence of
+traffic control mechanisms, as explained before. In addition, there
+were other aggravating factors which led to ``avalanche'' effects.
+
+\begin{itemize}
+\item IP fragmentation: if IP datagrams are fragmented into several
+packets, the loss of one single packet causes the destination to
+declare the loss of the entire datagram, which will be
+retransmsitted. This is addressed in TCP by trying to avoid
+fragmentation. With IPv6, fragmentation is possible only at the source
+and for UDP only.
+\item Go Back $n$ at full window size: if a TCP sender has a large
+offered window, then the loss of segment $n$ causes the retransmission
+of all segments starting from $n$.  Assume only segment $n$ was lost,
+and segments $n+1,\ldots, n+k$ are stored at the receiver; when the
+receiver gets those segments, it will send an ack for all segments up
+to $n+k$.  However, if the window is large, the ack will reach the
+sender too late for preventing the retransmissions.  This has been
+addressed in current versions of TCP where all timers are reset when
+one expires.
+\item In general, congestion translates into larger
+delays as well (because of queue buildup). If nothing is done,
+retransmission timers may become too short and cause retransmissions
+of data that was not yet acked, but was not yet lost.
+This has been addressed in TCP by the round trip estimation algorithm.
+\end{itemize}
+
+Congestion control has been designed right from the beginning in wide-area,
+public networks (most of them are connection oriented using
+X.25 or Frame Relay), or in large corporate networks such as IBM's SNA. It
+came as an afterthought in the Internet.  In connection oriented
+network, congestion control is either hop-by-hop or rate
+based: credit or
+backpressure per connection (ATM LANs), hop-by-hop sliding window per
+connection (X.25, SNA); rate control per connection (ATM).
+They can also use end-to-end control,
+based on marking packets that have experienced congestion
+(Frame Relay, ATM). Connectionless wide area networks all rely
+ on end-to-end control.
+
+In the Internet, the
+principles are the following.
+\begin{itemize}
+    \item TCP is used to control traffic
+
+        \item  the rate of a TCP connection is controlled by adjusting the
+        window size
+
+        \item  additive increase, multiplicative decrease and slow start, as defined in \cref{d31},
+        are
+        used
+
+        \item  the feedback from the network to sources is packet loss. It is
+        thus assumed that packet loss for reasons other than
+        packet dropping in queues is negligible. In particular, all links
+        should have a negligible error rate.
+\end{itemize}
+
+
+
+One implication of these design decisions is that only TCP traffic is
+controlled.  The reason is that, originally, UDP was used only for
+short transactions.  Applications that do not use TCP have to either
+be limited to LANs, where congestion is rare (example: NFS) or have to
+implement in the application layer appropriate congestion control
+mechanisms (examplee.g., QUIC or some audio and video applications).  We will see later
+what is done in such situations.
+
+Only long lasting flows are the object of congestion control.  There
+is no congestion control mechanism for short lived flows.
+
+The detailed mechanisms are described below.  Over the years, many variants of TCP congestion control emerged. We describe here only a few representative ones. The concepts are heavily influenced by the historical version, TCP RENO and its variant TCP NEW RENO, which we describe next. Then we also describe TCP CUBIC and Data Center TCP, two widespread variants.
+
+%Note that there are other forms of congestion avoidance in a network.
+%One form of congestion avoidance might also performed by
+%routing algorithms which support load sharing; this is not very
+%much used in the Internet, but is fundamental in telephone networks.
+%
+%ICMP source quench messages can also be sent by a router to reduce the
+%rate of a source. However, this is not used significantly and is not
+%recommended in general, as it adds traffic in a period of congestion.
+%
+%In another context, the synchronization avoidance algorithm (Module
+%M3) is also an example of congestion avoidance implemented outside of
+%TCP.
+
+\subsection{Congestion Window}
+
+Remember that, with the sliding window protocol concept (used by TCP),
+the window size $W$ (in bits or bytes) is equal to the maximum number
+of unacknowledged data that a source may send.  Consider a system
+where the source has infinite data to send; assume the source uses a
+FIFO queue as send buffer, of size $W$.  At the beginning of the connection,
+the source immediately fills the buffer which is then dequeued at the
+rate permitted by the line.  Then the buffer can receive new data as
+old data is acknowledged. Let $T$ be the average time you need
+to wait for an acknowledgement to come back, counting from the
+instant the data is put into the FIFO queue. This system is an approximate
+model of a TCP connection for a source which is infinitely fast and
+has an infinite amount of data to send. By Little's formula applied to
+the FIFO queue, the throughput $\theta$ of the TCP connection is given by
+(prove this as an exercize):
+\begin{equation}
+        \theta =\frac{ W}{T}
+        \label{eq-d32-i8}
+\end{equation}
+The delay $T$ is equal to the propagation and transmission times of
+data and acknowledgement, plus the processing time, plus possible
+delays in sending acknowledgement. If $T$ is fixed, then controlling $W$
+is equivalent to controlling the connection rate $\theta$. This is
+the method used in the Internet. However, in general, $T$ depends
+also on the congestion status of the networks, through queueing
+delays. Thus, in periods of congestions, there is a first, automatic
+congestion control effect: sources reduce their rates whenever the network
+delay increases, simply because the time to get acknowledgements
+increase. This is however a side effect, which is not essential in
+the TCP congestion control mechanism.
+
+TCP defines a variable called congestion window (\texttt{cwnd}); the
+window size $W$ is then given by
+$$W = \min ( \texttt{cwnd}, \texttt{offeredWindow})$$
+Remember that \texttt{offeredWindow} is the window size advertized by
+the destination. In contrast, \texttt{cwnd} is computed by the source.
+
+The value of \texttt{cwnd} is decreased when a loss is detected, and
+increased otherwise.  In the rest of this section we describe the
+details of the operation.
+
+A TCP connection is, from a congestion control point of view, in one
+of three phases.
+
+  \begin{itemize}
+        \item  slow start: after a loss detected by timeout
+
+        \item  fast recovery: after a loss detected by fast retransmit
+
+        \item  congestion avoidance: in all other cases.
+  \end{itemize}
+
+The variable \texttt{cwnd} is updated at phase transitions, and when
+useful acknowledgements are received. Useful acknowledgements are
+those which increase the lower edge of the sending window, i.e. are
+not duplicate.
+
+\subsection{Slow Start and Congestion avoidance}
+
+\begin{figure}[h]
+        \insfig{D32F1}{0.6}
+        \mycaption{Slow Start and Congestion Avoidance,
+        showing the actions taken in the phases and at phase transitions.}
+        \protect\label{d32f1}
+\end{figure}
+
+In order to simplify the description, we first describe an
+incomplete system with only two phases: slow start and congestion
+avoidance.  This corresponds to a historical implementation (TCP
+Tahoe) where losses are detected by timeout only (and not by the
+fast retransmit heuristic).  According to the additive increase,
+multiplicative decrease principle, the window size is divided by 2
+for every packet loss detected by timeout. In contrast, for every
+useful acknowledgement, it is increased according to a method
+described below, which produces a roughly additive increase. At the
+beginning of a connection, slow start is used (\paref{alg:ss}). Slow
+start is also used after every loss detected by timeout. Here the
+reason is that we expect most losses to be detected instead by fast
+retransmit, and so losses detected by timeout probably indicate a
+severe congestion; in this case it is safer to test the water
+carefully, as slow start does.
+
+Similar to ``targetRate" in \aref{alg:ss}, a supplementary variable
+is used, which we call the target window (\texttt{twnd}) (it is
+called \texttt{ssthresh} in RFC 5681).  At the beginning of the
+connection, or after a timeout, \texttt{cwnd} is set to 1 segment
+and a rapid increase based on acknowledgements follows, until
+\texttt{cwnd} reaches \texttt{twnd}.
+
+The algorithm for computing \texttt{cwnd} is shown on
+Figure~\ref{d32f1}.  At connection opening, \texttt{twnd} has the
+maximum value (64KB by default, more if the window scale option is
+used -- this corresponds to the $r_{\max}$ parameter of
+\aref{alg:ss}), and \texttt{cwnd} is one segment.  During slow
+start, \texttt{cwnd} increases exponentially (with increase factor
+$w_0=2$). Slow start ends whenever there is a packet loss detected
+by timeout or \texttt{cwnd} reaches \texttt{twnd}.  During
+congestion avoidance, \texttt{cwnd} increases according to the
+additive increase explained later.  When a packet loss is detected
+by timeout, \texttt{twnd} is divided by 2 and slow start is entered
+or re-entered, with \texttt{cwnd} set to 1.
+
+Note that \texttt{twnd} and \texttt{cwnd} are equal in the congestion
+avoidance phase.
+
+Figure~\ref{d32f2} shows an example built with data from \cite{BP95}.
+Initially, the connection congestion state is slow-start.  Then
+\texttt{cwnd} increases from one segment size to about 35 KB, (time
+0.5) at which point the connection waits for a missing non duplicate
+acknowledgement (one packet is lost).  Then, at approximately time 2,
+a timeout occurs, causing \texttt{twnd} to be set to half the current
+window, and \texttt{cwnd} to be reset to 1 segment size.  Immediately
+after, another timeout occurs, causing another reduction of
+\texttt{twnd} to 2 $\times$ \texttt{segment size} and of \texttt{cwnd}
+to 1 segment size.  Then, the slow start phase ends at point A, as one
+acknowledgement received causes \texttt{cwnd} to equal \texttt{twnd}.
+Between A and B, the TCP connection is in the congestion avoidance
+state.  \texttt{cwnd} and \texttt{twnd} are equal and both increase
+slowly until a timeout occurs (point B), causing a return to slow
+start until point C. The same pattern repeats later.  Note that some
+implementations do one more multiplicative increase when \texttt{cwnd}
+has reached the value of \texttt{twnd}.
+
+\begin{figure}[h]
+        \insfig{D32F2}{0.7}
+        \mycaption{Typical behaviour with slow start and
+        congestion avoidance, constructed with data from \cite{BP95}. It
+        shows the values of \texttt{twnd} and \texttt{cwnd}.  }
+        \protect\label{d32f2}
+\end{figure}
+
+The slow start and congestion avoidance phases use three algorithms
+for decrease and increase, as shown on Figure~\ref{d32f1}.
+\begin{enumerate}
+        \item  Multiplicative Decrease for \texttt{twnd}
+
+\begin{verbatim}
+                twnd = 0.5 * current window size
+                twnd = max (twnd, 2 * segment size)
+        \end{verbatim}
+
+        \item  Additive Increase for \texttt{twnd}
+\begin{verbatim}
+        for every useful acknowledgement received :
+                twnd = twnd + (segment size) * (segment size) / twnd
+                twnd = min (twnd, maximum window size)
+        \end{verbatim}
+        \item  Exponential Increase for \texttt{cwnd}
+        \begin{verbatim}
+        for every useful acknowledgement received :
+                cwnd = cwnd + (segment size)
+                if (cwnd == twnd) then move to congestion avoidance
+        \end{verbatim}
+
+\end{enumerate}
+% They algorithms are described now.
+%
+% \subsubsection{Multiplicative Decrease for \texttt{twnd}}
+%       \begin{verbatim}
+%               twnd = 0.5 * min (current window size)
+%               twnd = max (twnd, 2 * segment size)
+%       \end{verbatim}
+%
+% \subsubsection{Additive Increase for \texttt{twnd}}
+%       \begin{verbatim}
+%       for every useful acknowledgement received :
+%               twnd = twnd + (segment size) * (segment size) / twnd
+%               twnd = min (twnd, maximum window size)
+%       \end{verbatim}
+%
+% \subsubsection{Exponential Increase for \texttt{cwnd}}
+% \begin{verbatim}
+%       for every useful acknowledgement received :
+%               cwnd = cwnd + (segment size)
+%               if (cwnd == twnd) then move to congestion avoidance
+%       \end{verbatim}
+%
+In order to understand the effect of the Additive Increase algorithm,
+remember that TCP windows are counted in bytes, not in packets.
+Assume that \texttt{twnd} $= w$ \texttt{segment size}, thus $w$ is the
+size counted in packets, assuming all packets have a size equal to
+\texttt{segment size}. Thus, for every
+acknowledgement received, $\texttt{twnd} / \texttt{segment size}$
+is increased by $1/w$, and it takes a full window to increment $w$ by
+one. This is equivalent to an additive increase if the time to
+receive the acknowledgments for a full window is constant.
+Figure~\ref{d32f3} shows an example.
+
+Note that additive increase is applied during congestion avoidance,
+during which phase we have \texttt{twnd} $=$ \texttt{cwnd}.
+\begin{figure}[h]
+        \insfig{D32F3}{0.4}
+        \mycaption{The additive increase algorithm.}
+        \protect\label{d32f3}
+\end{figure}
+
+
+The Exponential Increase algorithm is applied during the slow start
+phase.  The effect is to increase the window size until \texttt{twnd},
+as long as acknowledgements are received.  Figure~\ref{d32f4} shows an
+example.
+
+\begin{figure}[h]
+        \insfig{D32F4}{0.4}
+        \mycaption{The exponential increase  algorithm for \texttt{cwnd}.}
+        \protect\label{d32f4}
+\end{figure}
+
+Finally, Figure~\ref{d32f7} illustrates the additive increase,
+multiplicative decrease principle and the role of slow start. Do not
+misinterpret the term ``slow start'': it is in reality a phase of
+rapid increase; what is slow is the fact that $\texttt{cwd}$ is set
+to 1.  The slow increase is during congestion avoidance, not during
+slow start.
+
+\begin{figure}[h]
+        \insfig{D32F7}{0.6}
+        \mycaption{Additive increase, Multiplicative decrease and
+slow start.}
+        \protect\label{d32f7}
+\end{figure}
+
+\subsection{Fast Recovery}
+
+As mentioned earlier, the full specification for TCP involves a third
+state, called Fast Recovery, which we describe now.  Remember from the
+previous section that when a loss is detected by timeout, the target congestion
+window size \texttt{twnd} is divided by 2 (Multiplicative Decrease
+for \texttt{twnd}) but we also go into the slow start phase in order
+to avoid bursts of retransmissions.
+
+However, this is not very efficient if an isolated loss occurs.
+Indeed, the penalty imposed by slow start is large; it will take
+about $\log n$ round trips to reach the target window size
+\texttt{twnd}, where $n = \texttt{twnd} / \texttt{segment size}$.
+This is in particular to severe if the loss is isolated, corresponding
+to a mild negative feedback. Now with the current TCP, isolated losses
+are assumed to be detected and repaired with the Fast Retransmit
+procedure.
+
+Therefore, we add a different mechanism for
+every loss detected by  Fast Retransmit. The procedure is as follows.
+
+\begin{itemize}
+        \item  when a loss is detected by Fast Retransmit (triplicate ack),
+        then run Multiplicative Decrease for \texttt{twnd} as described in
+        the previous section.
+
+        \item  Then enter a temporary phase, called  Fast Recovery,
+        until the loss is repaired.
+        When entering this phase, temporarily
+        keep  the congestion
+        window high in order to keep sending. Indeed, since an ack is missing, the
+        sender is likely to be blocked, which is not the desired effect:
+
+        \begin{verbatim}
+  cwnd = twnd + 3 *seg /* exponential increase */
+  cwnd = min(cwnd, 65535)
+  retransmit missing segment (say n)
+    \end{verbatim}
+
+        \item Then continue to interprete every received ack as a positive signal,
+        at least until the lost is repaired, running the exponential increase
+        mechanism:
+
+        \begin{verbatim}
+  duplicate ack received ->
+     cwnd = cwnd + seg             /* exponential increase */
+     cwnd = min(cwnd, 65535)
+     send following segments if window allows
+
+  ack for segment n received ->
+     go into to cong. avoidance
+
+        \end{verbatim}
+
+\end{itemize}
+
+Figure~\ref{d32f5} shows an example.
+\begin{figure}[h]
+        \insfig{D32F5}{0.7}
+        \mycaption{A typical example with slow start (C-D) and fast recovery
+        (A-B and E-F),
+        constructed with data from \cite{BP95}. It shows the values of
+        \texttt{twnd} and \texttt{cwnd}.}
+        \protect\label{d32f5}
+\end{figure}
+
+If we combine the three phases described in this and the previous
+section, we obtain the complete diagram, shown on Figure~\ref{d32f6}.
+\begin{figure}[h]
+        \insfig{D32F6}{0.6}
+        \mycaption{Slow Start, Congestion Avoidance and Fast Retransmit
+        showing the phase transitions.}
+        \protect\label{d32f6}
+\end{figure}
+
+
+\subsection{Summary and Comments}
+
+In summary for that section, we can say that the congestion avoidance
+principle for the Internet, used in TCP, is additive increase,
+multiplicative decrease. The sending rate of a source is governed by a
+target window size \texttt{twnd}. The principle of
+additive increase,
+multiplicative decrease is summarized as follows. At this point you
+should be able to understand this summary; if this is not the case,
+take the time to read back the previous sections. See also
+Figure~\ref{d32f7} for a synthetic view of the different phases.
+
+\begin{itemize}
+
+        \item when a loss is detected (timeout or fast retransmit), then
+        \texttt{twnd} is divided by 2 (``Multiplicative Decrease for
+        \texttt{twnd}'')
+
+        \item In general (namely in the congestion avoidance phase), for
+        every useful (i.e. non duplicate) ack received, \texttt{twnd} is increased linearly
+        (``Additive Increase for \texttt{twnd}'')
+
+        \item  Just after a loss is detected a special transient phase is
+        entered. If the loss is detected by timeout, this phase is slow
+        start; if the loss is detected by fast retransmit, the phase is fast
+        recovery. At the beginning of a
+        connection, the slow start phase is also entered.
+
+        During such a transient phase, the congestion window size is
+        different from \texttt{twnd}. When the transient phase terminates,
+        the connection goes into the congestion avoidance phase. During
+        congestion avoidance, the congestion window size is
+        equal to \texttt{twnd}.
+
+\end{itemize}
+
+
+\section{Analysis of TCP Reno}
+
+\subsection{The fairness of TCP RENO}
+In this section we determine the fairness of TCP, assuming all
+round trip times remain constant over time. We can apply the analysis in
+Section~\ref{fpaimd} and use the method of the ODE.
+
+TCP differs slightly from the plain additive increase,
+multiplicative decrease algorithm. Firstly, it uses a window
+rather than a rate control. We can approximate the rate of a TCP
+connection, if we assume that transients due to slow start and
+fast recovery can be neglected, by $x= \frac{w}{\tau}$, where
+$w$ is equal to \texttt{cwnd} and $\tau$ is the round trip time,
+assumed to be constant. Secondly, the increase in rate is not
+strictly additive; in contrast, the window is increased by
+$\frac{1}{w}$ for every positive acknowledgement received. The
+increase in rate at every positive acknowledgement is thus equal
+to $\frac{K}{w \tau}=\frac{K}{x \tau^2}=$ where $K$ is a constant.
+If the unit of data is the packet, then $K=1$; if the unit of data
+is the bit, then $K=L^2$, where $L$ is the packet length in bits.
+
+In the sequel we consider some variation of TCP where the window
+increase is still given by $\frac{K}{w \tau}$, but where $K$ is
+not necessarily equal to $(1 \mbox{ packet})^2$ and need not be the same for all TCP connections.
+
+We use the same notation as in Section~\ref{fpaimd} and call
+$x_i(t)$ the rate of source $i$. The coefficient $K$ may now
+depend on the connection $i$ and is denoted with $K_i$. The ODE is obtained by substituting $r_i$
+by $\frac{K_i}{x_i \tau_i^2}$ in Equation~(\ref{eq-odeevpack}) on
+page~\pageref{eq-odeevpack}:
+
+\begin{equation}\mylabel{eq-odetcp}
+\frac{dx_{i}}{dt}
+        =
+        \frac{K_i}{ \tau_i^2}  -  ( \frac{K_i}{ \tau_i^2}+\eta_i x_{i}^2) \sum_{l=1}^{L}
+        g_{l}(f_{l})A_{l,i}
+\end{equation}
+
+which can also be written as
+\begin{equation}
+\mylabel{eq-odetcp-2}
+\frac{dx_{i}}{dt}
+        =
+ ( \frac{K_i}{ \tau_i^2}+\eta_i x_{i}^2)
+       \left\{
+         \frac
+            { \frac{K_i}{ \tau_i^2 \eta_i}}
+            {\frac{K_i}{ \tau_i^2 \eta_i} + x_i^2}  -
+           \frac{\partial G (\vec{x})}{\partial x_{i}}
+        \right\}
+\end{equation}
+
+This shows that
+  the rates $x_{i}(t)$ converge at equilibrium towards a
+  set of value that maximizes $J_{C}(\vec{x})$, with $J_{C}$ defined by
+\begin{equation}\mylabel{eq-defJC}
+  J_{C}(\vec{x}) =
+  \sum_{i=1}^I
+   \frac{1}{\tau_i}
+   \sqrt{
+      \frac{K_i}{\eta_i}
+      }
+   \arctan
+   \frac{x_{i} \tau_i}{\sqrt{\frac{K_i}{\eta_i}}}
+   \; -  \; G(\vec{x})
+\end{equation}
+
+  Thus, in the limiting case where the feedback expectation is close
+to a Dirac function, the rates are distributed so as to maximize
+$$F_{C}(\vec{x})=\sum_{i=1}^I \frac{1}{\tau_i}
+   \sqrt{
+      \frac{K_i}{\eta_i}
+      }
+   \arctan
+   \frac{x_{i} \tau_i}{\sqrt{\frac{K_i}{\eta_i}}}$$
+subject to the constraints
+$$
+\sum_{j=1}^I A_{l,j}x_{j} \; \leq c_{l} \; \mfa l
+$$
+
+\paragraph{The bias of TCP Reno against long round trip times}
+
+If we use the previous analysis with the standard parameters used
+with TCP-Reno, we have $\eta_i=0.5$ for all sources and (the unit
+of data is the packet)
+ $$K_i = 1
+ $$
+With these values, the expected rate of change (right hand side in
+Equation~(\ref{eq-odetcp})) is a decreasing function of $\tau_i$.
+Thus, the adaptation algorithm of TCP contains a negative bias
+against long round trip times. More precisely, the weight given to
+source $i$ is
+ $$\frac{\sqrt{2}}{\tau_i}
+   \arctan
+   \frac{x_{i} \tau_i}{\sqrt{2}}
+ $$
+
+ If $x_i$ is very small, then this is approximately equal to $2
+ x_i$, independent of $\tau_i$. For a very large $x_i$, it is
+ approximately equal to $\frac{\sqrt{2} \Pi}{2 \tau_i}$. Thus,
+ the negative bias against very large round trip times is
+ important
+ only in the cases where the rate allocation results into a large
+ rate.
+
+ Note that the bias against long round trip times comes beyond and
+ above the fact that, like with proportional fairness, the
+ adaptation algorithm gives less to sources using many resources.
+ Consider for example two sources with the same path, except for an access
+ link which has a very large propagation delay for the second source.
+ TCP will give less throughput to the second one, though both are
+ using the same set of resources.
+
+ We can correct the bias of TCP against long round trip times by
+ changing $K_i$. Remember that $K_i$ is such that the
+ window $w_i$ is increased for every positive acknowledgement by $\frac{K_i}{w_i}$.
+  Equation~(\ref{eq-odetcp}) shows that we should
+ let $K_i$ be proportional to $\tau_i^2$. This is the modification
+ proposed in \cite{floyd-91-b} and
+\cite{henderson-98-a}. Within the limit of our analysis, this
+would
+ eliminate the non-desired bias against long round trip times.
+ Note that, even with this form of fairness, connections using
+ many hops are likely to receive less throughput; but this is not
+ because of a long round trip time.
+
+If we compare the fairness of TCP to proportional fairness, we see
+that the weight given to $x_{i}$ is bounded both as $x_i$ tends to
+$0$ or to $+\infty$. Thus, it gives more to smaller rates than
+proportional fairness.
+
+ In summary, we have proven that:
+\begin{proposition}
+TCP tends to distribute rates so as to maximize the utility
+function $J_C$ defined in Equation~(\ref{eq-defJC}).
+\begin{itemize}
+  \item If the window increase parameter is as with TCP Reno ($K_i=1$ for
+all sources), then TCP has a non-desired negative bias against
+long round trip times.
+  \item If in contrast the bias is
+corrected (namely, the window $w_i$ is increased for every
+positive acknowledgement by $\frac{K \tau_i^2}{w_i}$), then the
+fairness of TCP is a variant of proportional fairness which gives
+more to smaller rates.
+\end{itemize}
+\end{proposition}
+
+
+
+
+
+
+Thus, TCP Reno distributes rates equally among connections having
+the same paths, but has a bias against connections
+ \begin{enumerate}
+        \item  with a large number of hops
+
+        \item  or with a large round trip time
+ \end{enumerate}
+
+The first bias is a result of proportional fairness and can be
+considered to be justified; the second bias is less justified and
+is indeed a problem for connections using links with large latency, eg., satellite links.
+
+\subsection{The Loss-Throughput Formula}
+A coarser, but more enlightening, analysis of the performance of TCP Reno leads to a simple relation between the loss probability experienced by a TCP connection and its throughput, assuming the application has an infinite amount of data to send (i.e., the bottleneck is the network). We expect the throughput of TCP to decrease with the loss probability; this is indeed captured by the following result.
+ %
+%%%% this part is G1 for grad school only
+%This can be achieved by extending the modelling of
+%Section~\ref{fpaimd} to cases with different round trip times. A
+%simpler alternative can be derived following an approximate analysis.
+
+\begin{theorem}
+ [TCP loss - throughput formula \cite{Ott97}]
+Consider a TCP Reno connection with constant round trip time $\tau$ and
+constant packet size $L$; assume that the network is stationary,
+that the transmission time is negligible compared to the round trip
+time, that losses are rare and that the time spent in slow start or fast
+recovery is negligible; then the average throughput $\theta$ (in
+bits/s) and the average packet loss ratio $q$ are linked by the
+relation
+\begin{equation}
+        \theta \approx \frac{L}{\tau} \frac{C}{\sqrt{q}}
+        \label{eq-tcplr}
+\end{equation}
+with $C = 1.22$
+\label{theo-lf}
+\end{theorem}
+
+\pr We consider that we can neglect the phases where \texttt{twnd} is
+different from \texttt{cwnd} and we can thus consider that the
+connection follows the additive increase, multiplicative decrease
+principle.  We assume that the network is stationary; thus the
+connection window size \texttt{cwnd} oscillates as illustrated on
+Figure~\ref{d32f8}.
+\begin{figure}[h]
+        \insfig{D32F8}{0.7}
+        \mycaption{The evolution of \texttt{cwnd} under the assumptions in the
+        proposition.}
+        \protect\label{d32f8}
+\end{figure}
+The oscillation is made of cycles of duration $T_{0}$. During one
+cycle, \texttt{cwnd} grows until a maximum value $W$, then a loss is
+encountered, which reduces \texttt{cwnd} to $\frac{W}{2}$. Now from
+our assumptions, exactly a full window is sent per round trip time,
+thus the window increases by one packet per round trip time, from
+where it follows that
+$$
+T_{0} = \frac{W}{2} \tau
+$$
+The sending rate is approximately $\frac{W(t)}{\tau}$. It follows also
+that the number of packets sent in one cycle, $N$, is given by
+$$
+N = \int_{0}^{T_{0}} \frac{W(t)}{\tau} dt = \frac{3}{8} W^2
+$$
+Now one packet is lost per cycle, so the average loss ratio is
+$$
+q = 1 / N
+$$
+We can extract $W$ from the above equations and obtain
+$$
+W = 2 \sqrt{\frac{2}{3}} \frac{1}{\sqrt{q}}
+$$
+Now the average throughput is given by
+$$
+\theta =  \frac{(N - 1) }{ T_{0}} L =
+\frac{\left ( \frac{1}{q} -1 \right ) L
+}{
+\sqrt{\frac{2}{3}} \frac{1}{\sqrt{q}} \tau }
+$$
+If $q$ is very small this can be approximated by
+$$
+\theta \approx \frac{L}{\tau} \frac{C }{\sqrt{q}}
+$$
+with $C=\sqrt{\frac{3}{2}}$.
+\qed
+
+Formula~\ref{eq-tcplr} is taken as a basis for designing alternatives to TCP Reno. It can be shown that the formula still holds, though
+with a slightly different constant, if more realistic modelling
+assumptions are taken \cite{Flo91, Lak97}.
+%%% end of G1 for undergrads only
+
+
+
+%
+% Jim Roberts: WFQ + TCP = max min fairness (analyse statique)
+%
+%
+%
+% Position du probleme par Golestani
+%   minimiser cout de la source plus du reseau
+%   appliquer a l'approx TCP ideale (MCFC) ou le feedback est donne par
+%   la perte
+%
+%   si TCP etait rate based (donc si c'etait MCFC) alors on aurait une
+%   formule du type
+%
+%    maximiser $\sum_{s} e_{s}(r_{s}) + \sum_{l}g_{l}(f^l)$
+%
+%    ou $g_{l}$ est donne par $g_{l}(f)= \xi D_{l}(f) + \lambda_{l}(f)$
+%    ou $D_{l}=$ delai au link $l$ et $\lambda_{l}=$ loss ratio au
+%    link $l$
+%
+%    alors sous cette hypothese, le taux de perte vu par flux est
+%    $\sum_{l}\Phi_{s}^l \lambda_{l} f^l$ et le delai vu par un flux est
+%    $\sum_{l}\Phi_{s}^l D_{l} f^l$
+%
+%   dans ce cas, le link loss ratio ne permet pas de converger vers un
+%   loss ratio faible, sauf si on impose une asymptote au cout du link
+%   (hypothese du theorem 2 de Golestani)
+%
+%   si la fonction de cout du reseau tend vers delta, alors on tend vers
+%   le probleme SYSTEM donc vers rate proportional fairness
+%
+%   open issues: peut on casser le probleme: SYSTEM = USER + NETWORK
+%   dans le cas de Golestani ou le cout reseau n'est pas delta
+%
+%
+%
+
+\section{Other Mechanisms for TCP Congestion Control}
+\subsection{CUBIC}
+\paragraph{Why CUBIC.}
+The motivation of this variant is networks where the bandwidth-delay product is very large, i.e., when both the round trip time and the bit-rate available to one connection are large (``Long Fat Networks"). Consider the typical saw-tooth behaviour of TCP (and AIMD) illustrated in \fref{d32f8}. The available bit rate is $b=WL/\tau$ where $\tau$ is the round-trip time and $L$ is the packet length; also recall that the duration $T_0$ of one oscillation is  $T_0=W/2 \tau$. Thus
+\ben T_0=  \frac{b\tau^2}{2L}
+\een
+
+For example,  if the round-trip time is $\tau=100$~msec, the available bit rate is 10Mb/s and the packet size is $1250$ bytes, then the time $T_0$  taken by one oscillation is equal to 5 sec, which is small. But if the available bit rate becomes 10Gb/s, $T_0$  becomes 1~h~23~mn ! In the latter case, the additive increase is too slow and chances are that the connection is over before completing even a single oscillation.  TCP CUBIC attempts to be a replacement for TCP Reno that alleviates this problem in long fat networks but behaves the same as TCP otherwise \cite{ha2008cubic, cubic2018rfc}.
+
+\paragraph{Mechanisms of CUBIC.} CUBIC keeps multiplicative decrease and slow start as
+with TCP Reno, and keeps the same rules for exiting congestion avoidance (on a loss event) as we have seen in \sref{sec-tcpalgodecon}. However, when a loss is detected by duplicate acknowledgements, the multiplicative decrease factor is 0.7 instead of 0.5 (i.e., when a loss is detected by duplicate acknowledgements, the congestion window is set to $0.7 W_{\max}$ where $W_{\max}$ is the value of the congestion window just before the loss event). The smaller window reduction intends to reduce the amplitude of the oscillations.
+ \begin{figure}[h]
+        \insfig{cubic1}{0.57}
+        \mycaption{The window increase with TCP CUBIC.}
+        \protect\label{fig-cubic1}
+\end{figure}
+
+But the major difference introduced by CUBIC is the replacement of additive increase during congestion avoidance phase.
+The linear growth during additive increase is replaced by a cubic function, as illustrated in \fref{fig-cubic1}. Specifically, CUBIC uses a function $W(t)$ to compute the congestion window at time $t$ seconds after a loss event, given by
+\be
+W(t)=W_{\max}+a (t-K)^3
+\ee where $a$ is a constant and $K$ is computed such that $W(0)=0.7 W_{\max}$. As illustrated in the figure, the growth of the congestion window is concave (slower than linear) as long as $W_{\max}$ is not attained, and convex (faster than linear) after that point. Thus, CUBIC increases slowly until the value $W_{\max}$ is reached; at this value, the increase is the slowest. This is indeed a very safe behaviour, since in stable network conditions, $W_{\max}$ is the region where congestion is likely to start, If, in contrast, the network has plenty of capacity when the congestion window reaches $W_{\max}$, then the window increase past this point is convex, i.e. increases fast. This is what allows CUBIC to accelerate the window growth in long fat networks.
+
+%The idea is that if $W_{\max}$ is below the final value of the congestion window at convergence, the increase is fast. In contrast, if $W_{\max}$ is less than, or close to the final value, the increase is slow and thus very safe. The constant $a$ was chosen empirically and taken equal to $a=4~\mbox{sec}^{-3}$.
+
+However, for small values of $W_{\max}$ and round-trip time, which occur in non long fat networks, it can happen that $W(t)$ is smaller than $W_{\mbox{\scriptsize AIMD}}(t)$, the value of the congestion window that would be obtained with additive increase, multiplicative increase (\fref{fig-cubic2}). Since CUBIC aims to obtain as much throughput as TCP Reno, CUBIC sets the value of the congestion window during the congestion avoidance phase to
+\be
+ W_{\mbox{\scriptsize CUBIC}}(t)=\max\left \{ W(t), W_{\mbox{\scriptsize AIMD}}(t)\right\}
+ \label{eq-cubicca}
+\ee
+There is a small issue here.
+The parameters of AIMD should be
+adapted in order to account for the multiplicative decrease factor of $0.7$ instead of $0.5$. Indeed, TCP Reno increases the window size by $1$ packet per round trip time in congestion avoidance and multiplies the window by  $0.5$ at a loss event. Therefore, $W_{\mbox{\scriptsize AIMD}}(t)$ is not equal to the value of the congestion window with TCP Reno, but to the value obtained by a hypothetical AIMD that multiplies the window by $0.7$ at a loss event. In order to have a similar behaviour as TCP Reno, this version of AIMD should increases the window size by $r<1$ packet per round-trip time during congestion avoidance, in order to compensate for the smaller decrease. Specifically, we can determine $r$ by requiring that the loss throughput formula  gives the same value for both cases. The loss throughput formula in \eref{eq-tcplr} was derived for the case of TCP Reno; it can easily be modified to the case where the additive increase is $r$ packets per round-trip time and the decrease factor is $\beta$. We find, in this case, that \eref{eq-tcplr} should be modified such that $C$ is replaced by
+ \be
+ %C_{r,\beta}=\sqrt{ r\frac{1-\frac{\beta}{2}}{\beta}}
+ C_{r,\beta}=\sqrt{ \frac{r(1+\beta)}{2(1-\beta)}}
+ \label{eq-ltgen}
+ \ee
+ The case of TCP Reno corresponds to $r=1,\beta=0.5$ and gives $C_{1, 0.5}=\sqrt{\frac{3}{2}}$ as expected. For CUBIC, $\beta=0.7$ and the value of $r$ should be such that $C_{r,0.7}=C_{1,0.5}$ which gives
+ $ r=3\frac{1-\beta}{1+\beta}=0.529$.
+ In summary, CUBIC uses \eref{eq-cubicca} with $W_{\mbox{\scriptsize AIMD}}(t)=0.529 \frac{t}{RTT}$. When CUBIC uses $W_{\mbox{\scriptsize AIMD}}(t)$, i.e. when $W_{\mbox{\scriptsize AIMD}}(t)> W(t)$, we say that CUBIC is in the ``TCP-friendly" region.
+
+
+ \begin{figure}[h]
+        \insfig{cubic2}{0.99}
+        \mycaption{The window increase with TCP CUBIC. Left: RTT is small, the cubic window increase is less than the additive increase and CUBIC uses  $W_{\mbox{AIMD}}(t)$ . Right: the converse holds when RTT is large, and CUBIC uses $W(t)$.}
+        \protect\label{fig-cubic2}
+\end{figure}
+
+There is an additional mechanism called ``Fast Convergence", which is used to decrease the congestion window size at a loss event more severely when $W_{\max}$ is decreasing from one congestion avoidance phase to the next, see \cite{cubic2018rfc} for details.
+
+CUBIC's increase of the congestion window is independent of the round-trip time, therefore we might expect it to remove the undesired bias of TCP Reno against large round trip time. However, as we see next, CUBIC does remove some of the bias against large round trip times, but not entirely. This is because the sending rate is proportional to the window and the inverse of the round-trip time: the increase in \emph{rate} is slower for large round trip times.
+
+\paragraph{Analysis of CUBIC.}
+We can extend the loss throughput formula of TCP Reno in \thref{theo-lf} to the cubic increase function, using the same method.
+\begin{theorem}
+ [Loss - throughput formula with cubic increase]
+Consider a TCP connection with constant round trip time $\tau$ and
+constant packet size $L$; assume that the network is stationary,
+that the transmission time is negligible compared to the round trip
+time, that losses are rare and that the time spent in slow start or fast
+recovery is negligible; also assume that when a loss event occurs, the window is multiplied by a factor $\beta W$. Last, assume that the increase function is a cubic function, given by
+\be
+W(t)=W_{\max}+a (t-K)^3
+\ee where $W_{\max}$ is the window size just before the loss event that triggered a new congestion avoidance phase, $a$ is a constant and $K$ is computed such that $W(0)=\beta W_{\max}$.
+
+Then the average throughput $\theta$ (in
+bits/s) and the average packet loss ratio $q$ are linked by the
+relation
+\begin{equation}
+        \theta \approx \frac{L}{\tau^{0.25}} \frac{C_{\footnotesize \mbox{cubic}}}{q^{0.75}}
+        \label{eq-cubiclt}
+\end{equation}
+with $C_{\footnotesize \mbox{cubic}} = \left(a\frac{3+\beta}{4(1-\beta)}\right)^{0.25}$.
+\label{theo-lfc}
+\end{theorem}
+\pr The proof is similar to the proof of  \thref{theo-lf}. First observe that, with the conditions in the theorem, the window increase is always in the concave phase and the window size is periodic with period $K$. Let $W$ be the max window size.
+The number of packets sent in one period is
+\ben
+   N=\frac{1}{\tau}\int_0^K \left(W+ a(t-K)^3\right)dt=\frac{1}{\tau}\left(
+   WK-a\frac{K^4}{4}\right)
+\een
+The function $W(t)$ satisfies $W(0)=\beta W$ hence, after some algebra:
+\ben
+W=\frac{a}{1-\beta}K^3
+\een
+Combining with the previous equation gives
+\ben
+N=\frac{1}{\tau}\alpha K^4 \mbox{   with } \alpha=a\frac{3+\beta}{4(1-\beta)}
+\een
+There is one loss event per period of duration $K$ hence the loss probability is $q=1/N$.
+Thus
+\ben
+K = \frac{\tau^{\frac14}}{(\alpha q)^{\frac14}}
+\een
+$N-1$ packets are successfully sent every $K$ seconds hence the throughput is
+\ben
+\theta = L\frac{N-1}{K}\approx L \frac{N}{K}=\frac{L}{q}\times \frac{(\alpha q)^{\frac14}}{\tau^{\frac14}}=\frac{L\alpha^{\frac14}}{\tau^{\frac14}q^{\frac34}}
+\een
+\qed
+
+This theorem can be used to obtain a very coarse loss-throughput formula for CUBIC. First, using the values $a=0.4$ and $\beta=0.7$ we find $C_{\footnotesize \mbox{cubic}}=1.054$. Second, observe that CUBIC's window increase does not use the cubic function $W(t)$ but is linear when CUBIC operates in the TCP-friendly region; in particular, CUBIC's throughput is at least that of TCP Reno, which, according to \eref{eq-tcplr}, is $\frac{L}{\tau} \frac{1.22}{\sqrt{q}}$. An approximate formula is thus
+\ben
+\theta_{\footnotesize \mbox{CUBIC}} \approx \max\left\{\frac{L}{\tau} \frac{1.22}{\sqrt{q}}
+   ,
+      \frac{L}{\tau^{0.25}} \frac{1.054}{q^{0.75}}
+      \right\}
+\een
+ \begin{figure}[h]
+        \insfig{cubict}{0.5}
+        \mycaption{The throughput of CUBIC, as predicted by \eref{eq-cubiclt}, as a function of the loss probability, for exponentially increasing values of the round-trip time. The red parallel lines (in log-log scale) represent the throughput of TCP Reno. The throughput of CUBIC is given by the blue line down to the point where it crosses the red line.}
+        \protect\label{fig-cubict}
+\end{figure}
+
+
+ This formula is a bit coarse in that it ignores mixed cases, where CUBIC spends part of its time in the TCP friendly region, part in the concave region. This is visible in the knee of every curve in \fref{fig-cubict}, which occurs at the point where the max in \eref{eq-cubiclt} goes from one branch to the other. At such points the formula is not accurate.
+As with TCP Reno, the throughput of CUBIC decreases with the round trip time; however, for large round trip times, the dependency is less pronounced.
+
+\subsection{Active Queue Management}
+\paragraph{The Bufferbloat Syndrom.} This is a non desirable side-effect of using loss as congestion indication. Consider, for example, a scenario where a number of sources share a bottleneck link and use loss based congestion control (such as TCP Reno or CUBIC). Assume sources increase their window size more or less simultaneously. \fref{fig-bloat} shows the evolution of the rate at which every source delivers packets to destination and of the round trip times. At the beginning, when windows are small, the rate is limited by the window and is equal to the window divided by round trip time; in this regime there is hardly any queuing and the round-trip time is constant equal to $RTT_{\min}$. As windows increase, the sum of source rates attains the link capacity (point A on \fref{fig-bloat}) and queuing is still small. At this point, since the buffer is very large, sources do not experience any loss and continue to increase their windows, up to point B. From point A to point B the queuing delay and hence the queuing delay increase, and the rate of delivery of packets to the destination remains the same, as it is determined by the bottleneck link.  At point B the link buffer fills up; beyond point B, the  link buffer starts to overflow, sources experience losses and the window (in average) does not increase any more.
+
+\begin{figure}[h]
+        \insfig{bloat}{0.7}
+        \mycaption{Operating point of congestion control when there is a single bottleneck link and the buffer is very large. Adapted from \cite{cardwell2016bbr}.}
+        \protect\label{fig-bloat}
+\end{figure}
+
+Point B is where loss-based congestion control operates in steady state for this scenario: there, the large link buffer is constantly oscillating from almost full to full and the round trip time is large. The buffer is not well utilized since it is constantly very full, which translates into large round trip times. In contrast, it would be better to operate around point A: there, the delivery rate is the same but the round trip time is much less. This discussion illustrates that, with loss-based congestion control, large buffers might be harmful. However, large buffers are needed for bursty traffic and do help avoid losses when there are temporary overloads due to bursts, not due to sustained congestion.
+
+\paragraph{Random Early Detection (RED).}
+The root cause of buffer bloat is that the congestion indicator is packet drop, which occurs only when buffers are full (``tail drop"). A mitigation method, called ``active queue management'', is therefore to drop packets in a network buffer well before the buffer is full. It replaces tail drop by an intelligent
+admission decision for every incoming packet, based on a local
+algorithm.  The algorithm uses a estimator of the long term load,
+or queue length; in contrast, tail drop bases the dropping
+decision on the instantaneous buffer occupancy only. The most widespread algorithm is
+% \paragraph{Random Early Detection (RED)}
+%
+%We have said so fair that routers drop packets simply when their
+%buffers overflow.  We call this the ``tail drop'' policy.  This
+%however has three drawbacks:
+%\begin{itemize}
+%        \item  synchronization: assume there is a queue buildup in the
+%        buffer. Then all sources using the buffer reduce their sending rate
+%        and will slowly increase again (see Figure~\ref{d32f8}). The figure
+%        illustrates that the time it takes for sources to reach their
+%        maximum rate is in general much larger than the round trip time. As
+%        a consequence, after a queue buildup at a router buffer, there may
+%        be a
+%        long period of reduced traffic. This is an example of global
+%        synchronization. The negative effect is to reduce the long term
+%        average utilization. It would be better to spread packet drops more
+%        randomly between sources.
+%
+%        \item bias against bursty sources: during a queue buildup period, a
+%        bursty source may suffer several consecutive drops. In that case,
+%        the effect of TCP is a dramatic reduction in throughput.
+%
+%        After all, we might
+%        think that it is good to penalize bursty sources since bursty
+%        traffic uses up more resources in any queueing system. However,
+%        there are many cases where an initially smooth source becomes
+%        bursty because of multiplexing effects.
+%
+%        \item queueing delay: in the presence of bursty
+%        sources, efficient utilization of the links requires a
+%        large buffer (several thousands of packets). This in turn
+%        may induce a large delay jitter (delay jitter is due to
+%        the random nature of queuing times). Delay jitter is not
+%        very
+%        good for TCP applications (it increases the RTT estimate)
+%        and is very bad for interactive audio flows. It would be
+%        good to have smaller buffers, but then bursty sources
+%        would suffer a lot.
+%
+%        Further, a large average queueing delay implies a smaller
+%        throughput for TCP connections, due to TCP's bias against
+%        large round trip times.
+%
+%\end{itemize}
+%
+%In order to overcome these problems was introduced the concept of
+%``active queue management'', which we also call packet admission
+%control.  The idea is to replace tail drop by an intelligent
+%admission decision for every incoming packet, based on a local
+%algorithm.  The algorithm uses a estimator of the long term load,
+%or queue length; in contrast, tail drop bases the dropping
+%decision on the instantaneous buffer occupancy only.
+%
+`Random Early Detection'' (RED)
+\cite{braden-98-a}, which works as follows.
+\begin{figure}
+  % Requires \usepackage{graphicx}
+  \insfig{d32-red-1}{0.5}
+  \caption{Target drop probability as a function of average queue length, as used by RED}\label{d32-red-1}
+\end{figure}
+
+\begin{itemize}
+        \item  For every incoming packet, an estimator \texttt{avg} of the average queue length is computed. It is
+        updated at every packet arrival, using exponential
+        smoothing:
+
+ \begin{verbatim}
+   avg :=  a * measured queue length + (1 - a) * avg
+ \end{verbatim}
+where $a$ is the smoothing parameter, between 0 and 1.
+ \item The incoming packet is randomly dropped, according to:
+ \begin{verbatim}
+   if avg <  th-min accept the packet
+   else if th-min < avg < th-max drop packet
+          with probability p explained below
+   else if th-max <= avg drop the packet
+ \end{verbatim}
+ where \texttt{th-min} and \texttt{th-max} are thresholds on the
+ buffer content. By default, data is counted in packets.
+\end{itemize}
+The drop probability $p$ is computed in two steps. First, the target drop
+probability $q$ is computed by using the function of \texttt{avg},
+shown on \fref{d32-red-1}, which, for \texttt{avg} between \texttt{th-min} and \texttt{th-max}, is equal to
+\begin{verbatim}
+   q =  max-p * (avg - th-min) / (th-max - th-min)
+ \end{verbatim}
+Second, the \emph{uniformization} procedure is applied, as described now. We could simply take $p:=q$. This would
+create packet drop events such that the interval between packet drops would tend to be geometrically
+distributed (assuming $q$ varies slowly). The designers of RED
+decided to have smoother than geometric drops. Specifically, they would like that this interval is uniformly distributed over $\{1, 2,..., \frac{1}{q}\}$, assuming
+that $\frac{1}{q}$ is integer.
+
+This can be achieved using the \emph{hazard rate} of the uniform distribution, which we introduce now. Let $T$ be the random variable equal to the packet
+drop interval, i.e. $T=1$ if the first packet following the
+previous drop is also dropped. The hazard rate $p(k)$ of $T$ is the probability that
+a packet is dropped, given that there were $k-1$ packets since the previous packet drop occurred, i.e. $ p(k) = \P(T=k | T \geq k)$. If $T$ has a geometric distribution, $p(k)$ is independent of $k$. In contrast, if $T$ is uniformly distributed between $0$ and $a$, then $p(k)=\frac{1}{a-k+1}$, so that $p(k)$ increases when $k$ increases from $1$ to $a$ and $p(a)=1$. Furthermore, it can easily be shown that if we want drop packets such that the interval between packet drops has a specific distribution, it is sufficient to record the number $k$ elapsed since the last packet drop and to drop a packet with probability $p(k)$.
+%
+%decide, for every packet, drop packets drop pakcets  wesince the last
+%drop where not dropped, i.e. $ p(k) = \P(T=k | T \geq k)$.
+%
+%
+%e design goal is
+%to have uniform packet drops, assuming $q$ would be constant.
+%
+%More precisely, let $T$ be the random variable equal to the packet
+%drop interval, i.e. $T=1$ if the first packet following the
+%previous drop is also dropped. If we let $p:=q$, then $T$ is a
+%geometric random variable, namely $\P(T=k)=q(1-q)^{k-1}$ for
+%$k=1,2,...$. Now, instead of this, we would like that $T$ is
+%uniformly distributed over $\{1, 2,..., \frac{1}{q}\}$, assuming
+%that $\frac{1}{q}$ is integer. Let $p(k)$ be the hazard rate, i.e., the probability that
+%a packet is dropped, given that all $k-1$ packets since the last
+%drop where not dropped, i.e. $ p(k) = \P(T=k | T \geq k)$.
+% Note that the distribution of an integer random variable is
+% entirely defined its hazard rate so if we drop a packet according to the hazard rate of the uniform distribution we enforce that the by the values of all $p(k)$ for $ k=0,1,2...$, so if we drop a packet
+%%\mq{q-red-1}{Show this.}{$P(T=k)$ can be computed recursively from
+%%the equation
+%% \ben \bracket{
+%%  \P(T=k)= p(k) \P(T \geq k)\\
+%%  \P(T \geq k) = (1-p(k-1))\P(T\geq k-1)\\
+%%  \P(T\geq 0)=1
+%%  }
+%% \een}
+% For a uniform distribution, it comes easily that $ p(k) = \frac{\P(T=k)}{\P(T\geq k)}=\frac{q}{1- (k-1) q}$.
+%
+%
+This is why RED computes \texttt{p} by letting
+ \begin{verbatim}
+ p = q/(1 - nb-packets * q)
+  \end{verbatim}%
+ where \texttt{nb-packets} is the number of packets accepted since the last
+ drop.
+%\mq{q-red-unif}{Show that this formula indeed provides a uniform
+%distribution of times between packet drops when \texttt{target-p}
+%is constant.}{
+% Let $q=$\tetxtt{Target-p} and denote with $T$ the random variable equal to the packet
+% drop interval, i.e. $T=1$ if the first packet following the previous droptbd
+% }
+
+%There are many variants to what we present here. For more details
+%on RED the RED homepage maintained by Sally Floyd.
+
+When RED is used with proper tuning of its parameters, bufferbloat can be reduced:  large buffers are used to absorb bursts but in average are not very full. Another effect is that long-lived flows experience a drop probability which depends only on the average amount of traffic present in the network, not on short term traffic fluctuations.
+
+Last, a modified version of RED can be used to provide differentiated drop probabilities: a provider may modify the computed value of \texttt{p} in order to give larger drop probabilities to some flows, e.g. in order to give preference to its internal video streaming flows over external flows. This \emph{non neutral} behaviour is against the original ideas of the Internet, but is technically possible and probably in-use today.
+
+%Active queue management can also be used to decouple packet
+%admission from scheduling: with active queue management, we decide
+%how many packets are accepted in a buffer. Then it is possible to
+%schedule those accepted packets differently, depending on the
+%nature of the applications. See \cite{Hurley2001mMay} for an
+%example of this.
+
+\subsection{Explicit Congestion Notification}
+
+The Internet uses packet drops as the negative feedback signal for
+end-to-end congestion control. Losses have a negative impact on the delay performance of TCP as the lost packets need to be retransmitted. A more friendly mechanism is to use an explicit congestion signal, as was originally done with Jain's ``Decbit". In the Internet, this is called
+Explicit Congestion Notification (ECN).
+
+\begin{figure}[h]
+  % Requires \usepackage{graphicx}
+  \insfig{ecn}{0.6}
+  \caption{ECN uses a combination of fields in the IP and TCP headers}\label{fig-ecn}
+\end{figure}
+
+
+ECN works with TCP and uses a combination of fields in the IP and TCP headers. With ECN, when a router experiences congestion, it marks a ``Congestion Experienced" bit in the IP header (red bars in \fref{fig-ecn}). A TCP destination that sees such a mark in received packet sets the ECN Echo (ECE) flag in the TCP header of packets sent in the reverse direction (red crosses in \fref{fig-ecn}). When a TCP source receives a packet with the ECE flag from the reverse direction, it performs multiplicative decrease (e.g. reduces the window by 0.5 for TCP Reno, by 0.7 for CUBIC). The source then sets the Congestion Window Reduced (CWR) flag in the TCP headers. The receiver continues to set the ECE flag until it receives a packet with CWR set. The effect is that multiplicative decrease is applied only once per window of data (typically, multiple packets are received with ECE set inside one window of data).
+
+ECN requires an active queue management such as RED to decide when to mark a packet with Congestion Experienced: instead of dropping a packet with the probability computed by RED, it marks it. If all parameters are properly set, a network with only ECN flows can avoid dropping any packet due to congestion in router buffers. This considerably increases the delay performance of every source.
+
+An ECN-capable router needs to known whether a TCP source responds to ECN or not; if not, the router should drop a packet instead of marking it since otherwise the source will not react. This is achieved by using a bit in the IP header to indicate whether a source does support ECN or not; to avoid misconfigurations or frauds, it is combined with a ``Nonce Sum" mechanism (see RFC 3540 for details).
+
+
+\subsection{Data Center TCP}
+Data Center TCP (DCTCP) is a variant of TCP congestion control that is adapted to the TCP traffic seen in data centers. There, typically, there is a coexistence of many short flows with low latencies (user queries, consensus protocols) and \emph{jumbo} flows, i.e.,  with huge volume (backups, data base synchronization). One issue is the throughput performance of jumbo flows. In order to avoid packet losses, ECN is used; a remaining issue is the oscillations of the window due to the multiplicative decrease present in TCP Reno or CUBIC, which occurs for every congestion indication received (Note that for the conditions in a data center, where round-trip time is of the order of 10 microseconds, CUBIC behaves as TCP Reno). As illustrated in \fref{d32f8}, if $W$ is the window size at which congestion occurs, the actual window oscillates between $0.5W$ and $W$ (for TCP Reno) and is thus equal to $0.75W$ in average. The goal of DCTCP is to make the average window size very close to $W$.
+
+To this end, DCTCP modifies TCP Reno as follows:
+
+\begin{itemize}
+  \item ECN must be used. A DCTCP source monitors the probability of congestion. In order to do this, the behaviour of ECN is modified such that a TCP receiver marks TCP acknowledgements with ECE flags in proportion to the number of received packets with Congestion Experienced marks. The receiver estimates the congestion probability as the proportion of acknowledgement packets with ECE flags. This differs from standard ECN behaviour, where feedback is a single bit of information per round trip time.
+
+  \item When there is some non zero probability of congestion $q$, the multiplicative decrease factor is
+  \ben
+    \beta_{\footnotesize \mbox{DCTCP}}=\left( 1-\frac{q}{2}\right)
+  \een
+\end{itemize}
+It follows that if there is little congestion ($q$ is small) then the window reduction is small, much smaller than $0.5$. %Since all other elements are unmodified, DCTCP is more aggressive than TCP Reno with ECN.
+
+%Indeed, we can compute a loss-throughput formula for DCTCP, by using \eref{eq-ltgen} with $r=1$ and $\beta=\beta_{\footnotesize \mbox{DCTCP}}$. We obtain
+%
+%
+%\ben \theta= \frac{L}{\tau}\frac{
+%                  \sqrt{ 2-\frac{q}{2}}
+%                  }{q}\approx \frac{L}{\tau}\frac{
+%                  \sqrt{ 2}
+%                  }{q}
+%\een
+%We see that the throughput is proportional to $1/q$ whereas for TCP Reno it is proportional to $1/\sqrt{q}$, which is much less.
+%
+It follows that DCTCP competes unfairly with other TCPs; it cannot be deployed outside data centers (or other controlled environments). Inside data centers, care must be given to separate the DCTCP flows (i.e. the internal flows) from other flows. This can be done with class based queuing, as we discuss later.
+
+
+%\subsection{BBR and TCP Vegas}
+
+%\section{Other Mechanisms for Congestion Control}
+
+\section{TCP Friendly Applications}
+
+It can no longer be assumed that the bulk of long lived flows on the
+Internet is controlled by TCP only: some applications such as videoconferencing often use UDP as they have stringent delay requirements. Other applications use
+QUIC, an application layer framework that runs on top of UDP and replaces TCP (and the secure socket layer).
+
+
+The solution which is advocated by the IETF is that \emph{all
+TCP/IP applications which produce long lived flows should mimic
+the behaviour of a TCP source}. We say that such applications are
+``TCP friendly''. In other words, all applications, except short
+transactions, should behave, from a traffic point of view, as a
+TCP source.
+For applications that use QUIC this is simple, as QUIC uses packet numbering and acknowledgements and reproduces the same congestion control features as TCP.
+
+
+But for
+applications that do not use acknowledgements, how can TCP friendliness be defined~? One solution is the TCP-Friendly Rate Control protocol \cite{tfrc2008rfc}, which works as follows.
+  \begin{enumerate}
+    \item the application determines its sending rate using an
+    adaptive algorithm;
+
+        \item  the applications is able to provide feedback in the form of
+        amount of lost packets; the loss ratio is the feedback provided to
+        the adaptive algorithm;
+
+        \item in average, the sending rate should be the same as for a TCP Reno
+        connection experiencing the same average loss ratio. This is typically achieved by using the loss-throughput formula in \eref{eq-tcplr}.
+  \end{enumerate}
+
+There are many possible ways to implement an adaptive algorithm
+satisfying the above requirements. This can be achieved only very
+approximately; for more details on equation based rate control,
+see \cite{Vojnovic2002mAugust}.
+
+TCP friendly applications often use the so-called ``Real
+Time transport Protocol'' (RTP). RTP is not a transport protocol like
+TCP; rather, it defines a number of common data formats used by
+multimedia application. RTP comprises a set of control messages,
+forming the so called RTP Control Protocol (RTCP). It is in RTCP that
+feedback about packet loss ratio is given. Then it is up to the
+application to implement a TCP friendly rate adaptation algorithm.
+
+%See also
+%http://papers/tcp\_friendly.html for an original source on TCP
+%friendly applications.
+\section{Class Based Queuing}
+In general, all flows compete in the Internet using the congestion control method of TCP (or are TCP-friendly). In controlled environments (e.g. a data center,  a smart grid, a TV distribution network, a cellular network) the competition can be modified by using per-class queuing.
+
+With  per class queuing, routers classify packets (using an access list) and every class is guaranteed a minimum rate -- classes may exceed the guaranteed rate by borrowing from other  classes if there is spare capacity.
+This is enforced in routers by implementing one dedicated queues for every class; the arbitration between classes is performed by a scheduler which implements some form of weighted fair queuing. With weighted fair queuing, every class, say $i$, at this router, is allocated a weight $w_i>0$ and the scheduler serves packets on an outgoing link in proportion of the weights. As a result, class $i$ is guaranteed to receive a long-term rate equal to $r_i=c \frac{q_i}{\sum_i q_j}$, where $c$ is the bit rate of the outgoing link and the summation is over all classes that share this link. For a concrete example of scheduler, see Deficit Round Robin \cite{shreedhar1996efficient}. If class $i$ is using less than its guaranteed rate $r_i$, the unused capacity is available to other
+classes, also in proportion to their weights.
+
+\begin{figure}[h]
+  % Requires \usepackage{graphicx}
+  \insfig{cbq}{0.8}
+  \caption{A Network with Per-Class Queuing.}\label{fig-cbq}
+\end{figure}
+
+
+\fref{fig-cbq} illustrates a typical use of per-class queuing. Class 1 is for traffic sent by sensors at a constant rate; it is not congestion controlled and thus could cause congestion collapse. This is avoided here by allocating a sufficient rate to class 1 in every router, during a procedure called ``traffic engineering". Class 2 is ordinary TCP/IP traffic, which is congestion controlled. It is also allocated a rate at every router. The rate at which sources of class 2 may send depends on the state of other sources in classes 1 and 2. Assume for example that the sources are exactly as shown on the figure. The two TCP connections share the available capacity, which is 9~Mb/s on the leftmost link and 8~Mb/s on the other links. If their RTTs are identical, each of these TCP connections will achieve a rate of 4~Mb/s. This illustrates how the rate that is allocated to class 1, but is not entirely used, is made available to class~2. Observe that class~2 is guaranteed a rate of 7.5~Mb/s. In normal operation, it obtains more; in contrast, if there is a failure in some of the class 1 devices that causes them to send more traffic than they normally should, class~2 is guaranteed to receive at least 7.5~Mb/s in total: the schedulers achieve isolation of the classes.
+\section{Summary}
+\begin{enumerate}
+\item Congestion control in the Internet is performed primarily by
+TCP, using the principles of Additive Increase, Multiplicative
+Decrease.
+ \item Congestion control in the internet provides a
+form of fairness close to proportional fairness, but with a
+non-desired bias against long round trip times.
+\item The historical version of congestion control was introduced in TCP-Reno. Its loss-throughput formula maps the packet loss probability to the achieved rate.
+\item Many variants of TCP congestion control exist. CUBIC is one of them, it replaces the linear window increase by a cubic function in long fat networks.
+\item With Explicit Congestion Notification, routers signal losses to TCP sources without dropping packets.
+\item RED is a mechanism in routers to drop packets before
+ buffers get full. It avoids buffer to fill up unnecessarily when
+ the traffic load is high. A variant of it can also be used to compute the congestion signal sent by routers when ECN is used.
+ \item Data Center TCP replaces the constant multiplicative decrease factor by a factor that depends on an estimation of the loss or congestion probability. It is more aggressive than regular TCP (is not TCP-friendly) and is typically deployed in closed environments.
+ \item Non TCP applications that send large amounts of data should
+ be TCP-friendly, i.e. not send more than TCP would. This can be
+ achieved by mimicking TCP or by controlling the rate and enforce TCP Reno's loss throughput formula.
+ \item Per-class queuing is used in closed environments to support non TCP-friendly traffic.
+
+ \end{enumerate}
+% \section{Applications to ATM}
+%
+% calcul distribue de Max Min (JR)
+% ABR
+% Erica+
+%
+% EPD, PPD
+%
+% exo: quiz to test the three phases
+%
+% exo: simuler TCP et comparer effet de nbre de hops contre delay
+%
+% exo: multicast papier de Crowcroft
+%
+
+% \chapter{Hop by Hop Congestion Control}
+%   updown rule
+%   fairness
+%   deadlock
+%
+%   appli: credit based Kung, Cherbonnier, Ilias Iliadis
+%   fairness de backpressure: laquelle ?
+%   appli: implementation de ABR
+%   802.3.x
+%
+%   reprendre l'exemple de JEC et discuter de l'implication

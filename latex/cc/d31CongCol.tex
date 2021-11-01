@@ -1,0 +1,142 @@
+
+Consider a network where sources may send at a rate limited
+only by the source capabilities. Such a network may suffer of
+congestion collapse, which we explain now on an example.
+
+We assume that the only resource to allocate is link bit
+rates. We also assume that if the offered traffic on some link
+$l$ exceeds the capacity $c_{l}$ of the link, then all sources
+see their traffic reduced in proportion of their offered
+traffic. This assumption is approximately true if queuing is
+first in first out in the network nodes, neglecting possible
+effects due to traffic burstiness.
+
+Consider first the network illustrated on Figure~\ref{D31-f1}.
+Sources 1 and 2 send traffic to destination nodes D1 and D2
+respectively, and are limited only by their access rates.
+There are five links labeled 1 through 5 with capacities shown
+on the figure. Assume sources are limited only by their first
+link, without feedback from the network. Call $\lambda_i$ the
+sending rate of source $i$, and $\lambda'i$ the outgoing rate.
+
+For example, with the values given on the figures we find
+$\lambda_1=100$kb/s and $\lambda_2=1000$kb/s, but only
+$\lambda'_1=\lambda'_2=10$kb/s, and the total throughput is
+$20$kb/s~! Source 1 can send only at 10 kb/s because it is
+competing with source 2 on link 3, which sends at a high rate
+on that link; however, source 2 is limited to 10 kb/s because
+of link 5. If source 2 would be aware of the global situation,
+and if it would cooperate, then it would send at 10 kb/s only
+already on link 2, which would allow source 1 to send at 100
+kb/s, without any penalty for source 2. The total throughput
+of the network would then become $\theta = 110 kb/s$.
+
+\begin{figure}[htbp]
+        \insfig{D31F1}{0.7}
+        \mycaption{A simple network exhibiting some inefficiency if sources
+        are not limited by some feedback from the network}
+        \protect\label{D31-f1}
+\end{figure}
+
+The first example has shown some inefficiency. In complex
+network scenarios, this may lead to a form of instability
+known as congestion collapse. To illustrate this, we use the
+network illustrated on Figure~\ref{D31-f1n}. The topology is a
+ring; it is commonly used in many networks, because it is a
+simple way to provide some redundancy. There are $I$ nodes and
+links, numbered $0, 1, ..., I-1$. Source $i$ enters node $i$,
+uses links $[(i+1) \bmod I] $ and $[(i+2) \bmod I]$, and
+leaves the network at node $(i+2) \bmod I$. Assume that source
+$i$ sends as much as $\lambda_{i}$, without feedback from the
+network. Call $\lambda'_{i}$ the rate achieved by source $i$
+on link $[(i+1) \bmod I]$ and $\lambda''_{i}$ the rate
+achieved on link $[(i+2) \bmod I]$. This corresponds to every
+source choosing the shortest path to the destination. In the
+rest of this example, we omit ``$\bmod I$" when the context is
+clear. We have then:
+\begin{equation}
+ \left \{
+  \begin{array}{l}
+  \lambda'_i = \min
+     \left(\lambda_i, \frac{c_i}{\lambda_i +
+     \lambda'_{i-1}}\lambda_i
+     \right) \\
+  \lambda''_i = \min
+     \left(\lambda'_i, \frac{c_{i+1}}{\lambda'_i +
+     \lambda_{i+1}}\lambda'_i
+     \right) \\
+  \end{array}
+  \right.
+    \mylabel{D31-eqkkkLAUW}
+\end{equation}
+
+\begin{figure}[htbp]
+        \insfig{D31F1n}{0.35}
+        \mycaption{A network exhibiting congestion collapse if sources
+        are not limited by some feedback from the network}
+        \mylabel{D31-f1n}
+\end{figure}
+
+
+Applying Equation~\ref{D31-eqkkkLAUW} enables us to compute
+the total throughput $\theta$. In order to obtain a closed
+form solution, we further study the symmetric case, namely, we
+assume that $c_i=c$ and $\lambda_i= \lambda$ for all $i$. Then
+we have obviously $\lambda'_i= \lambda'$ and $\lambda''_i=
+\lambda''$ for some values of $\lambda'$ and $\lambda''$ which
+we compute now.
+
+If $\lambda \leq \frac{c}{2}$ then there is no loss and
+$\lambda''=\lambda'=\lambda$ and the throughput is $\theta = I
+\lambda$. Else, we have, from Equation~(\ref{D31-eqkkkLAUW})
+$$
+ \lambda' = \frac{c \lambda}{\lambda + \lambda'}
+$$
+We can solve for $\lambda'$ (a polynomial equation of degree
+2) and obtain
+$$
+\lambda'=\frac{\lambda}{2} \left( -1 + \sqrt{1 + 4
+\frac{c}{\lambda}}\right)
+$$
+We have also from Equation~(\ref{D31-eqkkkLAUW})
+$$
+ \lambda'' = \frac{c \lambda'}{\lambda + \lambda'}
+$$
+Combining the last two equations gives
+$$ \lambda'' = c -\frac{\lambda}{2}\left( \sqrt{1 + 4 \frac{c}{\lambda}} -1 \right)
+$$
+Using the limited development, valid for $u \rightarrow 0$
+ $$\sqrt{1+u} = 1 + \frac{1}{2}u - \frac{1}{8}u^2 + o(u^2)$$we have
+ $$  \lambda'' = \frac{c^2}{\lambda} + o(\frac{1}{\lambda})$$
+Thus, the limit of the achieved throughput, when the offered
+load goes to $+\infty$, is $0$. This is what we call
+\emph{congestion collapse}.
+
+Figure~\ref{D31-f2n} plots the throughput per source
+$\lambda''$ as a function of the offered load per source
+$\lambda$. It confirms that after some point, the throughput
+decreases with the offered load, going to $0$ as the offered
+load goes to $+\infty$.
+\begin{figure}[htbp]
+        \insfig{D31F2n}{0.6}
+        \mycaption{Throughput per source as a function of the offered load per
+        source, in Mb/s, for the network of Figure~\ref{D31-f1n}. Numbers are in Mb/s. The
+        link rate is $c=20$Mb/s for all links.}
+        \protect\label{D31-f2n}
+\end{figure}
+
+The previous discussion has illustrated the following fact:
+
+\begin{fact}[Efficiency Criterion]
+        In a packet network, sources should limit their sending rate by
+        taking into consideration the state of the network.  Ignoring this
+        may put the network into congestion collapse. One objective of
+        congestion control is to avoid such inefficiencies.
+\end{fact}
+
+Congestion collapse occurs when some resources are consumed by
+traffic that will be later discarded. This phenomenon did
+happen in the Internet in the middle of the eighties. At that
+time, there was no end-to-end congestion control in TCP/IP. As
+we will see in the next section, a secondary objective is
+fairness.
