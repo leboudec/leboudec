@@ -1,0 +1,91 @@
+<html>
+
+<head>
+<title>DSR transience</title>
+</head>
+
+<body>
+
+<font face="verdana, arial, geneva, sans-serif" size="2">
+
+<h1> Is transience of a protocol shorter, if the mobility simulation is perfect ? </h1>
+
+<b>Example</b>: DSR
+
+<p>
+
+The mobility model is restricted random-waypoint on <a href="./catalog.htm#houston">Houston section</a>. There are 50 mobiles. At a trip transition instant, 
+if phase is move, numerical speed is drawn at random, uniformly on the interval [0.01,9.99]. 
+Else, if phase is pause, the duration of pause is drawn at random, uniformly on the interval [0,100].
+<p>
+The routing protocol is DSR. There are 20 data connections, each with a fixed packet send rate of 1 pkt/sec. Packet lengths are fixed to 512 B.
+<p>
+<b> Default initilization rule </b>: for each mobile, t=0 is a trip transition instant. Initially, each mobile is in move phase. 
+<p>
+Results with no paussing are similar: see <a href="./index.htm#simpaper">S. PalChaudhuri et al</a>.
+
+<hr>
+
+<h3> Numerical speed </h3>
+
+The left plot shows numerical speed averaged over all mobiles at time instants spanning [0,5000]. 
+The right plots show histograms of mobile speeds at time 1, 100, 1000, and 5000 seconds since the simulation start.
+
+<table>
+<TR>
+<TD><img src="images/speed-pause.gif"></TD>
+<TD><img src="images/speed-distr.gif"></TD>
+</TR>
+</table>
+<p>
+<b>Observations</b>
+<ul>
+<li> Initially, as t=0 is a trip transition instant, the speed is uniformly distributed on the interval [0.01,9.99]. Therein, its mean is 5.
+<li>  The distribution of numerical speed converges to that of unique steady-state distribution, 
+which is different than as seen at a trip transition instant. 
+<li> <font face="verdana, arial, geneva, sans-serif" size="2" color=#FF0000>Visually, it takes more than 2000 seconds to converge ! </font>
+</ul>
+
+<h3> Packet delivery ratio </h3>
+
+The plots show packet delivery ratio defined as (# received packets)  /  (#  transmitted packets), which is computed over 10-second intervals, 
+averaged over all data connections and averaged over 100 simulation runs.
+
+<TBODY>
+
+<table width="500" cellspacing="10">
+<TR>
+<TD align="center">
+<table align="center">
+<TR> <TD align="center">
+<font face="verdana, arial, geneva, sans-serif" size="2">
+<b>With default initilization rule</b>
+</font>
+</TD></TR>
+<TR> <TD align="center"><img src="images/pdr-dsr-pause-nonsteady.gif"></TD></TR>
+</table>
+</TD>
+<TD>
+<table align="center">
+<TR> <TD align="center">
+<font face="verdana, arial, geneva, sans-serif" size="2">
+<b>With perfect mobility simulation</b> 
+</font>
+</TD></TR>
+<TR> <TD align="center"><img src="images/pdr-dsr-pause-steady.gif"></TD></TR>
+</table>
+</TR>
+</table>
+</TBODY>
+
+<font face="verdana, arial, geneva, sans-serif" size="2" color=#FF0000> Check the hypothesis: 
+perfect simulation of mobility induces shorter transience for a protocol, 
+than with default initilization rule.</font>
+
+<hr>
+
+<a href="index.htm">Back to main page</a>
+
+</body>
+
+</html>

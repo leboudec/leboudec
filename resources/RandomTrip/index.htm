@@ -1,0 +1,180 @@
+<html>
+
+<head>
+<title>The Random Trip Mobility Model</title>
+</head>
+
+<body>
+
+<font face="verdana, arial, geneva, sans-serif" size="2">
+
+<h1>The Random Trip Mobility Model</h1>
+
+<img src="./images/simjardoshlogo.gif" height=288 width=288>
+
+<p>Welcome to the random trip mobility model page. You will find here a description of the model and ns-2 code to use it in simulations.
+
+
+
+<p>The random trip model is a generic mobility model that generalizes random waypoint and random walk to realistic scenarios. 
+You can use it to give a realistic flavour to your simulations. It is implemented in ns-2 and can be used without license. 
+The implementation performs perfect initialization, i.e. the mobility model has no transient phase.
+
+<h3>The Random Trip Models</h3>
+
+The Random Trip Models, a wide class of mobility models, contain many existing mobility models in one, plus some new ones. 
+Examples include random waypoint on 
+general connected domain, restricted random waypoint, and random walk models with either wrap-around or reflection.
+
+<p><a href="catalog.htm"> Illustration of some random trip models </a></p>
+
+
+<p>A full description of the model and its properties can be found in:
+<ul>
+<li> <a name="rtmm"><b>"Perfect Simulation and Stationarity of a Class of Mobility Models,"</b></a> J.-Y. Le Boudec and M. Vojnovic, IEEE Infocom 2005, Miami, FL, 2005 
+(to appear); <a href="http://ic2.epfl.ch/publications/abstract.php?ID=200459">pdf</a>.
+</ul>
+
+If well-defined, random trip models feature:
+
+<ul>
+<li> Existence of a unique steady-state distribution
+<li> Perfect simulation is easy to do
+<ul>
+<li> No need to know geometric normalization constants when they are difficult to compute -- bound on diameter of the mobility domain suffices
+</ul>
+</ul>
+
+<h3>ns-2 code</h3>
+
+Code to use random trip with ns-2 network simulator is freely available from:
+
+<ul>
+<li> <img src="./images/uc_new18.gif"> available soon: <a href="http://www.cs.rice.edu/~santa/research/mobility/tbd">ns-2 code</a>, by S. PalChaudhuri, Rice University.
+</ul>
+
+The code includes the model with <i>perfect sampling</i>, i.e. the initial mobility state can be set in steady state at the beginning
+of the simulation, so that annoying transient artifacts are avoided.
+
+<h3>Importance of perfect mobility simulations</h3>
+
+<ul>
+<li> Transient phase may last as long as a typical simulation run ! <a href="transience.htm"> see mobility transience </a>
+<li> Perfect mobility simulation may reduce transience of a studied protocol. <a href="dsr.htm"> see DSR transience</a>
+</ul>
+
+More details in:
+<ul>
+<li> <a name="simpaper"><b>"Perfect Simulations of Random Trip Models,"</b></a> S. PalChaudhuri, J.-Y. Le Boudec, and M. Vojnovic, <a href="tbd">pdf</a> 
+technical report in preparation.
+</ul>
+
+
+<h3>Additional links</h3>
+
+<ul> 
+<li> Tutorial: <b> "Understand the Simulation of Mobility Models with Palm Calculus"</b>, J.-Y. Le Boudec, EPFL technical report IC/2004/53, 2004; 
+<a href="http://lcawww.epfl.ch/Publications/LeBoudec/LeBoudecV04.pdf">pdf</a>
+
+<li> Slides presented at ACM Sigmetrics 2004: <a href="http://ica1www.epfl.ch/perfeval/slides/rwpTutv1.zip">zipped pdf</a> (large > 4 MB !), J.-Y. Le Boudec and D. Veitch, 2004.
+
+</ul>
+
+<hr>
+
+<h2>References</h2>
+
+We give below a non-exhaustive catalog of random trip models. If anyone knows of a random trip model, which we omitted to list below, please 
+send us a link (contact: see below).
+
+<h3> Surveys </h3>
+
+<ul> 
+
+<li>  <b>"A Survey of Mobility Models for Ad Hoc Network Research," </b> T. Camp, J. Boleng, and V. Davies, Wireless Communication & Mobile Computing (WCMC): Special Issue on Mobile Ad Hoc Networking Research, Trends and Applications, Vol. 2, No. 5, pp. 483-502, 2002, 
+<a href="http://toilers.mines.edu/papers/pdf/Models.pdf">pdf</a>
+
+</ul>
+
+
+<h3> Random Waypoint </h3>
+
+<ul> 
+
+<li> See random waypoint in action: <a href="./animations/ani-rwp.htm">htm</a>. 
+See also <a href="http://keskus.hut.fi/~esa/java/rwp/index.shtml">applet</a> by Esa Hyytia (TKK, Helsinki University of Technology).
+<p>
+<li> <b>"Dynamic Source Routing in Ad Hoc Wireless Networks,"</b> D. B. Johnson and D. A. Maltz, Mobile Computing, edt. by T. Imielinski and H. Korth, 
+Chapter 5, p. 153-181, Kluwer Academic Publishers, 1996; <a href="http://www.monarch.cs.rice.edu/monarch-papers/kluwer-adhoc.ps">ps</a>. 
+<p>
+Advent of random waypoint model: "Each host is initially placed at a random position within in the simulation area. 
+As the simulation progresses, each host pauses at its current location for a period, which we call the <i>pause time</i>, and then randomly chooses a new 
+location to move to and a velocity between 0.3 and 0.7 meters per second at which to move there. Each host continues this behavior, alternately pausing 
+and moving to a new location, for the duration of the simulation."
+<p>
+<li> <b>"Stationary Distributions for the Random Waypoint Model,"</b> W. Navid and T. Camp, IEEE Transactions on Mobile Computing, Vol. 3, No. 1, pp. 99-108, 2004; 
+technical report version <a href="http://toilers.mines.edu/EXTERNAL/twiki/pub/Toilers/PublicationList/CSM-MCS-03-04.pdf">pdf</a>; related technical report 
+<a href="http://toilers.mines.edu/EXTERNAL/twiki/pub/Toilers/PublicationList/CSM-MCS-03-08.pdf">pdf</a>
+<p> 
+"We derive the stationary distributions for location, speed, and pause time for the random waypoint mobility model. We then show how to implement the random waypoint
+mobility model in order to construct more efficient and reliable simulations for mobile ad hoc networks."
+<p>
+<li> <b>"A Location Based Routing Method for Mobile Ad Hoc Networks,"</b> Lj. Blazevic, J.-Y. Le Boudec, and S. Giordano, IEEE Transactions on Mobile 
+Computing, Vol. 3, No. 4, Dec 2004; <a href="http://ica1www.epfl.ch/TNRouting/tnRouting.pdf">pdf</a>. 
+<p>
+Defines a restricted random waypoint model. 
+<p>
+<li> <b>"Random Waypoint Considered Harmful,"</b> J. Yoon, M. Liu, and B. Noble, IEEE Infocom 2003, San Franciso, CA; 
+<a href="http://www.eecs.umich.edu/~mingyan/pub/random-waypoint.pdf">pdf</a>.  
+<p>
+"Our findings show that this model fails to provide a "steady state" in 
+that the average nodal speed consistently decreases over time, and therefore should not be directly used for simulations." 
+<p>
+<li> <b>"Sound Mobility Models,"</b> J. Yoon, M. Liu, B. Noble, ACM Mobicom 2003, San Diego, California, 2003; 
+<a href="http://www.eecs.umich.edu/~mingyan/pub/p0319-yoon.pdf">pdf</a> 
+<p>
+" ... this framework allows us to transform any given mobility model into a stationary one: choose initial speeds from the steady-state distribution, 
+and subsequent speeds from the original. This transformation provides sound models for simulation, eliminating variations in average nodal speed."
+<p>
+<li> <b> The Node Distribution of the Random Waypoint Mobility Model for Wireless Ad Hoc Networks,"</b> C. Bettstetter, G. Resta, and P. Santi, 
+IEEE Transactions on Mobile Computing, Vol. 2, No. 3, pp 257-269, July-Sept 2003; 
+<a href="http://csdl.computer.org/comp/trans/tm/2003/03/h0257abs.htm">pdf<a> (if subscribed)
+<p>
+<li> <b>"Towards Realistic Mobility Models for Mobile Ad Hoc Networks,"</b> A. Jardosh, E. M. Belding-Royer, K. C. Almeroth, S. Suri, ACM Mobicom 2003, San Diego, CA, September 2003; 
+<a href="http://moment.cs.ucsb.edu/mobility/p0337-jardosh.pdf">pdf</a>. 
+<p>
+Proposes a specific construction of space graphs for mobility domain. The model is restricted random waypoint.
+
+</ul>
+
+<h3> Random Walk </h3>
+
+<ul>
+
+<li> <b>"Properties of Random Direction Models,"</b> P. Nain, D. Towsley, B. Liu, and Z. Liu, INRIA technical report RR-5284, July 2004; 
+<a href="http://www.inria.fr/rrrt/rr-5284.html">pdf</a> 
+<p>
+"We consider two variations, the random direction model with wrap around and with reflection. We establish a simple relationship between these two models and, for both, show that positions and directions are uniformly distributed 
+in steady-state for a class of Markov movement models regardless of initial position."
+<p>
+</ul>
+
+<h3> Empirically-based models </h3>
+
+<ul>
+<li> <b>"Modeling Mobility of Vehicular Ad Hoc Networks,"</b> Amit Kumar Saha and David B. Johnson, poster at ACM VANET 2004, October 2004; 
+<a href="http://www.cs.rice.edu/~amsaha/Resume/vanet2004/vanet2004.pdf">pdf</a> 
+<p>
+"In this paper, we propose a realistic model of node motion based on the motion of vehicles on real street maps."
+<p>
+</ul>
+
+<hr>
+
+Maintained by Jean-Yves Le Boudec and Milan Vojnovic. Last update: Nov 12, 2004. Contact: <a href="mailto:jean-yves.leboudec@epfl.ch;milanv@microsoft.com?subject=WWW: The Random Trip Mobility Model">email</a>.
+
+</font>
+
+</body>
+
+</html>

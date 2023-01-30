@@ -1,0 +1,97 @@
+<html>
+
+<head>
+<title>Transience longevity</title>
+</head>
+
+<body>
+
+<font face="verdana, arial, geneva, sans-serif" size="2">
+<h1> Transience in the order of typical simulation duration ! </h1>
+</font>
+
+<hr>
+
+
+<TBODY>
+
+<table>
+<TR>
+
+<TD valign="top" width=450>
+<table bgcolor=#EEEEEE height=650>
+<TR><TD valign="top">
+<font face="verdana, arial, geneva, sans-serif" size="2">
+<b>Mobility model</b>: the restricted random waypoint on the vertices of the space graph by <a href="./catalog.htm#jardosh">Jardosh et al</a>. 
+There are nearly 5000 paths between pairs of graph vertices.
+One mobile moves with a fixed numerical speed of 1.25 meters per second, with no pausing. 
+<p>
+<b>Default initilization rule</b>: t=0 is a trip transition instant.
+<p>
+<b>Plots</b>: each plot shows distribution of the path the mobile is positioned on, for given time t, elapsed since the simulation start.
+<p>
+<font face="verdana, arial, geneva, sans-serif" size="1">
+The transient path distribution is obtained numerically. 
+See here for <a href="./index.htm#rtmm">details</a>
+</font>
+<p>
+<b>Observations</b>:
+<ul>
+<li >Initially, the mobile is equally likely on any path.
+<li> The path distribution converges to steady-state path distribution, which is different than 
+as seen at trip transition instants. 
+In steady-state, probability of a path is proportional to the path length.
+</ul>
+</font>
+<p>
+<font face="verdana, arial, geneva, sans-serif" size="2" color=#FF0000>Transient phase lasts 1000's of seconds !</font>
+</TD></TR>
+</table>
+</TD>
+
+
+
+<TD>
+<table width=600>
+<TR>
+<TD><font face="verdana, arial, geneva, sans-serif" size="2" color=#000000><b>t=50 sec</b></font></TD>
+<TD align="center"><img src="images/path50.gif"></TD>
+</TR>
+<TR>
+<TD><font face="verdana, arial, geneva, sans-serif" size="2" color=#000000><b>t=100 sec</b></font></TD>
+<TD align="center"><img src="images/path100.gif"></TD>
+</TR>
+<TR>
+<TD><font face="verdana, arial, geneva, sans-serif" size="2" color=#000000><b>t=300 sec</b></font></TD>
+<TD align="center"><img src="images/path300.gif"></TD>
+</TR>
+<TR>
+<TD><font face="verdana, arial, geneva, sans-serif" size="2" color=#000000><b>t=500 sec</b></font></TD>
+<TD align="center"><img src="images/path500.gif"></TD>
+</TR>
+<TR>
+<TD><font face="verdana, arial, geneva, sans-serif" size="2" color=#000000><b>t=1000 sec</b></font></TD>
+<TD align="center"><img src="images/path1000.gif"></TD>
+</TR>
+<TR>
+<TD><font face="verdana, arial, geneva, sans-serif" size="2" color=#000000><b>t=2000 sec</b></font></TD>
+<TD align="center"><img src="images/path2000.gif"></TD>
+</TR>
+
+</table>
+</TD>
+
+</TR>
+</table>
+</TBODY>
+
+
+<hr>
+
+<font face="verdana, arial, geneva, sans-serif" size="2">
+<a href="index.htm">Back to main page</a>
+</font>
+
+</body>
+
+</html>
