@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<TITLE>EPFL OUI</TITLE>
+</HEAD>
+<BODY>
+
+<CENTER><IMG SRC="http://lrcwww.epfl.ch/oui/logo.gif" ALT=""></CENTER>
+<P>
+The <A HREF=http://stdsbbs.ieee.org/faqs/OUI.html>Organizationally Unique
+Identifier (OUI)</A> of <A HREF=http://www.epfl.ch/>EPFL</A> is
+<STRONG>00-60-d7</STRONG>.
+<P>
+Allocation of numbers within address spaces governed by that OUI can
+be requested from
+the email address at the bottom of this page.
+<P>
+Assignments currently in force are listed below. Code points have been
+assigned in the following number spaces:
+<MENU>
+    <li><A HREF=#rfh>RF hardware</A></li>
+  <LI><A HREF=#bhli>ATM B-HLI Vendor-Specific Application Identifier</A></LI>
+</MENU>
+<P>
+  <hr>
+  <h2 a name=rfh>RF Hardware</a></h2>
+ The EPFL OUI can be used to identify experimental radio frequency hardware devices. The device number is composed of the EPFL OUI followed by 3 bytes, which are administered by the organization identified by the OUI.  
+<P>
+<TABLE>
+<TR>
+  <TH>Identifier(s)</TH>
+  <TH>Purpose</TH>
+</TR>
+<TR>
+  <TD><SAMP>00-17-02</SAMP></TD>
+  <TD>RF Resonant Metalens</TD>
+</TR>
+</TABLE>
+<P> 
+<HR>
+<P>
+<H2><A NAME=bhli>ATM B-HLI Vendor-Specific Application Identifier</A></H2>
+
+ATM offers various mechanisms to select which application or protocol
+a connection is intended for. One of those mechanisms is to use the
+"Broadband High-Layer Information" (B-HLI), which can contain a
+"Vendor-Specific Application Identifier". Such an identifier is composed
+of a three-byte OUI, followed by four bytes which are administered by
+the organization identified by the OUI.
+<P>
+<TABLE>
+<TR>
+  <TH>Identifier(s)</TH>
+  <TH>Purpose</TH>
+</TR>
+<TR>
+  <TD><SAMP>00-xx-xx-xx</SAMP></TD>
+  <TD>reserved</TD>
+</TR>
+<TR>
+  <TD><SAMP>01-00-00-01</SAMP></TD>
+  <TD><A HREF=http://icawww1.epfl.ch/arequipa/>Arequipa</A></TD>
+    <!-- Werner Almesberger -->
+</TR>
+<TR>
+  <TD><SAMP>01-00-00-02</SAMP></TD>
+  <TD>ACP (ATM Connection Performance)</TD>
+    <!-- Sam Manthorpe -->
+</TR>
+<TR>
+  <TD><SAMP>01-00-00-03</SAMP></TD>
+  <TD>ttcp_atm (TTCP with <A HREF=https://linux-atm.sourceforge.net/>Linux ATM</A>
+    extensions)</TD>
+    <!-- Werner Almesberger -->
+</TR>
+</TABLE>
+<P>
+<HR>
+<P>
+<ADDRESS><A HREF=https://leboudec.github.io/leboudec/>jean-yves.leboudec@epfl.ch</A></ADDRESS>
+</BODY>
